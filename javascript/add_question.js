@@ -72,6 +72,8 @@ function send_question() {
     difficulty = adapt_inputs_to_database(difficulty);
     subject = adapt_inputs_to_database(subject);
 
+    //http://localhost:3000/question
+    //https://quiz-on-stream.herokuapp.com/question
     fetch("https://quiz-on-stream.herokuapp.com/question", {
                 
         // Adding method type
@@ -95,9 +97,14 @@ function send_question() {
             "Content-type": "application/json; charset=UTF-8"
         }
     })
-    .then(response => response.json())
-    .then(json => console.log(json));
-    console.log("terminou fetch");
+    .then(function (response) {
+        if(response.status == 200) {
+            alert("Questão adicionada com sucesso!");
+            clear_fields();
+        }
+        else
+            alert("Erro ao adicionar. Status: " + response.status);
+    })
 }
 
 
@@ -114,4 +121,16 @@ function adapt_inputs_to_database(input_to_addapt) {
             if(input_to_addapt == all_subjects[i].subject_simplified) return all_subjects[i].id;
         }
     }
+}
+
+function clear_fields() {
+    document.querySelector('#description-input').value = "";
+    document.querySelector('#option_a-input').value = "";
+    document.querySelector('#option_b-input').value = "";
+    document.querySelector('#option_c-input').value = "";
+    document.querySelector('#option_d-input').value = "";
+    document.querySelector('#answer-input').value;
+    document.querySelector('#difficulty-input').value;
+    document.querySelector('#subject-input').value;
+    document.querySelector('#author-input').value;
 }
