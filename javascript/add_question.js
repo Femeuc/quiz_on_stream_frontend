@@ -75,7 +75,7 @@ function send_question() {
 
     //http://localhost:3000/question
     //https://quiz-on-stream.herokuapp.com/question
-    fetch("http://localhost:3000/question", {
+    fetch("https://quiz-on-stream.herokuapp.com/question", {
                 
         // Adding method type
         method: "POST",
@@ -145,7 +145,7 @@ function send_subject() {
     
     //http://localhost:3000/questions/subject
     //https://quiz-on-stream.herokuapp.com/questions/subject
-    fetch("https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo", {
+    fetch("https://quiz-on-stream.herokuapp.com/questions/subject", {
                 
         // Adding method type
         method: "POST",
