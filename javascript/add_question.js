@@ -4,7 +4,7 @@ let channel_subjects = [];
 get_general_and_channel_subjects();
 
 async function get_general_and_channel_subjects() {
-    let api_url = "http://localhost:3000/questions/subjects/channel?name=wcalixtoo";
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
 
 
     const response = await fetch(api_url);
@@ -72,7 +72,7 @@ function send_question() {
     difficulty = adapt_inputs_to_database(difficulty);
     subject = adapt_inputs_to_database(subject);
 
-    fetch("http://localhost:3000/question", {
+    fetch("https://quiz-on-stream.herokuapp.com/question", {
                 
         // Adding method type
         method: "POST",

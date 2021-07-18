@@ -49,7 +49,7 @@ function handleCheckboxChange() {
 }
 
 
-const api_url = `http://localhost:3000/questions/subjects/channel?name=${channel}`;
+const api_url = `https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=${channel}`;
 get_question_subjects(api_url);
 async function get_question_subjects(api_url) {
     // Storing response
@@ -171,7 +171,7 @@ start_button.onclick = async function() {
 
 
 async function get_all_questions_ids(subjects, difficulties) {
-    let api_url = "http://localhost:3000/questions/filters?";
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions/filters?";
 
     for(let i = 0; i < difficulties.length; i++) {
         api_url += "difficulty=" + difficulties[i] + "&";

@@ -63,7 +63,7 @@ async function initialize_page() {
 }
 
 async function get_question_by_id() {
-    let api_url = "http://localhost:3000/question";
+    let api_url = "https://quiz-on-stream.herokuapp.com/question";
 
     const random_number = Math.floor(Math.random() * questions_ids.length);
     const random_question_id = questions_ids[random_number].id;
