@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz on Stream | Questões</title>
+    <link rel="stylesheet" href="../css/questions.css">
+</head>
+<body id="body">
+    <div id="page-container">
+        <header id="header">
+            <div id="header-title">
+                <h1 id="h1">QUIZ<span id="span-on">ON</span>STREAM</h1>  
+            </div>
+        </header>
+
+        <div id="main-container">
+            <main id="main">
+
+                <span class="decoration" id="top-left"></span>
+                <span class="decoration" id="top-right"></span>
+                <span class="decoration" id="bottom-left"></span>
+                <span class="decoration" id="bottom-right"></span>
+                <div id="decoration-box"></div>
+
+                <section id="question-section">
+                    <h2 class="h2">QUESTÃO <span id="question-number">1</span>: <span id="question-description">Para conectar o jogo com seu chat é muito fácil: digite 
+                        o nome do seu canal ou nome de usuário da Twitch no campo 
+                        abaixo e clique no botão.</span></h2>
+                    <ol type="A" id="question-options">
+                        <li id="op_a">A. 2</li>
+                        <li id="op_b">B. Nenhum om quantos paus se faz uma canoa? </li>
+                        <li id="op_c">C. Com todos</li>
+                        <li id="op_d">D. 1</li>
+                    </ol>   
+                </section>
+
+                <section id="players-answers">
+                    <h3>Respostas dos jogadores</h3>
+                    <div class="flex-stats"><span class="option">A. </span> <span id="A-players" class="option-players"></span></div>
+                    <div class="flex-stats"><span class="option">B. </span> <span id="B-players" class="option-players"></span></div>
+                    <div class="flex-stats"><span class="option">C. </span> <span id="C-players" class="option-players"></span></div>
+                    <div class="flex-stats"><span class="option">D. </span> <span id="D-players" class="option-players"></span></div>
+                </section>
+            
+                <section id="statistics">
+                    <h3>Porcentagem de votos</h3>
+                    <div class="flex-stats"><div class="option">A. </div> <div id="A-stats"></div></div>
+                    <div class="flex-stats"><div class="option">B. </div> <div id="B-stats"></div></div>
+                    <div class="flex-stats"><div class="option">C. </div> <div id="C-stats"></div></div>
+                    <div class="flex-stats"><div class="option">D. </div> <div id="D-stats"></div></div>
+                </section>
+
+                <button class="button" id="stop-button" onclick="stop_question()">Parar</button>
+                <section id="scores">
+                    <h3 class="h3">Pontuação</h3>
+                    <ul id="players-scores-list">
+                        <li id="player-score-header" class="player-score-li">
+                            <span id="player-name-header">Nome</span> 
+                            <span id="question-score-header">Questão 1</span>
+                            <span id="general-score-header">Geral</span>
+                        </li>       
+                    </ul>
+                </section>
+                <section id="buttons">
+                    <button class="button" id="end-quiz-button" onclick="end_quiz()">< Terminar</button>
+                    <button class="button" id="next-question-button" onclick="next_question()">Próxima ></button>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+
+    </footer>
+
+    <script src="../libs/tmi.min.js"></script>
+    <script src="../javascript/questions.js"></script>
+</body>
+</html>

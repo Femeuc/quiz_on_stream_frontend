@@ -1,0 +1,166 @@
+/* Geral */
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#body {
+    background-image: url('../layout/fundo_1.png');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Page Container */
+#page-container {
+    max-width: 60%;
+    margin: 3% auto;
+}
+
+/* Header */
+#header #header-title {
+    background-color: rgb(0 47 142);
+    width: fit-content;
+    padding: 30px 30px;
+    border-radius: 4%;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+    margin: auto;
+}
+#header #h1 {
+    color: #ffe876;
+    font-family: cursive;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    font-size: 60px;
+}
+#header #span-on {
+    font-size: 20px;
+}
+
+/* Main */
+#main-container {
+    position: relative;
+}
+#main {
+    background-color: rgb(0, 62, 186);
+    padding: 70px;
+    position: absolute;
+    width: 100%;
+    top: -50px;
+    z-index: -1;
+    border-radius: 5%;
+    box-shadow:  rgb(0, 50, 150) 0px 30px;
+}
+
+#main #add-question-container {
+    background-color: rgb(0, 47, 142);
+    text-align: center;
+    padding: 20px 20px;
+    border-radius: 5%;
+    margin: 30px auto 30px auto;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+}
+
+#main .h2 {
+    color: rgb(255, 232, 118);
+    font-size: 40px;
+    margin-bottom: 30px;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    font-family: monospace;
+}
+
+#main .p {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    word-spacing: 1ch;
+    font-family: monospace;
+}
+
+#main .input-field {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding: 5px 10px;
+}
+#main #description-input {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#main #question-subject-container {
+    background-color: white;
+    padding: 5px 10px;
+}
+#main .radio-input-block {
+    display: inline;
+    margin: 10px;
+}
+
+#main #button-align-div {
+    display: flex;
+    flex-direction: column;
+}
+#main #send-question-button {
+    padding: 5px 16px;
+    background-color: rgb(56, 188, 61);;
+    text-align: center;
+    box-shadow: rgb(24 136 20) 0px 5px;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+    width: fit-content;
+    margin: auto;
+}
+#main #options-container {
+    margin-bottom: 10px;
+}
+#main #author-input {
+    margin-top: 10px;
+}
+
+#main #answer-input {
+    margin-bottom: 10px;
+}
+
+/* Main: decoration */
+#main .decoration {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(165, 170, 170);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: rgb(115, 115, 115) 0px 5px;
+}
+#main #top-left {
+    left: 20px;
+    top: 20px;
+}
+
+#main #top-right {
+    right: 20px;
+    top: 20px;
+}
+
+#main #bottom-left {
+    left: 20px;
+    bottom: 20px;
+}
+
+#main #bottom-right {
+    right: 20px;
+    bottom: 20px;
+}
+
+#main #decoration-box {
+    border: rgba(0, 0, 0, .1) 3px solid;
+    width: 90%;
+    height: 88%;
+    position: absolute;
+    top: 6%;
+    left: 5%;
+    z-index: -1;
+}

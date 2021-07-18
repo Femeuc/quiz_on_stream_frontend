@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width= device-width, initial-scale=1.0">
+    <title>Quiz on Stream | Filtros</title>
+    <link rel="stylesheet" href="../css/filters.css">
+</head>
+<body id="body">
+    <div id="page-container">
+        <header id="header">
+            <div id="header-title">
+                <h1 id="h1">QUIZ<span id="span-on">ON</span>STREAM</h1>  
+            </div>
+        </header>
+
+        <div id="main-container">
+            <main id="main">
+
+                <span class="decoration" id="top-left"></span>
+                <span class="decoration" id="top-right"></span>
+                <span class="decoration" id="bottom-left"></span>
+                <span class="decoration" id="bottom-right"></span>
+                <div id="decoration-box"></div>
+
+                <section id="instructions-chat-section">
+                    <h2 class="h2">Como jogar?</h2>
+                    <h2 class="h2" id="chat-owner">Chat de Wcalixtoo:</h2>
+                    <div class="grid-item">
+                        <p class="p">Cada pergunta tem 4 alternativas: A, B, C e D. Basta digitar no chat uma dessas 4 letras para marcar a opção
+                        correspondente. OBS: depois de escolher uma opção, não é possível desfazer. A cada nova questão o chat pode marcar uma opção. </p>
+                    </div>
+                    <div id="chat-messages-div" class="grid-item">
+                        <ul id="latest-messages">
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="h2">Preferências</h2>
+                    <div id="filters-container">
+                        <div class="filter-div">
+                            <div class="filter-div-item">
+                                <h3>Abrangência</h3>
+                            </div>
+                            <div class="filter-div-item">
+                                <div class="filter-input-block">
+                                    <input type="checkbox" id="general-matters-checkbox" onchange="handleCheckboxChange()">
+                                    <label for="general-matters-checkbox">Conhecimentos Gerais</label> 
+                                </div>
+                                <div class="filter-input-block">
+                                    <input type="checkbox" id="specific-matters-checkbox" onchange="handleCheckboxChange()">
+                                    <label for="specific-matters-checkbox">Assuntos específicos desse canal</label>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="filter-div" id="general-matters">
+                            <div class="filter-div-item">
+                                <h3>Conhecimentos Gerais</h3>
+                            </div>
+                            <div class="filter-div-item" id="general-matters-input-div">
+                                
+                                
+                            </div>
+                        </div>
+        
+                        <div class="filter-div" id="specific-matters">
+                            <div class="filter-div-item">
+                                <h3>Temas Desse Canal</h3>
+                            </div>
+                            <div class="filter-div-item" id="channel-matters-input-div">
+                                
+                            </div>
+                        </div>
+        
+                        <div class="filter-div" id="tempo">
+                            <div class="filter-div-item">
+                                <h3>Tempo</h3>
+                            </div>
+                            <div class="filter-div-item">
+                                <div class="filter-input-block">
+                                    <input class="filter-input" type="radio" id="dinamic" name="time" value="dinamic" checked onchange="handleCheckboxChange()">
+                                    <label for="dinamic">Dinâmico</label>
+                                </div>
+                                <div class="filter-input-block">
+                                    <input class="filter-input" type="radio" id="predefined" name="time" value="predefined" onchange="handleCheckboxChange()">
+                                    <label for="predefined">Pré-definido</label>
+                                </div>
+                                <div id="how-much-time">
+                                    <label for="quantity">Quantos segundos?</label>
+                                    <input class="filter-input" type="number" id="quantity" name="quantity" max="120">
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="filter-div" id="dificuldade">
+                            <div class="filter-div-item">
+                                <h3>Dificuldade</h3>
+                            </div>
+                            <div class="filter-div-item">
+                                <div class="filter-input-block">
+                                    <input class="filter-input" type="checkbox" id="easy">
+                                    <label for="easy">Fácil</label>
+                                </div>
+                                <div class="filter-input-block">
+                                    <input class="filter-input" type="checkbox" id="normal">
+                                    <label for="normal">Normal</label> 
+                                </div>
+                                <div class="filter-input-block">
+                                    <input class="filter-input" type="checkbox" id="hard">
+                                    <label for="hard">Difícil</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="button-div">
+                            <button id="start-button">Começar</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>>
+
+    <footer>
+    </footer>
+
+    <script src="../libs/tmi.min.js"></script>
+    <script src="../javascript/filters.js"></script>
+</body>
+</html>

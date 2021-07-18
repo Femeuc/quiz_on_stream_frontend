@@ -1,0 +1,238 @@
+/* Geral */
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#body {
+    background: url('../layout/fundo_1.png') no-repeat center center fixed; 
+    background-size:cover;
+}
+
+/* Page Container */
+#page-container {
+    max-width: 80%;
+    margin: 3% auto;
+}
+
+/* Header */
+#header #header-title {
+    background-color: rgb(0 47 142);
+    width: fit-content;
+    padding: 30px 30px;
+    border-radius: 4%;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+    margin: auto;
+}
+#header #h1 {
+    color: #ffe876;
+    font-family: cursive;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    font-size: 60px;
+}
+#header #span-on {
+    font-size: 20px;
+}
+
+/* Main */
+#main-container {
+    position: relative;
+}
+#main {
+    background-color: rgb(0, 62, 186);
+    padding: 70px;
+    position: absolute;
+    top: -50px;
+    z-index: -1;
+    border-radius: 5%;
+    box-shadow:  rgb(0, 50, 150) 0px 30px;
+}
+
+#main section {
+    background-color: rgb(0, 47, 142);
+    padding: 20px 20px;
+    border-radius: 5%;
+    margin: 30px auto 50px auto;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+}
+#main .h2 {
+    color: rgb(255, 232, 118);
+    font-size: 25px;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    font-family: monospace;
+    text-align: center;
+}
+#main .p {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 30px;
+    text-shadow: rgb(0, 0, 0) 0px 4px;
+    font-family: monospace;
+    text-align: left;
+    padding: 10px;
+    line-height: 1.5em;
+}
+
+#main #instructions-chat-section {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+#main #chat-messages-div {
+    display: flex;
+    overflow-y: hidden;
+    background-color: rgb(0, 33, 100);
+}
+#main #latest-messages {
+    color: white;
+    list-style-type: none;
+    text-align: left;
+    padding: 10px;
+    font-size: 20px;
+    font-family: monospace;
+    flex-grow: 1;
+    height: 0;
+}
+#main #latest-messages li {
+    margin-bottom: 5px;
+}
+
+#main .filter-div {
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+#main .filter-div-item{
+    color: white;
+    margin-top: 20px;
+    padding: 5px;
+    font-size: 20px;
+}
+#main .filter-div-item h3 {
+    text-align: center;
+}
+#main .filter-input-block {
+    display: inline-block;
+    margin-right: 25px;
+}
+#main #general-matters, #main #specific-matters, #main #how-much-time {
+    display: none;
+}
+#main input#quantity {
+    width: 60px;
+    text-align: center;
+    padding: 2px 10px;
+}
+
+/* Main: decoration */
+#main .decoration {
+    width: 30px;
+    height: 30px;
+    background-color: rgb(165, 170, 170);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: rgb(115, 115, 115) 0px 5px;
+}
+#main #top-left {
+    left: 20px;
+    top: 20px;
+}
+
+#main #top-right {
+    right: 20px;
+    top: 20px;
+}
+
+#main #bottom-left {
+    left: 20px;
+    bottom: 20px;
+}
+
+#main #bottom-right {
+    right: 20px;
+    bottom: 20px;
+}
+#main #decoration-box {
+    border: rgba(0, 0, 0, .1) 3px solid;
+    width: 93%;
+    height: 92%;
+    position: absolute;
+    top: 4%;
+    left: 3%;
+    z-index: -1;
+}
+
+#main #button-div {text-align: center;}
+#main #start-button {
+    font-size: 20px;
+    padding: 9px 16px;
+    background-color: rgb(56, 188, 61);;
+    text-align: center;
+    box-shadow: rgb(24 136 20) 0px 8px;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+
+/* Media Queries */
+@media only screen and (max-width: 1200px) {
+
+    #page-container {
+        max-width: 90%;
+    }
+
+    #header #header-title {
+        padding: 30px 60px;
+    }
+
+    #main .filter-div {
+        grid-template-columns: 25% 75%;
+    }
+
+    #main .filter-input-block {
+        margin-right: 15px;
+    }
+
+    #main .p {
+        font-size: 20px;
+    }
+    #main #latest-messages {
+        font-size: 16px;
+    }
+
+    @media only screen and (max-width: 850px) {
+        #header #header-title {
+            width: 100%;
+            border-radius: 5%;
+            text-align: center;
+            padding: 30px 0px;
+        }
+
+        #page-container {
+            max-width: 100%;  
+        }
+
+        #main {
+            width: 100%;
+            padding: 50px 0px;
+            margin-top: 10px;
+            border-radius: 0%;
+        }
+
+        #main .p {
+            font-size: 16px;
+        }
+
+        #main .decoration {
+            display: none;
+        }
+
+        #main .filter-div-item {
+            font-size: 16px;
+        }
+    }
+}
