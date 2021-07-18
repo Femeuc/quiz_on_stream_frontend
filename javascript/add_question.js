@@ -6,7 +6,7 @@ get_general_and_channel_subjects();
 async function get_general_and_channel_subjects() {
     //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
     //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
-    let api_url = "http://localhost:3000/questions/subjects/channel?name=wcalixtoo";
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
 
 
     const response = await fetch(api_url);
@@ -145,7 +145,7 @@ function send_subject() {
     
     //http://localhost:3000/questions/subject
     //https://quiz-on-stream.herokuapp.com/questions/subject
-    fetch("http://localhost:3000/questions/subject", {
+    fetch("https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo", {
                 
         // Adding method type
         method: "POST",
