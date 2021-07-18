@@ -4,7 +4,9 @@ let channel_subjects = [];
 get_general_and_channel_subjects();
 
 async function get_general_and_channel_subjects() {
-    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
+    //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
+    //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
+    let api_url = "http://localhost:3000/questions/subjects/channel?name=wcalixtoo";
 
 
     const response = await fetch(api_url);
@@ -20,7 +22,6 @@ async function get_general_and_channel_subjects() {
         }
     }
     
-    console.log(general_subjects);
     load_subjects("channel");
 }
 
@@ -74,7 +75,7 @@ function send_question() {
 
     //http://localhost:3000/question
     //https://quiz-on-stream.herokuapp.com/question
-    fetch("https://quiz-on-stream.herokuapp.com/question", {
+    fetch("http://localhost:3000/question", {
                 
         // Adding method type
         method: "POST",
@@ -133,4 +134,41 @@ function clear_fields() {
     document.querySelector('#difficulty-input').value;
     document.querySelector('#subject-input').value;
     document.querySelector('#author-input').value;
+}
+
+
+function send_subject() {
+    subject_to_add = document.querySelector('#subject-to-add');
+    subject = subject_to_add.value;
+    subject_simplified = subject_to_add.value.toLowerCase();
+    channel = 'wcalixtoo';
+    
+    //http://localhost:3000/questions/subject
+    //https://quiz-on-stream.herokuapp.com/questions/subject
+    fetch("http://localhost:3000/questions/subject", {
+                
+        // Adding method type
+        method: "POST",
+            
+        // Adding body or contents to send
+        body: JSON.stringify({
+            subject: subject,
+            subject_simplified: subject_simplified,
+            channel: channel
+        }),
+            
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function (response) {
+        if(response.status == 200) {
+            alert("Assunto adicionado com sucesso!");
+            subject_to_add.value = "";
+        }
+        else
+            alert("Erro ao adicionar. Status: " + response.status);
+    })
+
 }

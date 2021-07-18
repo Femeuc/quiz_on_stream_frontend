@@ -61,6 +61,15 @@
     box-shadow: rgb(0 40 122) 0px 30px; 
 }
 
+#main #add-subject-container {
+    background-color: rgb(0, 47, 142);
+    text-align: center;
+    padding: 20px 20px;
+    border-radius: 5%;
+    margin: 50px auto 30px auto;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+}
+
 #main .h2 {
     color: rgb(255, 232, 118);
     font-size: 40px;
@@ -69,24 +78,21 @@
     font-family: monospace;
 }
 
-#main .p {
-    color: white;
-    font-size: 30px;
-    margin-bottom: 30px;
-    text-shadow: rgb(0, 0, 0) 0px 4px;
-    word-spacing: 1ch;
-    font-family: monospace;
-}
 
 #main .input-field {
     width: 100%;
     display: block;
     text-align: left;
-    padding: 5px 10px;
+    padding: 10px;
+    font-size: 20px;
 }
 #main #description-input {
     padding: 10px;
     margin-bottom: 10px;
+}
+
+#main #subject-to-add {
+    margin-bottom: 20px;
 }
 
 #main #question-subject-container {
@@ -104,17 +110,40 @@
 }
 #main #send-question-button {
     padding: 5px 16px;
-    background-color: rgb(56, 188, 61);;
+    background-color: rgb(56, 188, 61);
     text-align: center;
     box-shadow: rgb(24 136 20) 0px 5px;
     border-radius: 5%;
     border: none;
     color: white;
     font-weight: 900;
+    font-size: 20px;
     cursor: pointer;
     width: fit-content;
     margin: auto;
 }
+
+#main #send-subject-button {
+    padding: 5px 16px;
+    background-color: rgb(56, 188, 61);
+    text-align: center;
+    box-shadow: rgb(24 136 20) 0px 5px;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+    width: fit-content;
+    margin: auto;
+}
+
+#main #send-question-button:hover, #main #send-subject-button:hover {
+    background-color: rgb(68, 212, 72);
+    color: rgb(255, 232, 118);
+    transition: .5s;
+}
+
 #main #options-container {
     margin-bottom: 10px;
 }
@@ -163,4 +192,41 @@
     top: 6%;
     left: 5%;
     z-index: -1;
+}
+
+
+/* Media Queries */
+@media only screen and (max-width: 1200px) {
+
+    #page-container {
+        max-width: 80%;
+        
+    }
+
+    @media only screen and (max-width: 850px) {
+        #header #header-title {
+            width: 100%;
+            border-radius: 5%;
+            text-align: center;
+        }
+
+        #page-container {
+            max-width: 100%;  
+        }
+
+        #main {
+            width: 100%;
+            padding: 50px 0px;
+            margin-top: 10px;
+            border-radius: 0%;
+        }
+
+        #main #login-section {
+            border-radius: 5%;
+        }
+
+        #main .decoration {
+            display: none;
+        }
+    }
 }

@@ -166,7 +166,7 @@ function show_scores() {
         question_score_span.className = did_player_answer_correctly(players[i].answer) ? "question-score-correct" : "question-score-wrong";
         general_score_span.className = "general-score";
 
-        player_item_span.innerText = players[i].name;
+        player_item_span.innerText = truncate_player_name(players[i].name, 20);
         question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? "+ 1" : "+ 0";
         general_score_span.innerText = players[i].score + " pts.";
 
@@ -354,21 +354,22 @@ function load_final_score_screen() {
     for(let i = 0; i < players.length; i++) {
         const player_score_li = document.createElement('LI');
         const player_item_span = document.createElement('SPAN');
-        const question_score_span = document.createElement('SPAN');
+        //const question_score_span = document.createElement('SPAN');
         const general_score_span = document.createElement('SPAN');
 
         player_score_li.className = "player-score-li";
+        player_score_li.style = "grid-template-columns: 80% 20%;"
         player_item_span.className = "player-item";
-        question_score_span.className = did_player_answer_correctly(players[i].answer) ? "question-score-correct" : "question-score-wrong";
+        //question_score_span.className = did_player_answer_correctly(players[i].answer) ? "question-score-correct" : "question-score-wrong";
         general_score_span.className = "general-score";
 
-        player_item_span.innerText = players[i].name;
-        question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? "+ 1" : "+ 0";
+        player_item_span.innerText = truncate_player_name(players[i].name, 32);
+        //question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? "+ 1" : "+ 0";
         general_score_span.innerText = players[i].score + " pts.";
 
         final_score_list.appendChild(player_score_li);
         player_score_li.appendChild(player_item_span);
-        player_score_li.appendChild(question_score_span);
+        //player_score_li.appendChild(question_score_span);
         player_score_li.appendChild(general_score_span);
     }
 }
@@ -429,3 +430,8 @@ function clear_players_answers() {
         }*/
     }
 }
+
+
+function truncate_player_name(str, n){
+    return (str.length > n) ? str.substr(0, n) + '...' : str;
+};

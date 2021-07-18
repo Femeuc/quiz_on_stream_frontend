@@ -27,7 +27,7 @@
                 <section id="add-question-container">
                     <h2 class="h2">Adicionar questão</h2>
                     <form id="add-question-form">
-                        <textarea placeholder="Qual é a sua pergunta?" class="input-field" rows="1" id="description-input"></textarea>
+                        <textarea placeholder="Qual é a sua pergunta?" class="input-field" rows="4" id="description-input"></textarea>
                         <div id="options-container">
                         <input id="option_a-input" type="text" placeholder="Alternativa A" class="input-field"> 
                         <input id="option_b-input" type="text" placeholder="Alternativa B" class="input-field"> 
@@ -65,6 +65,13 @@
                         <input id="author-input" type="text" placeholder="Seu nome (autor)... " class="input-field"> <br>
                     </form>
                     <div id="button-align-div"> <button id="send-question-button" onclick="send_question()">Adicionar</button> </div>
+                </section>
+
+
+                <section id="add-subject-container">
+                    <h2 class="h2">Assunto para Wcalixtoo</h2>
+                    <input id="subject-to-add" type="text" placeholder="Assunto..." class="input-field"> 
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject()">Adicionar</button> </div>
                 </section>
             </main>
         </div>
