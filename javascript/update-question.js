@@ -31,7 +31,7 @@ function load_question_data() {
 async function get_general_and_channel_subjects() {
     //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
     //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
-    let api_url = "http://localhost:3000/questions/subjects/channel?name=wcalixtoo";
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
 
 
     const response = await fetch(api_url);
@@ -150,9 +150,9 @@ function update_question() {
         return;
     }
 
-    //http://localhost:3000/question
-    //https://quiz-on-stream.herokuapp.com/question
-    fetch("http://localhost:3000/question/" + question_to_update.id, {
+    //http://localhost:3000/question/
+    //https://quiz-on-stream.herokuapp.com/question/
+    fetch("https://quiz-on-stream.herokuapp.com/question/" + question_to_update.id, {
                 
         // Adding method type
         method: "PUT",

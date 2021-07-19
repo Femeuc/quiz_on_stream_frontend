@@ -38,7 +38,8 @@ async function load_all_questions() {
 
 async function get_all_questions() {
     //https://quiz-on-stream.herokuapp.com/questions
-    let api_url = "http://localhost:3000/questions";
+    //http://localhost:3000/questions
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions";
 
     const response = await fetch(api_url);
     
@@ -50,8 +51,9 @@ async function get_all_questions() {
 
 function delete_question(question_id, question_li) {
     if(!window.confirm("Tem certeza que quer deletar essa questão?")) return;
-
-    fetch('http://localhost:3000/question/' + question_id, {
+    //https://quiz-on-stream.herokuapp.com/questions
+    //http://localhost:3000/question/
+    fetch('https://quiz-on-stream.herokuapp.com/question/' + question_id, {
         method: 'DELETE',
         // Adding headers to the request
         headers: {
