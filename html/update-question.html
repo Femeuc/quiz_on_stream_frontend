@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz on Stream | Adicionar Questão</title>
-    <link rel="stylesheet" href="../css/add-question.css">
+    <title>Quiz on Stream | Editar</title>
+    <link rel="stylesheet" href="../css/update-question.css">
 </head>
 <body id="body">
     <div id="page-container">
@@ -24,8 +24,8 @@
                 <span class="decoration" id="bottom-right"></span>
                 <div id="decoration-box"></div>
 
-                <section id="add-question-container">
-                    <h2 class="h2">Adicionar questão</h2>
+                <section id="edit-question-container">
+                    <h2 class="h2">Editar questão</h2>
                     <form id="add-question-form">
                         <textarea placeholder="Qual é a sua pergunta?" class="input-field" rows="4" id="description-input"></textarea>
                         <div id="options-container">
@@ -64,14 +64,7 @@
                         </select>
                         <input id="author-input" type="text" placeholder="Seu nome (autor)... " class="input-field"> <br>
                     </form>
-                    <div id="button-align-div"> <button id="send-question-button" onclick="send_question()">Adicionar</button> </div>
-                </section>
-
-
-                <section id="add-subject-container">
-                    <h2 class="h2">Assunto para Wcalixtoo</h2>
-                    <input id="subject-to-add" type="text" placeholder="Assunto..." class="input-field"> 
-                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject()">Adicionar</button> </div>
+                    <div id="button-align-div"> <button id="edit-question-button" onclick="update_question()">Atualizar</button> </div>
                 </section>
             </main>
         </div>
@@ -82,6 +75,6 @@
     </footer>
 
 
-    <script src="../javascript/add_question.js"></script>
+    <script src="../javascript/update-question.js"></script>
 </body>
 </html>

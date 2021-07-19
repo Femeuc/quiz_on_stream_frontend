@@ -6,7 +6,7 @@ get_general_and_channel_subjects();
 async function get_general_and_channel_subjects() {
     //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
     //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
-    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
+    let api_url = "http://localhost:3000/questions/subjects/channel?name=wcalixtoo";
 
 
     const response = await fetch(api_url);
@@ -36,15 +36,15 @@ function load_subjects(which_subject) {
     if(which_subject == 'channel') {
         for(let i = 0; i < channel_subjects.length; i++) {
             const subject_option = document.createElement('OPTION');
-            subject_option.value = channel_subjects[i].subject_simplified;
-            subject_option.innerText = channel_subjects[i].subject_simplified;
+            subject_option.value = channel_subjects[i].subject;
+            subject_option.innerText = channel_subjects[i].subject;
             subjects_select.appendChild(subject_option);
         }
     } else if(which_subject == 'general') {
         for(let i = 0; i < general_subjects.length; i++) {
             const subject_option = document.createElement('OPTION');
-            subject_option.value = general_subjects[i].subject_simplified;
-            subject_option.innerText = general_subjects[i].subject_simplified;
+            subject_option.value = general_subjects[i].subject;
+            subject_option.innerText = general_subjects[i].subject;
             subjects_select.appendChild(subject_option);
         }
     }
@@ -69,13 +69,20 @@ function send_question() {
     difficulty = document.querySelector('#difficulty-input').value;
     subject = document.querySelector('#subject-input').value;
     author = document.querySelector('#author-input').value.toLowerCase();
-    
-    difficulty = adapt_inputs_to_database(difficulty);
-    subject = adapt_inputs_to_database(subject);
+
+    diff = adapt_inputs_to_database(difficulty);
+    subj = adapt_inputs_to_database(subject);
+
+    if(descripion.length < 1 || option_a.length < 1 || option_b.length < 1 || option_c.length < 1 || option_d.length < 1
+        || answer.length != 1 || isNaN(diff) || isNaN(subj) || author.length < 1) {
+
+        alert("Sua questão não foi enviada porque você deixou algum campo vazio ou escreveu algo inválido.");
+        return;
+    }
 
     //http://localhost:3000/question
     //https://quiz-on-stream.herokuapp.com/question
-    fetch("https://quiz-on-stream.herokuapp.com/question", {
+    fetch("http://localhost:3000/question", {
                 
         // Adding method type
         method: "POST",
@@ -88,8 +95,8 @@ function send_question() {
             option_c: option_c,
             option_d: option_d,
             answer: answer,
-            difficulty: difficulty,
-            subject: subject,
+            difficulty: diff,
+            subject: subj,
             author: author
         }),
             
@@ -119,7 +126,7 @@ function adapt_inputs_to_database(input_to_addapt) {
     else {
         const all_subjects = channel_subjects.concat(general_subjects);
         for(let i = 0; i < all_subjects.length; i++) {
-            if(input_to_addapt == all_subjects[i].subject_simplified) return all_subjects[i].id;
+            if(input_to_addapt == all_subjects[i].subject) return all_subjects[i].id;
         }
     }
 }
@@ -139,20 +146,24 @@ function clear_fields() {
 
 function send_subject() {
     subject_to_add = document.querySelector('#subject-to-add');
-    subject = subject_to_add.value;
+
+    if(subject_to_add.value.length < 1) {
+        return;
+    }
+
     subject_simplified = subject_to_add.value.toLowerCase();
     channel = 'wcalixtoo';
     
     //http://localhost:3000/questions/subject
     //https://quiz-on-stream.herokuapp.com/questions/subject
-    fetch("https://quiz-on-stream.herokuapp.com/questions/subject", {
+    fetch("http://localhost:3000/questions/subject", {
                 
         // Adding method type
         method: "POST",
             
         // Adding body or contents to send
         body: JSON.stringify({
-            subject: subject,
+            subject: subject_to_add.value,
             subject_simplified: subject_simplified,
             channel: channel
         }),
