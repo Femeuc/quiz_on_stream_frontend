@@ -52,7 +52,8 @@ async function initialize_page() {
     hideElements();
     current_question = await get_question_by_id();
     load_question();
-
+    
+    document.querySelector('#stop-button').style.display = "inline-block";
     is_time_to_answer_over = false;
     if(localStorage['time'] == 'predefined') {
         manage_time(localStorage.getItem('seconds'), question_number < 2); // Depois da segunda pergunta, o segundo parâmetro 
@@ -108,6 +109,8 @@ function load_question() {
 }
 
 function stop_question() {
+    document.querySelector('#stop-button').style.display = "none";
+
     is_time_to_answer_over = true;
     showElements();
     highlight_correct_option();
