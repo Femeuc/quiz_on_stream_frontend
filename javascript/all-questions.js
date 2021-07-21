@@ -27,9 +27,9 @@ async function get_all_questions() {
 }
 
 async function get_all_subjects() {
-    //https://quiz-on-stream.herokuapp.com//questions/subjects/channel
+    //`https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=${localStorage["username"]}`
     //http://localhost:3000//questions/subjects/channel
-    const api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects";
+    const api_url = `https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=${localStorage["username"]}`;
 
     const response = await fetch(api_url);
     
