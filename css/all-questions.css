@@ -70,33 +70,40 @@
     font-family: monospace;
 }
 
-#main #questions-list {
+#main .switch-span {
+    cursor: pointer;
+    margin: auto 20px auto 20px;
+    font-weight: 900;
+    font-size: 50px;
+}
+
+#main #display-list {
     color: white;
     list-style-type: none;
     text-align: left;
     font-size: 20px;
     font-family: monospace;
 }
-#main #questions-list li {
+#main #display-list li {
     padding: 10px;
     border-bottom: black solid 1px;
     margin-top: 20px;
 }
-#main .question-buttons {
+#main .buttons {
     padding: 5px 10px;
     font-weight: bold;
     margin-right: 5px;
     cursor: pointer;
     border: none;
 }
-#main .question-buttons:hover {
+#main .buttons:hover {
     font-weight: 900;
 }
 
 #main #edit-button {
     background-color: rgb(255, 232, 118);
 }
-#main #delete-button {
+#main .delete-button {
     background-color: red;
 }
 

@@ -1,6 +1,10 @@
 let general_subjects = [];
 let channel_subjects = [];
 
+const channel = localStorage['username'];
+
+document.querySelector('#subject-owner').innerText = channel;
+
 get_general_and_channel_subjects();
 
 async function get_general_and_channel_subjects() {
@@ -144,15 +148,16 @@ function clear_fields() {
 }
 
 
-function send_subject() {
-    subject_to_add = document.querySelector('#subject-to-add');
+function send_subject(is_general_subject) {
+    subject_to_add = is_general_subject ? document.querySelector('#general-subject-input') : document.querySelector('#channel-subject-input');
 
     if(subject_to_add.value.length < 1) {
         return;
     }
 
     subject_simplified = subject_to_add.value.toLowerCase();
-    channel = 'wcalixtoo';
+
+    const subject_owner = is_general_subject ? null : channel;
     
     //http://localhost:3000/questions/subject
     //https://quiz-on-stream.herokuapp.com/questions/subject
@@ -165,7 +170,8 @@ function send_subject() {
         body: JSON.stringify({
             subject: subject_to_add.value,
             subject_simplified: subject_simplified,
-            channel: channel
+            channel: subject_owner,
+            is_general_subject: is_general_subject
         }),
             
         // Adding headers to the request
@@ -181,5 +187,4 @@ function send_subject() {
         else
             alert("Erro ao adicionar. Status: " + response.status);
     })
-
 }

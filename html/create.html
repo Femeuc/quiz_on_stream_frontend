@@ -69,9 +69,15 @@
 
 
                 <section id="add-subject-container">
-                    <h2 class="h2">Assunto para Wcalixtoo</h2>
-                    <input id="subject-to-add" type="text" placeholder="Assunto..." class="input-field"> 
-                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject()">Adicionar</button> </div>
+                    <h2 class="h2">Assunto para <span id="subject-owner"></span></h2>
+                    <input id="channel-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(false)">Adicionar</button> </div>
+                </section>
+
+                <section id="add-subject-container">
+                    <h2 class="h2">Assunto Geral</h2>
+                    <input id="general-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(true)">Adicionar</button> </div>
                 </section>
             </main>
         </div>
