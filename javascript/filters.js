@@ -83,7 +83,7 @@ function add_general_subjects(data) {
         filter_input_block.className = "filter-input-block";
         general_matters_input.className = "filter-input";
         general_matters_input.type = "checkbox";
-        general_matters_input.id = `${data[i].subject_simplified}`;
+        general_matters_input.id = `${data[i].subject}`;
         general_matters_label.setAttribute("for", general_matters_input.id);
         general_matters_label.innerText = general_matters_input.id;
         general_matters_label.style = "margin-left: 5px";
@@ -104,7 +104,7 @@ function add_channel_subjects(data) {
         filter_input_block.className = "filter-input-block";
         channel_matters_input.className = "filter-input";
         channel_matters_input.type = "checkbox";
-        channel_matters_input.id = `${data[i].subject_simplified}`;
+        channel_matters_input.id = `${data[i].subject}`;
         channel_matters_label.setAttribute("for", channel_matters_input.id);
         channel_matters_label.innerText = channel_matters_input.id;
         channel_matters_label.style = "margin-left: 5px";
