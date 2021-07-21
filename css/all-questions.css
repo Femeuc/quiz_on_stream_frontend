@@ -75,6 +75,18 @@
     font-size: 20px;
 }
 
+#main .filter-div {
+    text-align: left;
+    color: white;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+#main .checkbox-span {
+    margin-right: 10px;
+}
+
 #main .switch-span {
     cursor: pointer;
     margin: auto 20px auto 20px;

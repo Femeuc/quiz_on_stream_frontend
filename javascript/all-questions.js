@@ -5,10 +5,12 @@ initialize_page();
 
 async function initialize_page() {
     document.querySelector('.p').style.display = 'none';
+    document.querySelector('#channel-name').innerText = localStorage['username'];
 
     questions = await get_all_questions();
-    show_questions();
     subjects = await get_all_subjects();
+    create_checkboxes();
+    show_questions();
 }
 
 async function get_all_questions() {
@@ -38,17 +40,24 @@ async function get_all_subjects() {
 }
 
 function show_questions() {
+
+    const filters = get_questions_filters();
     const ul_display = document.querySelector('#display-list');
 
     document.querySelector('.p').style.display = 'none';
+    document.querySelectorAll('.filter-div').forEach( e => e.style.display = 'grid');
 
     remove_all_children(ul_display);
 
     questions.forEach(question => {
-        const question_li = create_question_li(question);
-        ul_display.appendChild(question_li);
-    });
-    
+
+        filters.forEach(subject_id => {
+            if(subject_id == question.subject) {
+                const question_li = create_question_li(question);
+                ul_display.appendChild(question_li);
+            }
+        })
+    }); 
 }
 
 function create_question_li(question) {
@@ -84,7 +93,7 @@ function create_question_li(question) {
 function switch_display() {
     const h2_switch = document.querySelector('#h2-switch');
 
-    const text_1 = "Questões de Wcalixtoo";
+    const text_1 = "Todas as questões";
     const text_2 = "Todos os assuntos";
 
     if(h2_switch.innerText == text_1) {
@@ -105,6 +114,8 @@ function show_subjects() {
     const ul_display = document.querySelector('#display-list');
 
     document.querySelector('.p').style.display = 'block';
+    document.querySelectorAll('.filter-div').forEach( e => e.style.display = 'none');
+
     remove_all_children(ul_display);
 
     subjects.forEach(subject => {
@@ -162,4 +173,49 @@ function delete_item(type, item_id, li) {
             document.querySelector('#display-list').removeChild(li);
         }
     })
+}
+
+function get_questions_filters() {
+    const checkbox_inputs = document.querySelectorAll('.checkbox-span input');
+
+    let filters = [];
+    checkbox_inputs.forEach(checkbox => {
+        if(checkbox.checked) {
+            subjects.forEach(subject => {
+                if(checkbox.id == subject.subject)
+                    filters.push(subject.id);
+            })
+        }
+    });
+
+    return filters;
+}
+
+function create_checkboxes() {
+    general_matters_div = document.querySelector('#general-matters-input-div');
+    specific_matters_div = document.querySelector('#channel-matters-input-div');
+
+    subjects.forEach(subject => {
+        const checkbox_span = document.createElement('SPAN');
+        const checkbox_input = document.createElement('INPUT');
+        const checkbox_label = document.createElement('LABEL');
+
+        checkbox_span.className = "checkbox-span";
+        checkbox_input.type = "checkbox";
+        checkbox_input.id = subject.subject;
+        checkbox_input.setAttribute("onchange", "show_questions()");
+        checkbox_label.setAttribute("for", subject.subject);
+        checkbox_label.innerText = " " + subject.subject;
+        
+        checkbox_span.appendChild(checkbox_input);
+        checkbox_span.appendChild(checkbox_label);
+
+        if(subject.is_general_subject) {
+            general_matters_div.appendChild(checkbox_span);
+            return;
+        }
+
+        specific_matters_div.appendChild(checkbox_span);
+    });
+
 }
