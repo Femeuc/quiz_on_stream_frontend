@@ -70,6 +70,11 @@
     font-family: monospace;
 }
 
+#main .p {
+    color: white;
+    font-size: 20px;
+}
+
 #main .switch-span {
     cursor: pointer;
     margin: auto 20px auto 20px;
