@@ -64,7 +64,7 @@ async function initialize_page() {
 }
 
 async function get_question_by_id() {
-    let api_url = "https://quiz-on-stream.herokuapp.com/question";
+    let api_url = "https://quiz-on-stream.herokuapp.com/question/join/question-subject";
 
     const random_number = Math.floor(Math.random() * questions_ids.length);
     const random_question_id = questions_ids[random_number].id;
@@ -96,9 +96,9 @@ function load_question() {
     const option_b = current_question[0].option_b;
     const option_c = current_question[0].option_c;
     const option_d = current_question[0].option_d;
-/*    const correct_option = current_question[0].correct_option;
     const difficulty = current_question[0].difficulty;
-    const author = current_question[0].author;*/
+    const author = current_question[0].author;
+    const subject = current_question[0].subject;
 
     document.querySelector('#question-number').innerText = question_number;
     document.querySelector('#question-description').innerText = description;
@@ -106,6 +106,9 @@ function load_question() {
     document.querySelector('#op_b').innerText = "B. " + option_b;
     document.querySelector('#op_c').innerText = "C. " + option_c;
     document.querySelector('#op_d').innerText = "D. " + option_d;   
+    document.querySelector('#question-info-difficulty').innerText = difficulty;
+    document.querySelector('#question-info-author').innerText = author;
+    document.querySelector('#question-info-subject').innerText = subject;
 }
 
 function stop_question() {
@@ -223,7 +226,7 @@ function manage_question_repetition() {
     
         for(let i = 0; i < questions_ids.length; i++){ 
                                     
-            if ( questions_ids[i].id == current_question[0].id) { 
+            if ( questions_ids[i].id == current_question[0].question_id) { 
                 questions_ids.splice(i, 1); 
             }
         }

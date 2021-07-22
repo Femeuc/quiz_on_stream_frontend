@@ -135,6 +135,22 @@
     text-align: center;
 }
 
+#main #question-info {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    margin-top: 20px;
+    display:grid;
+    text-align: left;
+    width: fit-content;
+    margin-left: auto;
+    background: #003eba;
+    padding: 10px;
+    border-radius: 10%;
+}
+#main .question-info-data {
+    color: rgb(255, 232, 118);
+}
+
 #main .flex-stats {
     display: flex;
     flex-direction: row;
