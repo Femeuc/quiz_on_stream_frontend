@@ -112,11 +112,12 @@ function load_question() {
 }
 
 function stop_question() {
-    if(!confirm("Confirme que deseja parar a questão.")) return;
+    if(!is_time_to_answer_over) {
+        if(!confirm("Confirme que deseja parar a questão.")) return;
+    }
 
     document.querySelector('#stop-button').style.display = "none";
 
-    is_time_to_answer_over = true;
     showElements();
     highlight_correct_option();
     update_scores();
@@ -326,6 +327,7 @@ function manage_time(amount_of_seconds, is_countdown_creation) {
     else {
         document.querySelector('#countdown').innerText = amount_of_seconds;
         if(amount_of_seconds  < 1) {
+            is_time_to_answer_over = true;
             stop_question();
             return;
         }
