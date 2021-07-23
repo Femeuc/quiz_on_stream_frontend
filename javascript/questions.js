@@ -114,6 +114,7 @@ function load_question() {
 function stop_question() {
     if(!is_time_to_answer_over) {
         if(!confirm("Confirme que deseja parar a questão.")) return;
+        is_time_to_answer_over = true;
     }
 
     document.querySelector('#stop-button').style.display = "none";
