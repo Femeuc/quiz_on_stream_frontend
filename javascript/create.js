@@ -64,15 +64,15 @@ function handleCheckboxChange(){
 }
 
 function send_question() {
-    descripion = document.querySelector('#description-input').value.toLowerCase();
-    option_a = document.querySelector('#option_a-input').value.toLowerCase();
-    option_b = document.querySelector('#option_b-input').value.toLowerCase();
-    option_c = document.querySelector('#option_c-input').value.toLowerCase();
-    option_d = document.querySelector('#option_d-input').value.toLowerCase();
+    descripion = document.querySelector('#description-input').value;
+    option_a = document.querySelector('#option_a-input').value;
+    option_b = document.querySelector('#option_b-input').value;
+    option_c = document.querySelector('#option_c-input').value;
+    option_d = document.querySelector('#option_d-input').value;
     answer = document.querySelector('#answer-input').value;
     difficulty = document.querySelector('#difficulty-input').value;
     subject = document.querySelector('#subject-input').value;
-    author = document.querySelector('#author-input').value.toLowerCase();
+    author = document.querySelector('#author-input').value;
 
     diff = adapt_inputs_to_database(difficulty);
     subj = adapt_inputs_to_database(subject);

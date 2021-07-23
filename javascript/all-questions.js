@@ -6,6 +6,8 @@ initialize_page();
 async function initialize_page() {
     document.querySelector('.p').style.display = 'none';
     document.querySelector('#channel-name').innerText = localStorage['username'];
+    document.querySelector('#main').style.borderRadius = '0';
+    document.querySelector('#question-list-container').style.borderRadius = '0';
 
     questions = await get_all_questions();
     subjects = await get_all_subjects();
@@ -58,11 +60,6 @@ function show_questions() {
             }
         })
     }); 
-
-    if(ul_display.childNodes.length > 25) {
-        document.querySelector('#main').style.borderRadius = '0';
-        document.querySelector('#question-list-container').style.borderRadius = '0';
-    }
 }
 
 function create_question_li(question) {

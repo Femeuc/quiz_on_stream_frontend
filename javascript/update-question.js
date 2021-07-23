@@ -14,8 +14,9 @@ function load_question_data() {
     const option_d = document.querySelector('#option_d-input');
     const answer = document.querySelector('#answer-input');
     const author = document.querySelector('#author-input');
+    document.querySelector('#subject-owner').innerText = localStorage.getItem('username');
 
-    description.innerText = question_to_update.description;
+    description.innerHTML = question_to_update.description;
     option_a.value = question_to_update.option_a;
     option_b.value = question_to_update.option_b;
     option_c.value = question_to_update.option_c;
@@ -31,7 +32,7 @@ function load_question_data() {
 async function get_general_and_channel_subjects() {
     //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
     //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
-    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
+    let api_url = `https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=${localStorage.getItem('username')}`;
 
 
     const response = await fetch(api_url);
