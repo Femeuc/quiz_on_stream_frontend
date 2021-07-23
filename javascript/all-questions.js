@@ -13,6 +13,8 @@ async function initialize_page() {
     subjects = await get_all_subjects();
     create_checkboxes();
     show_questions();
+
+    document.querySelector('#h2-switch').innerText = "Todas as questões";
 }
 
 async function get_all_questions() {
