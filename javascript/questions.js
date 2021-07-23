@@ -112,6 +112,8 @@ function load_question() {
 }
 
 function stop_question() {
+    if(!confirm("Confirme que deseja parar a questão.")) return;
+
     document.querySelector('#stop-button').style.display = "none";
 
     is_time_to_answer_over = true;
@@ -293,7 +295,10 @@ function update_statistics(player_name, answer) {
 }
 
 function end_quiz() {
+    if(!confirm('Confirme que deseja terminar.')) return;
+    
     hideElements();
+    document.querySelector('#question-info').style.display = "none";
     document.querySelector('#statistics').style.display = "none";
     document.querySelector('#players-answers').style.display = "none";
     change_stop_button_action();
@@ -352,6 +357,10 @@ function load_final_score_screen() {
 
     const final_score_list = document.querySelector('#question-options');
     
+    if(players.length > 25) {
+        document.querySelector('#main').style.borderRadius = '1%';
+        document.querySelector('#question-section').style.borderRadius = '1%';
+    }
 
     while (final_score_list.firstChild) {
         final_score_list.removeChild(final_score_list.firstChild);

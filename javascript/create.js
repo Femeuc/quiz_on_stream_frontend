@@ -3,14 +3,14 @@ let channel_subjects = [];
 
 const channel = localStorage['username'];
 
-document.querySelector('#subject-owner').innerText = channel;
+document.querySelectorAll('.subject-owner').forEach(element => element.innerText = channel);
 
 get_general_and_channel_subjects();
 
 async function get_general_and_channel_subjects() {
     //https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo"
     //http://localhost:3000/questions/subjects/channel?name=wcalixtoo"
-    let api_url = "https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=wcalixtoo";
+    let api_url = `https://quiz-on-stream.herokuapp.com/questions/subjects/channel?name=${channel}`;
 
 
     const response = await fetch(api_url);

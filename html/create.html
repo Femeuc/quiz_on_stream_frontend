@@ -51,7 +51,7 @@
                         <div id="question-subject-container" >
                             <div class="radio-input-block">
                                 <input class="radio-subject-input" type="radio" id="channel-subjects" name="subjects" value="channel" checked onchange="handleCheckboxChange()">
-                                <label for="channel-subjects" id="channel-subjects-label">Questão para Wcalixtoo</label>
+                                <label for="channel-subjects" id="channel-subjects-label">Questão para <span class="subject-owner"></span></label>
                             </div>
                             <div class="radio-input-block">
                                 <input class="radio-subject-input" type="radio" id="general-subjects" name="subjects" value="general" onchange="handleCheckboxChange()">
@@ -69,7 +69,7 @@
 
 
                 <section id="add-subject-container">
-                    <h2 class="h2">Assunto para <span id="subject-owner"></span></h2>
+                    <h2 class="h2">Assunto para <span class="subject-owner"></span></h2>
                     <input id="channel-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
                     <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(false)">Adicionar</button> </div>
                 </section>

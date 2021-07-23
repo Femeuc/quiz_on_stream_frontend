@@ -58,6 +58,11 @@ function show_questions() {
             }
         })
     }); 
+
+    if(ul_display.childNodes.length > 25) {
+        document.querySelector('#main').style.borderRadius = '0';
+        document.querySelector('#question-list-container').style.borderRadius = '0';
+    }
 }
 
 function create_question_li(question) {
