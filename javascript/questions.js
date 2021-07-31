@@ -5,6 +5,8 @@ const options_statistics = [0, 0, 0, 0];  // 0 = A, 1 = B, 2 = C, 3 = D
 let current_question = [];
 const can_repeat_question = false;  // Assumindo que o usuário não quer repetição de questões
 let is_time_to_answer_over = false;
+let answers_order = 0;
+let remaining_points_of_current_question = localStorage.getItem('points_per_question');
 
 console.log(questions_ids);
 
@@ -38,7 +40,9 @@ client.on('message', (channel, tags, message, self) => {
                     {
                         name: player_name,
                         answer: message.toLowerCase(),
-                        score: 0
+                        score: 0,
+                        answers_order: get_answer_order(),
+                        score_change: 0
                     }
                 );    
                 update_statistics(player_name, message);
@@ -51,6 +55,7 @@ client.on('message', (channel, tags, message, self) => {
 async function initialize_page() {
     hideElements();
     current_question = await get_question_by_id();
+    remaining_points_of_current_question = localStorage.getItem('points_per_question');
     load_question();
     
     document.querySelector('#stop-button').style.display = "inline-block";
@@ -59,8 +64,6 @@ async function initialize_page() {
         manage_time(localStorage.getItem('seconds'), question_number < 2); // Depois da segunda pergunta, o segundo parâmetro 
                                                                            // tem que ser sempre falso
     }
-
-    console.log(current_question);
 }
 
 async function get_question_by_id() {
@@ -79,13 +82,11 @@ async function get_question_by_id() {
 }
 
 function hideElements() {
-    //document.querySelector('#statistics').style.display = "none";
     document.querySelector('#scores').style.display = "none";
     document.querySelector('#buttons').style.display = "none";
 }
 
 function showElements() {
-    //document.querySelector('#statistics').style.display = "block";
     document.querySelector('#scores').style.display = "block";
     document.querySelector('#buttons').style.display = "flex";
 }
@@ -155,6 +156,7 @@ function add_this_player_answer(player_name, player_answer) {
     for(let i = 0; i < players.length; i++) {
         if(players[i].name == player_name) {
             players[i].answer = player_answer;
+            players[i].answers_order = get_answer_order();
         }
     }
 }
@@ -177,7 +179,11 @@ function show_scores() {
         general_score_span.className = "general-score";
 
         player_item_span.innerText = truncate_player_name(players[i].name, 20);
-        question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? "+ 1" : "+ 0";
+        if(localStorage.getItem('score_type') == 'dinamic') {
+            question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? `+${players[i].score_change}` : players[i].score_change;
+        } else {
+            question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? `+ 1` : 0;
+        }
         general_score_span.innerText = players[i].score + " pts.";
 
         players_scores_list.appendChild(player_score_li);
@@ -192,7 +198,25 @@ function did_player_answer_correctly(answer) {
 }
 
 function update_scores() {
+
+    if(localStorage.getItem('score_type') == 'dinamic') {
+        sort_players_by_answers_order();
+
+        for(let i = 0; i < players.length; i++) {
+            if(players[i].answer.length < 1) {
+                players[i].score_change = 0;
+                continue; // this player hasn't even answered
+            }
+            const dinamic_score = get_player_dinamic_score(players[i]);
+            players[i].score_change = dinamic_score;
+            players[i].score += dinamic_score;
+        }
+        return;
+    }
+
+    // if score_type is default
     for(let i = 0; i < players.length; i++) {
+        if(players[i].answer.length < 1) continue; // this player hasn't even answered
         if(did_player_answer_correctly(players[i].answer)) {
             players[i].score += 1;
         }
@@ -208,7 +232,7 @@ function sort_scores() {
 function next_question() {
     reset_players_answers();
     
-    if(manage_question_repetition()) return; // Retorna true quanod usuário esgota as questões e não deseja repetição
+    if(manage_question_repetition()) return; // Retorna true quando usuário esgota as questões e não deseja repetição
 
     clear_correct_option_highlight();
     clear_players_answers();
@@ -453,3 +477,60 @@ function clear_players_answers() {
 function truncate_player_name(str, n){
     return (str.length > n) ? str.substr(0, n) + '...' : str;
 };
+
+function answer_to_index(answer) {
+    if(answer == 'a')
+        return 0;
+    if(answer == 'b')
+        return 1;
+    if(answer == 'c')
+        return 2;
+    // if answer == 'd'
+    return 3;
+}
+
+function get_answer_order() {
+    answers_order++;
+    return answers_order;
+}
+
+function sort_players_by_answers_order() {
+    players.sort(function (a, b) {
+        return a.answers_order - b.answers_order;
+    })   
+}
+
+function get_player_dinamic_score(player) {
+    if(player.answer == current_question[0].correct_option) {
+        const correct_players_amount = options_statistics[answer_to_index(player.answer)];
+        let score = 0;
+        if(correct_players_amount < 2) {
+            score = remaining_points_of_current_question;    
+        } else {
+            score = remaining_points_of_current_question / correct_players_amount * 1.25;
+        }
+        score = parseFloat(Math.round((score * 10) / 10).toFixed(1));
+        remaining_points_of_current_question -= score;
+        options_statistics[answer_to_index(player.answer)]--;
+        return score;
+    }
+    // if player voted wrong option
+    const score = localStorage.getItem('points_per_question') / wrong_players_amount();
+    return parseFloat(-Math.round((score * 10) / 10).toFixed(1));
+}
+
+function wrong_players_amount() {
+    let amount = 0;
+    const right_option = current_question[0].correct_option;
+
+    if(right_option != 'a')
+        amount += options_statistics[0];
+    if(right_option != 'b')
+        amount += options_statistics[1];
+    if(right_option != 'c')
+        amount += options_statistics[2];
+    if(right_option != 'd')
+        amount += options_statistics[3];
+
+    return amount;
+}
