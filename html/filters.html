@@ -6,6 +6,7 @@
     <meta name="viewport" content="width= device-width, initial-scale=1.0">
     <title>Quiz on Stream | Filtros</title>
     <link rel="stylesheet" href="../css/filters.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body id="body">
     <div id="page-container">
@@ -46,11 +47,11 @@
                             </div>
                             <div class="filter-div-item">
                                 <div class="filter-input-block">
-                                    <input type="checkbox" id="general-matters-checkbox" onchange="handleCheckboxChange()">
+                                    <input type="checkbox" id="general-matters-checkbox" onchange="handle_input_change(1)">
                                     <label for="general-matters-checkbox">Conhecimentos Gerais</label> 
                                 </div>
                                 <div class="filter-input-block">
-                                    <input type="checkbox" id="specific-matters-checkbox" onchange="handleCheckboxChange()">
+                                    <input type="checkbox" id="specific-matters-checkbox" onchange="handle_input_change(1)">
                                     <label for="specific-matters-checkbox">Assuntos específicos desse canal</label>
                                 </div>
                             </div>
@@ -81,16 +82,16 @@
                             </div>
                             <div class="filter-div-item">
                                 <div class="filter-input-block">
-                                    <input class="filter-input" type="radio" id="dinamic" name="time" value="dinamic" checked onchange="handleCheckboxChange()">
-                                    <label for="dinamic">Sem Tempo</label>
+                                    <input class="filter-input" type="radio" id="timeless" name="time" value="timeless" checked onchange="handle_input_change(2)">
+                                    <label for="timeless">Sem Tempo</label>
                                 </div>
                                 <div class="filter-input-block">
-                                    <input class="filter-input" type="radio" id="predefined" name="time" value="predefined" onchange="handleCheckboxChange()">
+                                    <input class="filter-input" type="radio" id="predefined" name="time" value="predefined" onchange="handle_input_change(2)">
                                     <label for="predefined">Com Tempo</label>
                                 </div>
                                 <div id="how-much-time">
                                     <label for="quantity">Quantos segundos?</label>
-                                    <input class="filter-input" type="number" id="quantity" name="quantity" max="300" min="5" value="30" oninput="validity.valid||(value=30);">
+                                    <input class="filter-input quantity" type="number" id="quantity" name="quantity" max="300" min="5" value="30" oninput="validity.valid||(value=30);">
                                 </div>
                             </div>
                         </div>
@@ -114,6 +115,43 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="filter-div" id="tempo">
+                            <div class="filter-div-item">
+                                <h3>Pontuação</h3>
+                            </div>
+                            <div class="filter-div-item">
+                                <div class="filter-input-block" title="Todos que acertam ganham 1 ponto, os que erram não perdem nada.">
+                                    <input class="filter-input" type="radio" id="default" name="score" value="default" checked onchange="handle_input_change(3)">
+                                    <label for="default">Padrão</label>
+                                </div>
+                                <div class="filter-input-block" title="Quanto mais cedo alguém acerta, mais pontos ganha; os que erram perdem quantidades iguais de pontos.">
+                                    <input class="filter-input" type="radio" id="dinamic" name="score" value="dinamic" onchange="handle_input_change(3)">
+                                    <label for="dinamic">Dinâmica</label>
+                                </div>
+                                <div id="points-per-question">
+                                    <label for="points">Quantos pontos por questão?</label>
+                                    <input class="filter-input quantity" type="number" id="points" name="points" max="1000000" min="1" value="100" oninput="validity.valid||(value=100);">
+                                </div>
+
+                                
+                                <i class="material-icons" id="help-icon" onclick="show_modal()">live_help
+                                </i>
+                                
+                                <!-- The Modal -->
+                                <div id="myModal" class="modal">
+
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                    <span class="close" onclick="hide_modal()">&times;</span>
+                                    <p style="margin-bottom: 20px;"> <span style="color: #ffe876; font-weight: bold;">Pontuação Padrão: </span> Todos que acertam ganham 1 ponto, os que erram não perdem nada.</p>
+                                    <p> <span style="color: #ffe876; font-weight: bold;">Pontuação Dinâmica: </span> Os <u>pontos por questão</u> são divididos DESIGUALMENTE entre todos os que acertarem, quanto mais cedo o jogador acerta mais pontos ganha. Por outro lado, os <u>pontos por questão</u> se transformam em débito que será dividido IGUALMENTE entre os jogadores que errarem. </p>
+                                    </div>           
+                                </div>
+                                
+                            </div>
+                        </div>
+
                         <div id="button-div">
                             <button id="start-button">Começar</button>
                         </div>

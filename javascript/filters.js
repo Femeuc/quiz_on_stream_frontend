@@ -24,28 +24,42 @@ client.on('message', (channel, tags, message, self) => {
     chat_messages_div.scrollTop = chat_messages_div.scrollHeight;
 });
 
-function handleCheckboxChange() {
-    let general_subjects = document.querySelector('#general-matters');
-    if (document.querySelector('#general-matters-checkbox').checked) {
-        general_subjects.style.display = "grid";
-    } else {
-        general_subjects.style.display = "none";
+function handle_input_change(input_type) {
+
+    if(input_type == 1) { // 1 -> general questions and specific questions inputs
+        let general_subjects = document.querySelector('#general-matters');
+        if (document.querySelector('#general-matters-checkbox').checked) {
+            general_subjects.style.display = "grid";
+        } else {
+            general_subjects.style.display = "none";
+        }
+
+        let specific_subjects = document.querySelector('#specific-matters');
+        if (document.querySelector('#specific-matters-checkbox').checked) {
+            specific_subjects.style.display = "grid";
+        } else {
+            specific_subjects.style.display = "none";
+        }
+        return;
     }
 
-    let specific_subjects = document.querySelector('#specific-matters');
-    if (document.querySelector('#specific-matters-checkbox').checked) {
-        specific_subjects.style.display = "grid";
-    } else {
-        specific_subjects.style.display = "none";
+    if(input_type == 2) { // 2 -> time input
+        let how_much_time = document.querySelector('#how-much-time');
+        if (document.querySelector('#predefined').checked) {
+            how_much_time.style.display = "inline";
+        } else {
+            how_much_time.style.display = "none";
+        }
+        return;
     }
 
-    let how_much_time = document.querySelector('#how-much-time');
-    if (document.querySelector('#predefined').checked) {
-        how_much_time.style.display = "inline";
+    // input type 3 -> points per question input
+    let points_per_question = document.querySelector('#points-per-question');
+    if (document.querySelector('#default').checked) {
+        points_per_question.style.display = "none";
     } else {
-        how_much_time.style.display = "none";
+        points_per_question.style.display = "inline";
     }
-
 }
 
 
@@ -130,6 +144,7 @@ start_button.onclick = async function() {
     const subjects = [];
     const difficulties = [];
     let time;
+    let score_type;
 
     for (let i = 0; i < filters_inputs.length; i++) {
 
@@ -140,11 +155,15 @@ start_button.onclick = async function() {
                 difficulties.push(filters_inputs[i]);
                 break;
             
-            case 'dinamic':
+            case 'timeless':
             case 'predefined':
                 time = filters_inputs[i];
                 break;
-            
+            case 'default':
+            case 'dinamic':
+                score_type = filters_inputs[i];
+                break;
+
             default:
                 subjects.push(filters_inputs[i]);
         }
@@ -154,7 +173,7 @@ start_button.onclick = async function() {
         alert("Você precisa marcar pelo menos um dos filtro de abrangência e um de dificuldade. ");
         return;
     }
-
+    
     const response = await get_all_questions_ids(subjects, difficulties);
 
     if(response.length < 1) {
@@ -164,11 +183,13 @@ start_button.onclick = async function() {
 
     localStorage.setItem("questions_ids", JSON.stringify(response));
     localStorage.setItem('time', time);
-    localStorage.setItem('seconds', time == 'dinamic' ? 0 : document.querySelector('#quantity').value);
+    localStorage.setItem('seconds', time == 'timeless' ? 0 : document.querySelector('#quantity').value);
+    
+    localStorage.setItem('score_type', score_type);
+    localStorage.setItem('points_per_question', score_type == 'default' ? 0 : document.querySelector('#points').value);
 
     window.open('questions.html', '_self');
 };
-
 
 async function get_all_questions_ids(subjects, difficulties) {
     let api_url = "https://quiz-on-stream.herokuapp.com/questions/filters?";
@@ -186,4 +207,22 @@ async function get_all_questions_ids(subjects, difficulties) {
     const data = await response.json();
 
     return data.response;
+}
+
+
+let modal = document.querySelector("#myModal");
+
+function show_modal() {
+    modal.style.display = "flex";
+}
+
+function hide_modal() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
