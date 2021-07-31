@@ -132,6 +132,8 @@
     color:#ffe876;
 }
 
+
+/* Modal css */
 #main .modal {
   display: none; 
   position: fixed;

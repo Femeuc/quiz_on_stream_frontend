@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz on Stream | Questões</title>
     <link rel="stylesheet" href="../css/questions.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body id="body">
     <div id="page-container">
@@ -32,6 +33,24 @@
                         <li id="op_c">C. Buscando dados...</li>
                         <li id="op_d">D. Buscando dados...</li>
                     </ol>   
+                    
+                    <i class="material-icons" id="report-icon" onclick="show_modal()">report_problem</i>
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close" onclick="hide_modal()">&times;</span>
+                            <h3 id="report-title">Reportar Questão</h3>
+                            <div style="display: flex; flex-direction: row;" id="report-div">
+                                <input type="text" placeholder="Motivo..." class="inside" id="motive">
+                                <button class="inside" id="report-button">Reportar</button>
+                                </div>
+                            <div style="display: flex; flex-direction: row;" id="disregard-score-div">
+                                <p class="inside" id="disregard-text">Desconsiderar essa questão: nenhum jogador vai ganhar ou perder pontos.</p>
+                                <button class="inside" id="zero-button" onclick="disregard_question()">Desconsiderar</button> </div>
+                        </div>           
+                    </div>
+
                     <div id="question-info">
                         <span>Assunto: <span class="question-info-data" id="question-info-subject">Geografia</span> </span>
                         <span>Dificuldade: <span class="question-info-data" id="question-info-difficulty">Difícil</span> </span>

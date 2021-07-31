@@ -7,6 +7,8 @@ const can_repeat_question = false;  // Assumindo que o usuário não quer repeti
 let is_time_to_answer_over = false;
 let answers_order = 0;
 let remaining_points_of_current_question = localStorage.getItem('points_per_question');
+let should_disregard_question = false;
+let was_question_disregarded = false;
 
 console.log(questions_ids);
 
@@ -56,6 +58,7 @@ async function initialize_page() {
     hideElements();
     current_question = await get_question_by_id();
     remaining_points_of_current_question = localStorage.getItem('points_per_question');
+    was_question_disregarded = false;
     load_question();
     
     document.querySelector('#stop-button').style.display = "inline-block";
@@ -116,6 +119,12 @@ function stop_question() {
     if(!is_time_to_answer_over) {
         if(!confirm("Confirme que deseja parar a questão.")) return;
         is_time_to_answer_over = true;
+    }
+
+    if(should_disregard_question) {
+        empty_all_players_answers();
+        should_disregard_question = false;
+        was_question_disregarded = true;
     }
 
     document.querySelector('#stop-button').style.display = "none";
@@ -533,4 +542,51 @@ function wrong_players_amount() {
         amount += options_statistics[3];
 
     return amount;
+}
+
+function disregard_question() {
+    if(!is_time_to_answer_over) {
+        modal.style.display = 'none';
+        should_disregard_question = true;
+        stop_question();
+        return;
+    }
+
+    if(was_question_disregarded) return;
+
+    disregard_score();
+    empty_all_players_answers();
+    modal.style.display = 'none';
+    should_disregard_question = true;
+    stop_question();
+}
+
+function empty_all_players_answers() {
+    players.forEach(player => {
+        player.answer = '';
+    });
+}
+
+function disregard_score() {
+    players.forEach(player => {
+        player.score -= player.score_change;
+    });
+}
+
+/* Modal logic */
+let modal = document.querySelector("#myModal");
+
+function show_modal() {
+    modal.style.display = "flex";
+}
+
+function hide_modal() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
