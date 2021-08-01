@@ -225,8 +225,12 @@ function update_scores() {
 
     // if score_type is default
     for(let i = 0; i < players.length; i++) {
-        if(players[i].answer.length < 1) continue; // this player hasn't even answered
+        if(players[i].answer.length < 1) {
+            players[i].score_change = 0;
+            continue; // this player hasn't even answered
+        } 
         if(did_player_answer_correctly(players[i].answer)) {
+            players[i].score_change = 1;
             players[i].score += 1;
         }
     }
