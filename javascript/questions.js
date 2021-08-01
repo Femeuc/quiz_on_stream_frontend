@@ -573,6 +573,39 @@ function disregard_score() {
     });
 }
 
+function report_question() {
+    const question_id = current_question[0].question_id;
+    const question_description = current_question[0].description.substring(0, 100);
+    const motive = document.querySelector('#motive').value;
+
+    fetch("https://quiz-on-stream.herokuapp.com/question/report", {
+                
+        // Adding method type
+        method: "POST",
+            
+        // Adding body or contents to send
+        body: JSON.stringify({
+            question_id: question_id,
+            question_description: question_description,
+            motive: motive
+        }),
+            
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function (response) {
+        if(response.status == 200) {
+            alert("Reporte enviado!");
+        }
+        else
+            alert("Erro ao enviar reporte. Status: " + response.status);
+    })
+    
+    modal.style.display = 'none';
+}
+
 /* Modal logic */
 let modal = document.querySelector("#myModal");
 

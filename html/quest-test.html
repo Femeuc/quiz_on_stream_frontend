@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz on Stream | Questões</title>
+    <link rel="stylesheet" href="../css/quest-test.css">
+</head>
+<body id="body">
+    <div id="page-container">
+        <header id="header">
+            <div id="header-title">
+                <h1 id="h1">QUESTÃO <span id="question-number">1</span></h1>  
+            </div>
+        </header>
+
+        <div id="main-container">
+            <main id="main">
+
+                <span class="decoration" id="top-left"></span>
+                <span class="decoration" id="top-right"></span>
+                <span class="decoration" id="bottom-left"></span>
+                <span class="decoration" id="bottom-right"></span>
+                
+
+                <div id="grid-container">
+
+                    <section id="question-section">
+                        <h2 class="h2"> <span id="question-number-rounded">1</span> <span id="question-description">Buscando dados...</span></h2>
+                        <ol type="A" id="question-options">
+                            <li id="op_a"> <span class="rounded-options">A. Buscando dados...</li>
+                            <li id="op_b"> <span class="rounded-options">B. Buscando dados... </li>
+                            <li id="op_c"> <span class="rounded-options">C. Buscando dados...</li>
+                            <li id="op_d"> <span class="rounded-options">D. Buscando dados...</li>
+                        </ol>   
+                        <div id="question-info">
+                            <span>Assunto: <span class="question-info-data" id="question-info-subject">Geografia</span> </span>
+                            <span>Dificuldade: <span class="question-info-data" id="question-info-difficulty">Difícil</span> </span>
+                            <span>Quem enviou: <span class="question-info-data" id="question-info-author">Femeuc</span> </span>
+                        </div>
+                    </section>
+
+                    <div id="players-overview">
+                        <section id="players-answers">
+                            <h3>Respostas dos jogadores</h3>
+                            <div class="flex-stats"><span class="option">A. </span> <span id="A-players" class="option-players"></span></div>
+                            <div class="flex-stats"><span class="option">B. </span> <span id="B-players" class="option-players"></span></div>
+                            <div class="flex-stats"><span class="option">C. </span> <span id="C-players" class="option-players"></span></div>
+                            <div class="flex-stats"><span class="option">D. </span> <span id="D-players" class="option-players"></span></div>
+                        </section>
+                    
+                        <section id="statistics">
+                            <h3>Porcentagem de votos</h3>
+                            <div class="flex-stats"><div class="option">A. </div> <div id="A-stats"></div></div>
+                            <div class="flex-stats"><div class="option">B. </div> <div id="B-stats"></div></div>
+                            <div class="flex-stats"><div class="option">C. </div> <div id="C-stats"></div></div>
+                            <div class="flex-stats"><div class="option">D. </div> <div id="D-stats"></div></div>
+                        </section>
+                    </div>
+                </div>
+
+                <div style="display: none;">
+                <button class="button" id="stop-button" onclick="stop_question()">Parar</button>
+                <section id="scores">
+                    <h3 class="h3">Pontuação</h3>
+                    <ul id="players-scores-list">
+                        <li id="player-score-header" class="player-score-li">
+                            <span id="player-name-header">Nome</span> 
+                            <span id="question-score-header">Questão 1</span>
+                            <span id="general-score-header">Geral</span>
+                        </li>       
+                    </ul>
+                </section>
+                <section id="buttons">
+                    <button class="button" id="end-quiz-button" onclick="end_quiz()">< Terminar</button>
+                    <button class="button" id="next-question-button" onclick="next_question()">Próxima ></button>
+                </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+
+    </footer>
+
+    <script src="../libs/tmi.min.js"></script>
+</body>
+</html>
