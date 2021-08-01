@@ -336,6 +336,7 @@ function end_quiz() {
     document.querySelector('#question-info').style.display = "none";
     document.querySelector('#statistics').style.display = "none";
     document.querySelector('#players-answers').style.display = "none";
+    document.querySelector('#report-icon').style.display = "none";
     change_stop_button_action();
     load_final_score_screen();
 }
