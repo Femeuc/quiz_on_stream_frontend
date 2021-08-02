@@ -133,8 +133,12 @@
                                     <label for="dinamic">Dinâmica</label>
                                 </div>
                                 <div id="points-per-question">
-                                    <label for="points">Quantos pontos por questão?</label>
-                                    <input class="filter-input quantity" type="number" id="points" name="points" max="1000000" min="1" value="100" oninput="validity.valid||(value=100);">
+                                    <label for="points">Pontos por questão?</label>
+                                    <input class="filter-input quantity" style="width: 85px;" type="number" id="points" name="points" max="1000000" min="1" value="100" oninput="validity.valid||(value=100);">
+                                </div>
+                                <div id="bonus-percentage">
+                                    <label for="percentage">Taxa de Bônus %</label>
+                                    <input class="filter-input quantity" type="number" id="percentage" name="percentage" max="100" min="1" value="25" oninput="validity.valid||(value=25);">
                                 </div>
 
                                 

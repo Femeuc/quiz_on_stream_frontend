@@ -115,7 +115,7 @@
     display: inline-block;
     margin-right: 25px;
 }
-#main #general-matters, #main #specific-matters, #main #how-much-time, #main #points-per-question {
+#main #general-matters, #main #specific-matters, #main #how-much-time, #main #points-per-question, #main #bonus-percentage {
     display: none;
 }
 #main input.quantity {

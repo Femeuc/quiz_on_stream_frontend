@@ -521,7 +521,7 @@ function get_player_dinamic_score(player) {
         if(correct_players_amount < 2) {
             score = remaining_points_of_current_question;    
         } else {
-            score = remaining_points_of_current_question / correct_players_amount * 1.25;
+            score = remaining_points_of_current_question / correct_players_amount * ( 100 + parseInt(localStorage.getItem('bonus_percentage')) ) /100;
         }
         score = parseFloat(Math.round((score * 10) / 10).toFixed(1));
         remaining_points_of_current_question -= score;
@@ -529,7 +529,7 @@ function get_player_dinamic_score(player) {
         return score;
     }
     // if player voted wrong option
-    const score = localStorage.getItem('points_per_question') / wrong_players_amount();
+    const score = parseInt( localStorage.getItem('points_per_question')) / wrong_players_amount();
     return parseFloat(-Math.round((score * 10) / 10).toFixed(1));
 }
 
