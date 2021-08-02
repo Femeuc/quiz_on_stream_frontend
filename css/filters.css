@@ -100,7 +100,7 @@
 
 #main .filter-div {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 25% 75%;
 }
 #main .filter-div-item{
     color: white;
