@@ -95,7 +95,7 @@ function add_general_subjects(data) {
         const general_matters_label = document.createElement("LABEL");
 
         filter_input_block.className = "filter-input-block";
-        general_matters_input.className = "filter-input";
+        general_matters_input.className = "filter-input filter-input-general";
         general_matters_input.type = "checkbox";
         general_matters_input.id = `${data[i].subject}`;
         general_matters_label.setAttribute("for", general_matters_input.id);
@@ -209,7 +209,25 @@ async function get_all_questions_ids(subjects, difficulties) {
     return data.response;
 }
 
+function check_all_boxes() {
+    const select_all_input = document.querySelector('#Todos999All');
+    const all_filters = document.querySelectorAll('.filter-input-general');
 
+    if(select_all_input.checked) {
+        all_filters.forEach(element => {
+            element.checked = true;
+        });
+        return;
+    }
+
+    // Undo select all
+    all_filters.forEach(element => {
+        element.checked = false;
+    });
+}
+
+
+/* Modal Logic */
 let modal = document.querySelector("#myModal");
 
 function show_modal() {
