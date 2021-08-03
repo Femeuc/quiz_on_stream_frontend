@@ -9,6 +9,7 @@ let answers_order = 0;
 let remaining_points_of_current_question = localStorage.getItem('points_per_question');
 let should_disregard_question = false;
 let was_question_disregarded = false;
+let audio = false;
 
 console.log(questions_ids);
 
@@ -129,6 +130,7 @@ function stop_question() {
 
     document.querySelector('#stop-button').style.display = "none";
 
+    if(audio) pause_audio();
     showElements();
     highlight_correct_option();
     update_scores();
@@ -250,6 +252,7 @@ function next_question() {
     clear_correct_option_highlight();
     clear_players_answers();
 
+    if(audio) play_audio();
     initialize_page();
     question_number += 1;
     reset_statistics();
@@ -341,6 +344,7 @@ function end_quiz() {
     document.querySelector('#statistics').style.display = "none";
     document.querySelector('#players-answers').style.display = "none";
     document.querySelector('#report-icon').style.display = "none";
+    if(audio) pause_audio();
     change_stop_button_action();
     load_final_score_screen();
 }
@@ -609,6 +613,64 @@ function report_question() {
     })
     
     modal.style.display = 'none';
+}
+
+function switch_on_off_audio() {
+    audio = !audio;
+
+    if (play_audio()) return;
+    pause_audio();
+}
+
+// Returns true if completely executed
+function play_audio() {
+    const icon = document.querySelector('div#audio i');
+    const audio = document.querySelector('audio');
+
+    if( !(icon.innerText == 'volume_off') )  return false;
+
+    icon.innerText = 'volume_up';
+    audio.src = `../audio/${ choose_random_song() }`;
+    audio.play();
+    audio.volume = 1;
+    return true;
+}
+
+// Returns true if completely executed
+function pause_audio() {
+    const icon = document.querySelector('div#audio i');
+    const audio = document.querySelector('audio');
+
+    if( !(icon.innerText == 'volume_up')) return false;
+
+    icon.innerText = 'volume_off';
+    fade_volume();
+    setTimeout(function() {audio.pause();}, 1500);
+    return true;
+}
+
+function choose_random_song() {
+    const songs = [
+        'LsThemeA.mp3',
+        'suspenseBackgroundSong1.mp3',
+        'suspenseBackgroundSong2.mp3',
+        'suspenseBackgroundSong3.mp3'
+    ]
+
+    return songs[Math.floor(Math.random()*songs.length)];
+}
+
+function fade_volume() {
+    const audio = document.querySelector('audio');
+    const interval = 200;
+
+    const fadeout = setInterval( function() {
+        if (audio.volume > 0.15) {
+            audio.volume -= 0.1;
+            return;
+        }
+        clearInterval(fadeout);
+    }, interval);
 }
 
 /* Modal logic */

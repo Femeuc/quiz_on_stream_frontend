@@ -354,6 +354,22 @@
 }
 
 
+/* Audio Styling */
+audio { display: none; }
+
+div#audio i{
+    font-size: 50px;
+    position: absolute;
+    right: 0px;
+    top: 0;
+    padding: 10px;
+    margin: 10px;
+    background-color: hsl(220, 100%, 36%);
+    color: white;
+    cursor: pointer;
+}
+
+
 /* Media Queries */
 @media only screen and (max-width: 1200px) {
 
