@@ -1,3 +1,54 @@
+/*
+// 1. Global variables
+// 2. tmi Client
+// 3. client.on 'message'
+// 4. initialize_page()
+// 5. get_question_by_id()
+// 6. hideElements()
+// 7. showElements()
+// 8. load_question()
+// 9. stop_question()
+// 10. does_player_exist()
+// 11. did_this_player_answer()
+// 12. add_this_player_answer()
+// 13. show_scores()
+// 14. did_player_answer_correctly()
+// 15. update_scores()
+// 16. sort_scores()
+// 17. next_question()
+// 18. reset_players_answers()
+// 19. manage_question_repetition()
+// 20. clear_scores_list()
+// 21. update_statistics()
+// 22. end_quiz()
+// 23. change_stop_button_action()
+// 24. manage_time()
+// 25. create_timer()
+// 26. load_final_score_screen()
+// 27. reset_statistics()
+// 28. highlight_correct_option()
+// 29. clear_correct_option_highlight()
+// 30. clear_players_answers()
+// 31. truncate_player_name()
+// 32. answer_to_index()
+// 33. get_answer_order()
+// 34. sort_players_by_answers_order()
+// 35. get_player_dinamic_score()
+// 36. wrong_players_amount()
+// 37. disregard_question()
+// 38. empty_all_players_answers()
+// 39. disregard_score()
+// 40. report_question()
+// 41. switch_on_off_audio()
+// 42. play_audio()
+// 43. pause_audio()
+// 44. choose_random_song()
+// 45. fade_volume()
+// 46. show_modal()
+// 47. hide_modal()
+// 48. window.onclick
+*/
+
 const questions_ids = JSON.parse(localStorage['questions_ids']);
 let question_number = 1;
 const players = [];
@@ -389,7 +440,7 @@ function create_timer(amount_of_seconds) {
     time_span.style.color = 'white';
     time_span.style.fontSize = '35px';
     time_span.style.position = 'fixed';
-    time_span.style.right = '3%';
+    time_span.style.left = '3%';
     time_span.style.top = '3%';
     time_span.style.borderRadius = '10%';
 
