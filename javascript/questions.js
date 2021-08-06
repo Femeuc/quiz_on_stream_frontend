@@ -40,13 +40,16 @@
 // 39. disregard_score()
 // 40. report_question()
 // 41. switch_on_off_audio()
-// 42. play_audio()
-// 43. pause_audio()
-// 44. choose_random_song()
-// 45. fade_volume()
-// 46. show_modal()
-// 47. hide_modal()
-// 48. window.onclick
+// 42. show_general_score();
+// 43. show_question_score();
+// 44. get_score_li(element);
+// . play_audio()
+// . pause_audio()
+// . choose_random_song()
+// . fade_volume()
+// . show_modal()
+// . hide_modal()
+// . window.onclick
 */
 
 const questions_ids = JSON.parse(localStorage['questions_ids']);
@@ -61,6 +64,7 @@ let remaining_points_of_current_question = localStorage.getItem('points_per_ques
 let should_disregard_question = false;
 let was_question_disregarded = false;
 let audio = false;
+let score_context = 'general';
 
 console.log(questions_ids);
 
@@ -223,36 +227,19 @@ function add_this_player_answer(player_name, player_answer) {
     }
 }
 
-function show_scores() {
-    const players_scores_list = document.querySelector('#players-scores-list');
+function show_scores( switch_context = false ) {
+    const scores_h3 = document.querySelector('#scores .h3');
 
-    clear_scores_list(players_scores_list);
+    if(switch_context)
+        score_context = score_context == 'general' ? 'current' : 'general';
 
-    for(let i = 0; i < players.length; i++) {
-        
-        const player_score_li = document.createElement('LI');
-        const player_item_span = document.createElement('SPAN');
-        const question_score_span = document.createElement('SPAN');
-        const general_score_span = document.createElement('SPAN');
+    let h3_innerHTML = '<span class="score-context" onclick="show_scores(true)"><</span> ';
+    h3_innerHTML += score_context == 'general' ? 'Pontuação Geral': 'Pontuação Dessa Questão';
+    h3_innerHTML += ' <span class="score-context" onclick="show_scores(true)">></span>';
 
-        player_score_li.className = "player-score-li";
-        player_item_span.className = "player-item";
-        question_score_span.className = did_player_answer_correctly(players[i].answer) ? "question-score-correct" : "question-score-wrong";
-        general_score_span.className = "general-score";
+    scores_h3.innerHTML = h3_innerHTML;
 
-        player_item_span.innerText = truncate_player_name(players[i].name, 20);
-        if(localStorage.getItem('score_type') == 'dinamic') {
-            question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? `+${players[i].score_change}` : players[i].score_change;
-        } else {
-            question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? `+ 1` : 0;
-        }
-        general_score_span.innerText = players[i].score + " pts.";
-
-        players_scores_list.appendChild(player_score_li);
-        player_score_li.appendChild(player_item_span);
-        player_score_li.appendChild(question_score_span);
-        player_score_li.appendChild(general_score_span);
-    }
+    score_context == 'general' ? show_general_score() : show_question_score();
 }
 
 function did_player_answer_correctly(answer) {
@@ -380,11 +367,21 @@ function update_statistics(player_name, answer) {
 
     const options_votes_total = options_statistics[0] + options_statistics[1] + options_statistics[2] + options_statistics[3];
     console.log(options_votes_total);
-    document.querySelector('#A-stats').style.width = `${options_statistics[0] / options_votes_total * 100}%`;
-    document.querySelector('#B-stats').style.width = `${options_statistics[1] / options_votes_total * 100}%`;
-    document.querySelector('#C-stats').style.width = `${options_statistics[2] / options_votes_total * 100}%`;
-    document.querySelector('#D-stats').style.width = `${options_statistics[3] / options_votes_total * 100}%`;
 
+    const A_percentage = `${(options_statistics[0] / options_votes_total * 100).toFixed(1)}%`;
+    const B_percentage = `${(options_statistics[1] / options_votes_total * 100).toFixed(1)}%`;
+    const C_percentage = `${(options_statistics[2] / options_votes_total * 100).toFixed(1)}%`;
+    const D_percentage = `${(options_statistics[3] / options_votes_total * 100).toFixed(1)}%`;
+
+    document.querySelector('#A-stats').style.width = A_percentage;
+    document.querySelector('#B-stats').style.width = B_percentage;
+    document.querySelector('#C-stats').style.width = C_percentage;
+    document.querySelector('#D-stats').style.width = D_percentage;
+
+    document.querySelector('#A-percentage').innerText = A_percentage;
+    document.querySelector('#B-percentage').innerText = B_percentage;
+    document.querySelector('#C-percentage').innerText = C_percentage;
+    document.querySelector('#D-percentage').innerText = D_percentage;
 }
 
 function end_quiz() {
@@ -495,6 +492,11 @@ function reset_statistics() {
     document.querySelector('#B-stats').style.width = `0%`;
     document.querySelector('#C-stats').style.width = `0%`;
     document.querySelector('#D-stats').style.width = `0%`;
+
+    document.querySelector('#A-percentage').innerText = "0%";
+    document.querySelector('#B-percentage').innerText = "0%";
+    document.querySelector('#C-percentage').innerText = "0%";
+    document.querySelector('#D-percentage').innerText = "0%";
 }
 
 function highlight_correct_option() {
@@ -664,6 +666,56 @@ function report_question() {
     })
     
     modal.style.display = 'none';
+}
+
+function show_general_score() {
+    const players_scores_list = document.querySelector('#players-scores-list');
+    clear_scores_list(players_scores_list);
+
+    players.forEach(element => {
+        players_scores_list.appendChild(get_score_li(element));
+    }); 
+}
+
+function show_question_score() {
+    const players_scores_list = document.querySelector('#players-scores-list');
+    clear_scores_list(players_scores_list);
+
+    const question_players = [...players];
+
+    question_players.sort(function (a, b) {
+        return b.score_change - a.score_change;
+    })   
+
+    question_players.forEach(element => {
+        players_scores_list.appendChild(get_score_li(element));
+    }); 
+}
+
+function get_score_li(element) {
+    const player_score_li = document.createElement('LI');
+    const player_item_span = document.createElement('SPAN');
+    const question_score_span = document.createElement('SPAN');
+    const general_score_span = document.createElement('SPAN');
+
+    player_score_li.className = "player-score-li";
+    player_item_span.className = "player-item";
+    question_score_span.className = did_player_answer_correctly(element.answer) ? "question-score-correct" : "question-score-wrong";
+    general_score_span.className = "general-score";
+
+    player_item_span.innerText = truncate_player_name(element.name, 20);
+    if(localStorage.getItem('score_type') == 'dinamic') {
+        question_score_span.innerText = did_player_answer_correctly(element.answer) ? `+${element.score_change}` : element.score_change;
+    } else {
+        question_score_span.innerText = did_player_answer_correctly(element.answer) ? `+ 1` : 0;
+    }
+    general_score_span.innerText = element.score + " pts.";
+    
+    player_score_li.appendChild(player_item_span);
+    player_score_li.appendChild(question_score_span);
+    player_score_li.appendChild(general_score_span);
+
+    return player_score_li;
 }
 
 function switch_on_off_audio() {

@@ -135,6 +135,12 @@
     font-family: monospace;
     text-align: center;
 }
+#main .score-context {
+    margin: auto 50px;
+    font-size: 40px;
+    cursor: pointer;
+}
+#main .score-context:hover { opacity: 0.8; }
 
 #main #question-info {
     color: rgb(255, 255, 255);
@@ -187,6 +193,14 @@
     margin-right: 10px;
     background: black;
     padding: 5px;
+}
+
+#statistics .percentages {
+    display: flex; 
+    align-items: center; 
+    padding: 0; 
+    font-size: 20px; 
+    margin-left: 10px;
 }
 
 #A-stats {

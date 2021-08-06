@@ -79,15 +79,15 @@
             
                 <section id="statistics">
                     <h3>Porcentagem de votos</h3>
-                    <div class="flex-stats"><div class="option">A. </div> <div id="A-stats"></div></div>
-                    <div class="flex-stats"><div class="option">B. </div> <div id="B-stats"></div></div>
-                    <div class="flex-stats"><div class="option">C. </div> <div id="C-stats"></div></div>
-                    <div class="flex-stats"><div class="option">D. </div> <div id="D-stats"></div></div>
+                    <div class="flex-stats"><div class="option">A. </div> <div id="A-stats"></div> <div class="percentages" id="A-percentage">0%</div></div>
+                    <div class="flex-stats"><div class="option">B. </div> <div id="B-stats"></div> <div class="percentages" id="B-percentage">0%</div></div>
+                    <div class="flex-stats"><div class="option">C. </div> <div id="C-stats"></div> <div class="percentages" id="C-percentage">0%</div></div>
+                    <div class="flex-stats"><div class="option">D. </div> <div id="D-stats"></div> <div class="percentages" id="D-percentage">0%</div></div>
                 </section>
 
                 <button class="button" id="stop-button" onclick="stop_question()">Parar</button>
                 <section id="scores">
-                    <h3 class="h3">Pontuação</h3>
+                    <h3 class="h3"> <span class="score-context" onclick="show_scores(true)"><</span> Pontuação Geral <span class="score-context" onclick="show_scores(true)">></span> </h3>
                     <ul id="players-scores-list">
                         <li id="player-score-header" class="player-score-li">
                             <span id="player-name-header">Nome</span> 
