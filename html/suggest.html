@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz on Stream | Sugerir</title>
+    <link rel="stylesheet" href="../css/suggest.css">
+    <script>
+        while(true) {
+            let channel = prompt("Digite o nome do canal do seu streamer?", localStorage['username']);
+            if (channel != null && channel.length > 0) {
+                localStorage.setItem('username', channel.toLocaleLowerCase());
+                break;
+            }
+        }
+    </script>
+</head>
+<body id="body">
+    <div id="page-container">
+        <header id="header">
+            <div id="header-title">
+                <h1 id="h1">QUIZ<span id="span-on">ON</span>STREAM</h1>  
+            </div>
+        </header>
+
+        <div id="main-container">
+            <main id="main">
+
+                <span class="decoration" id="top-left"></span>
+                <span class="decoration" id="top-right"></span>
+                <span class="decoration" id="bottom-left"></span>
+                <span class="decoration" id="bottom-right"></span>
+                <div id="decoration-box"></div>
+
+                <section id="add-question-container">
+                    <h2 class="h2">Sugerir questão</h2>
+                    <p>Para ser adicionada, sua sugestão precisa atender aos seguintes requisitos: NÃO ter spoiler, NÃO ter discriminação, ter sentido, ou seja, precisa ter bom senso.</p>
+                    <form id="add-question-form">
+                        <textarea placeholder="Qual é a sua pergunta?" class="input-field" rows="4" id="description-input"></textarea>
+                        <div id="options-container">
+                        <input id="option_a-input" type="text" placeholder="Alternativa A" class="input-field"> 
+                        <input id="option_b-input" type="text" placeholder="Alternativa B" class="input-field"> 
+                        <input id="option_c-input" type="text" placeholder="Alternativa C" class="input-field"> 
+                        <input id="option_d-input" type="text" placeholder="Alternativa D" class="input-field"> 
+                        </div>
+                        <select id="answer-input" class="input-field">
+                            <option value="empty">Resposta</option>
+                            <option value="a">A</option>
+                            <option value="b">B</option>
+                            <option value="c">C</option>
+                            <option value="d">D</option>
+                        </select>
+                        <select id="difficulty-input" class="input-field">
+                            <option value="easy">Fácil</option>
+                            <option value="normal">Normal</option>
+                            <option value="hard">Difícil</option>
+                        </select>
+
+                        <div id="question-subject-container" >
+                            <div class="radio-input-block">
+                                <input class="radio-subject-input" type="radio" id="channel-subjects" name="subjects" value="channel" checked onchange="handleCheckboxChange()">
+                                <label for="channel-subjects" id="channel-subjects-label">Questão para <span class="subject-owner"></span></label>
+                            </div>
+                            <div class="radio-input-block">
+                                <input class="radio-subject-input" type="radio" id="general-subjects" name="subjects" value="general" onchange="handleCheckboxChange()">
+                                <label for="general-subjects" id="general-subjects-label">Questão Geral</label>
+                            </div>
+                        </div>
+                        
+                        <select id="subject-input" class="input-field">
+                            <option value="empty"></option>
+                        </select>
+                        <input id="author-input" type="text" placeholder="Seu nome (autor)... " class="input-field"> <br>
+                    </form>
+                    <div id="button-align-div"> <button id="send-question-button" onclick="send_question()">Sugerir</button> </div>
+                </section>
+
+
+                <section id="add-subject-container">
+                    <h2 class="h2">Assunto para <span class="subject-owner"></span></h2>
+                    <input id="channel-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(false)">Sugerir</button> </div>
+                </section>
+
+                <section id="add-subject-container">
+                    <h2 class="h2">Assunto Geral</h2>
+                    <input id="general-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(true)">Sugerir</button> </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+
+    </footer>
+
+    <script src="../javascript/suggest.js"></script>
+</body>
+</html>
