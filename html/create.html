@@ -6,6 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz on Stream | Adicionar</title>
     <link rel="stylesheet" href="../css/create.css">
+    
+    <style>
+        #explanation-input {
+            margin-bottom: 10px;
+            display: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        #exp-radios {
+            margin-bottom: 10px;
+            color: white;
+        }
+        #exp-radios label {
+            margin-right: 20px;
+        }
+        
+    </style>
+
 </head>
 <body id="body">
     <div id="page-container">
@@ -41,6 +61,15 @@
                             <option value="c">C</option>
                             <option value="d">D</option>
                         </select>
+                        
+                        <div id="exp-radios">
+                            <input type="radio" value="noexp" id="noexp" name="explanation" checked onchange="switch_explanation()">
+                            <label for="noexp">Não Justificar</label>
+                            <input type="radio" value="exp" id="exp" name="explanation" onchange="switch_explanation()">
+                            <label for="exp">Justificar</label>
+                        </div>
+                        <textarea placeholder="Qual é a sua justificativa?" rows="4" id="explanation-input" ></textarea>
+
                         <select id="difficulty-input" class="input-field">
                             <option value="empty"></option>
                             <option value="easy">Fácil</option>
@@ -89,5 +118,15 @@
 
 
     <script src="../javascript/create.js"></script>
+    <script>
+        function switch_explanation() {
+            const noexp_input = document.querySelector('#noexp');
+            const exp_input = document.querySelector('#exp');
+            const exp_textarea = document.querySelector('#explanation-input');
+
+            if (exp_input.checked) { exp_textarea.style.display = "block"; return; }
+            if (noexp_input.checked) { exp_textarea.style.display = "none"; return; }
+        }
+    </script>
 </body>
 </html>

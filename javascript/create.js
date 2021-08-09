@@ -77,6 +77,8 @@ function send_question() {
     diff = adapt_inputs_to_database(difficulty);
     subj = adapt_inputs_to_database(subject);
 
+    explanation = document.querySelector('#exp').checked ? document.querySelector('#explanation-input').value.trim() : '';
+
     if(descripion.length < 1 || option_a.length < 1 || option_b.length < 1 || option_c.length < 1 || option_d.length < 1
         || answer.length != 1 || isNaN(diff) || isNaN(subj) || author.length < 1) {
 
@@ -109,10 +111,13 @@ function send_question() {
             "Content-type": "application/json; charset=UTF-8"
         }
     })
-    .then(function (response) {
+    .then(async function (response) {
         if(response.status == 200) {
             alert("Questão adicionada com sucesso!");
             clear_fields();
+            if(explanation.length < 1) return;
+            const question_response = await response.json();
+            add_question_explanation(explanation, question_response['response']);
         }
         else
             alert("Erro ao adicionar. Status: " + response.status);
@@ -145,6 +150,7 @@ function clear_fields() {
     document.querySelector('#difficulty-input').value;
     document.querySelector('#subject-input').value;
     document.querySelector('#author-input').value;
+    document.querySelector('#explanation-input').value = "";
 }
 
 
@@ -186,5 +192,18 @@ function send_subject(is_general_subject) {
         }
         else
             alert("Erro ao adicionar. Status: " + response.status);
+    })
+}
+
+function add_question_explanation(text, question_id) {
+    fetch("https://quiz-on-stream.herokuapp.com/question/explanation", {
+        method: "POST",
+        body: JSON.stringify({
+            text: text,
+            question_id: question_id
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
     })
 }
