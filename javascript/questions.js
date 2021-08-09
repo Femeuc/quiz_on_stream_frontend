@@ -749,7 +749,7 @@ function switch_on_off_audio() {
     audio = !audio;
 
     if (play_audio()) return;
-    pause_audio();
+    pause_audio(false);
 }
 
 // Returns true if completely executed
@@ -767,13 +767,18 @@ function play_audio() {
 }
 
 // Returns true if completely executed
-function pause_audio() {
+function pause_audio(fade = true) {
     const icon = document.querySelector('div#audio i');
     const audio = document.querySelector('audio');
 
     if( !(icon.innerText == 'volume_up')) return false;
 
     icon.innerText = 'volume_off';
+    if(!fade) {
+        audio.pause();
+        return;
+    }
+    // if fade is true
     fade_volume();
     setTimeout(function() {audio.pause();}, 1500);
     return true;
