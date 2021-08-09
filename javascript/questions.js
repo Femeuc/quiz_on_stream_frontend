@@ -57,6 +57,7 @@ let question_number = 1;
 const players = [];
 const options_statistics = [0, 0, 0, 0];  // 0 = A, 1 = B, 2 = C, 3 = D
 let current_question = [];
+let current_explanation = [];
 const can_repeat_question = false;  // Assumindo que o usuário não quer repetição de questões
 let is_time_to_answer_over = false;
 let answers_order = 0;
@@ -113,6 +114,7 @@ client.on('message', (channel, tags, message, self) => {
 async function initialize_page() {
     hideElements();
     current_question = await get_question_by_id();
+    current_explanation = await get_question_explanation(current_question[0].question_id);
     remaining_points_of_current_question = localStorage.getItem('points_per_question');
     was_question_disregarded = false;
     load_question();
@@ -136,6 +138,15 @@ async function get_question_by_id() {
     const response = await fetch(api_url);
     
     // Storing data in form of JSON
+    const data = await response.json();
+    return data.response;
+}
+
+async function get_question_explanation(question_id) {
+    let api_url = "https://quiz-on-stream.herokuapp.com/questions/explanation/";
+    api_url += question_id;
+
+    const response = await fetch(api_url);
     const data = await response.json();
     return data.response;
 }
@@ -169,6 +180,22 @@ function load_question() {
     document.querySelector('#question-info-difficulty').innerText = difficulty;
     document.querySelector('#question-info-author').innerText = author;
     document.querySelector('#question-info-subject').innerText = subject;
+
+    // explanation load
+    const exp_div = document.querySelector('#exp-div');
+    const exp_txt = document.querySelector('#explanation-txt');
+    const exp_btn = document.querySelector('#explanation-btn');
+
+    if(exp_div.style.display == 'block') {
+        exp_div.style.display = 'none';
+        exp_txt.style.display = 'none';
+    }
+
+    if(current_explanation.length < 1) return;
+    exp_div.style.display = 'block';
+    exp_btn.innerText = "Justificar";
+    exp_txt.innerText = current_explanation[0].text;
+    current_explanation = [];
 }
 
 function stop_question() {

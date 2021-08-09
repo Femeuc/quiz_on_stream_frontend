@@ -7,6 +7,33 @@
     <title>Quiz on Stream | Questões</title>
     <link rel="stylesheet" href="../css/questions.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        #explanation-btn {
+            background-color: green;
+            width: fit-content;
+            margin-left: auto;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+        }
+        #explanation-txt {
+            display: none;
+            background-color: rgb(0, 62, 186);
+            padding: 15px;
+            margin-bottom: 70px;
+            margin-top: 10px;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+        }
+        #exp-div {
+            display: none;
+        }
+    </style>
 </head>
 <body id="body">
     <div id="page-container">
@@ -67,6 +94,12 @@
                         <span>Dificuldade: <span class="question-info-data" id="question-info-difficulty">Difícil</span> </span>
                         <span>Quem enviou: <span class="question-info-data" id="question-info-author">Femeuc</span> </span>
                     </div>
+
+                    <div id="exp-div">
+                        <div id='explanation-btn' onclick="toggle_explanation()">Justificativa
+                        </div>
+                        <div id='explanation-txt'></div>
+                    </div>
                 </section>
 
                 <section id="players-answers">
@@ -110,5 +143,25 @@
 
     <script src="../libs/tmi.min.js"></script>
     <script src="../javascript/questions.js"></script>
+    <script>
+        const exp_text = document.querySelector('#explanation-txt');
+        const exp_btn = document.querySelector('#explanation-btn');
+        exp_text.style.display = 'none';
+
+        function toggle_explanation() {
+            if(exp_text.style.display == 'none') { 
+                if(!is_time_to_answer_over) stop_question();
+                if(!is_time_to_answer_over) return; // if stop_question was cancelled
+                exp_text.style.display = 'block'; 
+                exp_btn.innerText = "Esconder";
+                return; 
+            }
+            if(exp_text.style.display != 'none') { 
+                exp_text.style.display = 'none'; 
+                exp_btn.innerText = "Justificar";
+                return; 
+            }
+        }
+    </script>
 </body>
 </html>
