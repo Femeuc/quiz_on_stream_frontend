@@ -82,6 +82,11 @@ client.on('message', (channel, tags, message, self) => {
     if(is_time_to_answer_over) return;
     
     if(message.length == 1) {
+    /*if(message.length > 0) {
+        if (message.length < 9) { message = 'a'; }
+        else if (message.length < 16) { message = 'b'; }
+        else if (message.length < 26) { message = 'c'; }
+        else { message = 'd'; }*/
         if (message.toLowerCase() == 'a' || message.toLowerCase() == 'b' 
         || message.toLowerCase() == 'c' || message.toLowerCase() == 'd') {
 
@@ -715,6 +720,7 @@ function show_question_score() {
     })   
 
     question_players.forEach(element => {
+        if (element.score_change == 0) return;
         players_scores_list.appendChild(get_score_li(element));
     }); 
 }
@@ -727,7 +733,11 @@ function get_score_li(element) {
 
     player_score_li.className = "player-score-li";
     player_item_span.className = "player-item";
-    question_score_span.className = did_player_answer_correctly(element.answer) ? "question-score-correct" : "question-score-wrong";
+    
+    if(element.score_change > 0) { question_score_span.className = "question-score-correct"; } 
+    else if (element.score_change < 0) { question_score_span.className = 'question-score-wrong'; } 
+    else { question_score_span.className = 'question-score-zero'; }
+
     general_score_span.className = "general-score";
 
     player_item_span.innerText = truncate_player_name(element.name, 20);
