@@ -67,8 +67,6 @@ let was_question_disregarded = false;
 let audio = false;
 let score_context = 'general';
 
-console.log(questions_ids);
-
 initialize_page();
 
 const client = new tmi.Client({
@@ -87,19 +85,19 @@ client.on('message', (channel, tags, message, self) => {
         else if (message.length < 16) { message = 'b'; }
         else if (message.length < 26) { message = 'c'; }
         else { message = 'd'; }*/
+
         if (message.toLowerCase() == 'a' || message.toLowerCase() == 'b' 
         || message.toLowerCase() == 'c' || message.toLowerCase() == 'd') {
 
             const player_name = tags['display-name'];
             if(does_player_exist(player_name)) {
-                console.log("Player exists");
                 if(!did_this_player_answer(player_name)) {
                     add_this_player_answer(player_name, message.toLowerCase());
                     update_statistics(player_name, message);
                 }
 
             } else {
-                console.log("Player doesn't exist, Let's create one1");
+        
                 players.push(
                     {
                         name: player_name,
@@ -113,7 +111,6 @@ client.on('message', (channel, tags, message, self) => {
             }
         }
     }
-    console.log(players);
 });
 
 async function initialize_page() {
@@ -222,9 +219,7 @@ function stop_question() {
     highlight_correct_option();
     update_scores();
     sort_scores();
-    console.log(players);
     show_scores();
-    console.log(players);
 };
 
 function does_player_exist(player_name) {
@@ -304,6 +299,8 @@ function update_scores() {
         if(did_player_answer_correctly(players[i].answer)) {
             players[i].score_change = 1;
             players[i].score += 1;
+        } else {
+            players[i].score_change = 0;
         }
     }
 }
@@ -398,7 +395,6 @@ function update_statistics(player_name, answer) {
     }
 
     const options_votes_total = options_statistics[0] + options_statistics[1] + options_statistics[2] + options_statistics[3];
-    console.log(options_votes_total);
 
     const A_percentage = `${(options_statistics[0] / options_votes_total * 100).toFixed(1)}%`;
     const B_percentage = `${(options_statistics[1] / options_votes_total * 100).toFixed(1)}%`;
@@ -441,7 +437,6 @@ function change_stop_button_action() {
 function manage_time(amount_of_seconds, is_countdown_creation) {
     if(is_time_to_answer_over) { return;}
 
-    console.log(amount_of_seconds);
     if(is_countdown_creation) {
         create_timer(amount_of_seconds);
         amount_of_seconds--;
@@ -756,7 +751,10 @@ function get_score_li(element) {
 }
 
 function switch_on_off_audio() {
-    audio = !audio;
+    if(!is_time_to_answer_over)
+        audio = !audio; 
+    else
+        audio = true;
 
     if (play_audio()) return;
     pause_audio(false);
