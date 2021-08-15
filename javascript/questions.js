@@ -280,7 +280,7 @@ function update_scores() {
 
         for(let i = 0; i < players.length; i++) {
             if(players[i].answer.length < 1) {
-                players[i].score_change = -localStorage['inactivity_debt'];
+                players[i].score_change = was_question_disregarded ? 0 : -localStorage['inactivity_debt'];
                 players[i].score += players[i].score_change;
                 continue; // this player hasn't even answered
             }
