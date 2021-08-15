@@ -47,6 +47,7 @@
                     <source src="../audio/suspenseBackgroundSong1.mp3" type="audio/mpeg">
                     Seu navegador não suporta áudio.
                 </audio>
+                <input type="number" max="10" min="1" value="5" oninput="validity.valid||(value=5);">
                 <i class="material-icons" onclick="switch_on_off_audio()">
                     volume_off
                 </i>
@@ -162,6 +163,22 @@
                 return; 
             }
         }
+
+        const audio_div = document.querySelector('div#audio');
+        const audio_icon = document.querySelector('div#audio i');
+        const volume = document.querySelector('div#audio input');
+        const audio_element = document.querySelector('div#audio audio');
+        audio_element.volume = 0.5;
+
+        audio_icon.addEventListener("mouseenter", function( event ) {
+            volume.style.display = 'inline-block';
+        });
+        audio_div.addEventListener('mouseleave', function(event) {
+            volume.style.display = 'none';
+        });
+        volume.addEventListener('change', function(event) {
+            audio_element.volume = volume.value / 10;
+        });
     </script>
 </body>
 </html>

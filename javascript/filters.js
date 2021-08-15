@@ -56,12 +56,15 @@ function handle_input_change(input_type) {
     // input type 3 -> points per question input and bonus percentage
     let points_per_question = document.querySelector('#points-per-question');
     let bonus_percentage = document.querySelector('#bonus-percentage');
+    let inactivity_debt = document.querySelector('#inactivity-debt');
     if (document.querySelector('#default').checked) {
         points_per_question.style.display = "none";
         bonus_percentage.style.display = "none";
+        inactivity_debt.style.display = 'none';
     } else {
         points_per_question.style.display = "inline";
         bonus_percentage.style.display = "inline";
+        inactivity_debt.style.display = 'inline';
     }
 }
 
@@ -191,6 +194,7 @@ start_button.onclick = async function() {
     localStorage.setItem('score_type', score_type);
     localStorage.setItem('points_per_question', score_type == 'default' ? 0 : document.querySelector('#points').value);
     localStorage.setItem('bonus_percentage', score_type == 'default' ? 0 : document.querySelector('#percentage').value);
+    localStorage.setItem('inactivity_debt', score_type == 'default' ? 0 : document.querySelector('#debt').value);
 
     window.open('questions.html', '_self');
 };

@@ -373,16 +373,25 @@
 /* Audio Styling */
 audio { display: none; }
 
-div#audio i{
-    font-size: 50px;
+div#audio {
     position: absolute;
     right: 3%;
     top: 3%;
+}
+
+div#audio i{
+    font-size: 50px;
     padding: 10px;
-    margin: 10px;
+    margin: 10px 10px 10px 0px;
+    cursor: pointer;
     background-color: hsl(220, 100%, 36%);
     color: white;
-    cursor: pointer;
+}
+div#audio input {
+    font-size: 40px;
+    width: 60px;
+    height: 100%;
+    display: none;
 }
 
 

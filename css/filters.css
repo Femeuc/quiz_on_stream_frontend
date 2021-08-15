@@ -115,7 +115,8 @@
     display: inline-block;
     margin-right: 25px;
 }
-#main #general-matters, #main #specific-matters, #main #how-much-time, #main #points-per-question, #main #bonus-percentage {
+#main #general-matters, #main #specific-matters, #main #how-much-time, #main #points-per-question, 
+#main #bonus-percentage, #main #inactivity-debt {
     display: none;
 }
 #main input.quantity {

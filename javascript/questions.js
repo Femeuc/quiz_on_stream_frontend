@@ -280,7 +280,8 @@ function update_scores() {
 
         for(let i = 0; i < players.length; i++) {
             if(players[i].answer.length < 1) {
-                players[i].score_change = 0;
+                players[i].score_change = -localStorage['inactivity_debt'];
+                players[i].score += players[i].score_change;
                 continue; // this player hasn't even answered
             }
             const dinamic_score = get_player_dinamic_score(players[i]);
@@ -770,7 +771,6 @@ function play_audio() {
     icon.innerText = 'volume_up';
     audio.src = `../audio/${ choose_random_song() }`;
     audio.play();
-    audio.volume = 1;
     return true;
 }
 
@@ -782,18 +782,13 @@ function pause_audio(fade = true) {
     if( !(icon.innerText == 'volume_up')) return false;
 
     icon.innerText = 'volume_off';
-    if(!fade) {
-        audio.pause();
-        return;
-    }
-    // if fade is true
-    fade_volume();
-    setTimeout(function() {audio.pause();}, 1500);
+    audio.pause();
     return true;
 }
 
 function choose_random_song() {
     const songs = [
+        'LsThemeA.mp3',
         'LsThemeA.mp3',
         'suspenseBackgroundSong1.mp3',
         'suspenseBackgroundSong2.mp3',

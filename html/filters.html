@@ -132,19 +132,21 @@
                                     <input class="filter-input" type="radio" id="dinamic" name="score" value="dinamic" onchange="handle_input_change(3)">
                                     <label for="dinamic">Dinâmica</label>
                                 </div>
-                                <div id="points-per-question">
-                                    <label for="points">Pontos por questão?</label>
-                                    <input class="filter-input quantity" style="width: 85px;" type="number" id="points" name="points" max="1000000" min="1" value="100" oninput="validity.valid||(value=100);">
+                                <i class="material-icons" id="help-icon" onclick="show_modal()">live_help</i>
+                                <div id="dinamic-score">
+                                    <div id="points-per-question">
+                                        <label for="points">Pontos por questão?</label>
+                                        <input class="filter-input quantity" style="width: 85px;" type="number" id="points" name="points" max="1000000" min="1" value="100" oninput="validity.valid||(value=100);">
+                                    </div>
+                                    <div id="bonus-percentage">
+                                        <label for="percentage">Taxa de Bônus %</label>
+                                        <input class="filter-input quantity" type="number" id="percentage" name="percentage" max="100" min="1" value="25" oninput="validity.valid||(value=25);">
+                                    </div>
+                                    <div id="inactivity-debt" style="white-space: nowrap;">
+                                        <label for="debt">Débito por não responder</label>
+                                        <input class="filter-input quantity" style="width: 85px;" type="number" id="debt" name="debt" max="1000000" min="0" value="0" oninput="validity.valid||(value=0);">
+                                    </div>
                                 </div>
-                                <div id="bonus-percentage">
-                                    <label for="percentage">Taxa de Bônus %</label>
-                                    <input class="filter-input quantity" type="number" id="percentage" name="percentage" max="100" min="1" value="25" oninput="validity.valid||(value=25);">
-                                </div>
-
-                                
-                                <i class="material-icons" id="help-icon" onclick="show_modal()">live_help
-                                </i>
-                                
                                 <!-- The Modal -->
                                 <div id="myModal" class="modal">
 
