@@ -66,6 +66,7 @@ let should_disregard_question = false;
 let was_question_disregarded = false;
 let audio = false;
 let score_context = 'general';
+let audio_control = true;
 
 initialize_page();
 
@@ -214,7 +215,11 @@ function stop_question() {
 
     document.querySelector('#stop-button').style.display = "none";
 
-    if(audio) pause_audio();
+    if(audio) {
+        if(audio_control)
+            pause_audio();
+    } 
+
     showElements();
     highlight_correct_option();
     update_scores();
@@ -421,7 +426,12 @@ function end_quiz() {
     document.querySelector('#statistics').style.display = "none";
     document.querySelector('#players-answers').style.display = "none";
     document.querySelector('#report-icon').style.display = "none";
-    if(audio) pause_audio();
+    
+    if(audio) {
+        if(audio_control)
+            pause_audio();
+    }
+
     change_stop_button_action();
     load_final_score_screen();
 }
@@ -789,13 +799,21 @@ function pause_audio(fade = true) {
 function choose_random_song() {
     const songs = [
         'LsThemeA.mp3',
-        'LsThemeA.mp3',
-        'suspenseBackgroundSong1.mp3',
-        'suspenseBackgroundSong2.mp3',
-        'suspenseBackgroundSong3.mp3'
+        'LsThemeB.mp3',
+        'Among Us Main Menu Theme.mp3',
+        'Castle Theme  Super Mario World.mp3',
+        'Dragon ball Z soundtrack 10.mp3',
+        'James Bond 007 Theme Tune original.mp3',
+        'Naruto OST 1 Bad Situation.mp3',
+        'Pou Words Sudoku Good Quality.mp3',
+        'Resident Evil 3 Save Room Theme.mp3',
+        'The Worlds Hardest Game Soundtrack.mp3'
     ]
 
-    return songs[Math.floor(Math.random()*songs.length)];
+    const random_song = songs[Math.floor(Math.random()*songs.length)];
+    document.querySelector('#song-name').innerText = random_song.slice(0, random_song.length - 4);
+
+    return random_song;
 }
 
 function fade_volume() {
@@ -810,6 +828,11 @@ function fade_volume() {
         clearInterval(fadeout);
     }, interval);
 }
+
+function change_sound_control() {
+    audio_control = !audio_control;
+}
+
 
 /* Modal logic */
 let modal = document.querySelector("#myModal");

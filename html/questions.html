@@ -43,14 +43,19 @@
             </div>
 
             <div id="audio">
+                <div id="song-name"></div>
                 <audio controls loop>
                     <source src="../audio/suspenseBackgroundSong1.mp3" type="audio/mpeg">
                     Seu navegador não suporta áudio.
                 </audio>
-                <input type="number" max="10" min="1" value="5" oninput="validity.valid||(value=5);">
+                <input class="volume" type="number" max="10" min="1" value="5" oninput="validity.valid||(value=5);">
                 <i class="material-icons" onclick="switch_on_off_audio()">
                     volume_off
                 </i>
+                <div id="sound-control">
+                    <input type="checkbox" id="auto" onchange="change_sound_control()" checked>
+                    <label for="auto">Automático</label> 
+                </div>
             </div>  
         </header>
 
@@ -168,13 +173,21 @@
         const audio_icon = document.querySelector('div#audio i');
         const volume = document.querySelector('div#audio input');
         const audio_element = document.querySelector('div#audio audio');
+        const song_name = document.querySelector('#song-name');
+        const sound_control = document.querySelector('#sound-control');
         audio_element.volume = 0.5;
+        song_name.hidden = true;
+        sound_control.hidden = true;
 
         audio_icon.addEventListener("mouseenter", function( event ) {
             volume.style.display = 'inline-block';
+            song_name.hidden = false;
+            sound_control.hidden = false;
         });
         audio_div.addEventListener('mouseleave', function(event) {
             volume.style.display = 'none';
+            song_name.hidden = true;
+            sound_control.hidden = true;
         });
         volume.addEventListener('change', function(event) {
             audio_element.volume = volume.value / 10;

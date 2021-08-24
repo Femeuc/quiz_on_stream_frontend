@@ -374,9 +374,10 @@
 audio { display: none; }
 
 div#audio {
-    position: absolute;
+    position: fixed;
     right: 3%;
     top: 3%;
+    text-align: right;
 }
 
 div#audio i{
@@ -387,7 +388,7 @@ div#audio i{
     background-color: hsl(220, 100%, 36%);
     color: white;
 }
-div#audio input {
+div#audio input.volume {
     font-size: 40px;
     width: 60px;
     height: 100%;
