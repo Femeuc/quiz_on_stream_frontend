@@ -395,6 +395,13 @@ div#audio input.volume {
     display: none;
 }
 
+#song-name, #sound-control {
+    background-color: hsl(220, 100%, 36%);
+    color: white;
+    padding: 10px;
+    width: fit-content;
+    margin-left: auto;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 1200px) {
