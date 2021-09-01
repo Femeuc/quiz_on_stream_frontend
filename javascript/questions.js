@@ -710,8 +710,8 @@ function show_general_score() {
     const players_scores_list = document.querySelector('#players-scores-list');
     clear_scores_list(players_scores_list);
 
-    players.forEach(element => {
-        players_scores_list.appendChild(get_score_li(element));
+    players.forEach( (element, index) => {
+        players_scores_list.appendChild(get_score_li(element, index));
     }); 
 }
 
@@ -725,13 +725,13 @@ function show_question_score() {
         return b.score_change - a.score_change;
     })   
 
-    question_players.forEach(element => {
+    question_players.forEach( (element, index) => {
         if (element.score_change == 0) return;
-        players_scores_list.appendChild(get_score_li(element));
+        players_scores_list.appendChild(get_score_li(element, index));
     }); 
 }
 
-function get_score_li(element) {
+function get_score_li(element, index) {
     const player_score_li = document.createElement('LI');
     const player_item_span = document.createElement('SPAN');
     const question_score_span = document.createElement('SPAN');
@@ -740,13 +740,14 @@ function get_score_li(element) {
     player_score_li.className = "player-score-li";
     player_item_span.className = "player-item";
     
-    if(element.score_change > 0) { question_score_span.className = "question-score-correct"; } 
-    else if (element.score_change < 0) { question_score_span.className = 'question-score-wrong'; } 
+    if (element.score_change == -localStorage['inactivity_debt']) { question_score_span.className = 'question-score-inactive'; }
+    else if(element.score_change > 0) { question_score_span.className = "question-score-correct"; } 
+    else if (element.score_change < 0) { question_score_span.className = 'question-score-wrong'; }
     else { question_score_span.className = 'question-score-zero'; }
 
     general_score_span.className = "general-score";
 
-    player_item_span.innerText = truncate_player_name(element.name, 20);
+    player_item_span.innerHTML = `<span style='color: #ffe876;'>${index + 1}º</span> ${truncate_player_name(element.name, 20)}`;
     if(localStorage.getItem('score_type') == 'dinamic') {
         question_score_span.innerText = did_player_answer_correctly(element.answer) ? `+${element.score_change}` : element.score_change;
     } else {
