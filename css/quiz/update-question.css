@@ -7,7 +7,7 @@
 }
 
 #body {
-    background-image: url('../layout/fundo_1.png');
+    background-image: url('../../layout/fundo_1.png');
     background-size: cover;
     background-attachment: fixed;
 }
@@ -52,7 +52,7 @@
     box-shadow:  rgb(0, 50, 150) 0px 30px;
 }
 
-#main #add-question-container {
+#main #edit-question-container {
     background-color: rgb(0, 47, 142);
     text-align: center;
     padding: 20px 20px;
@@ -72,17 +72,12 @@
 
 #main .h2 {
     color: rgb(255, 232, 118);
-    font-size: 35px;
-    margin-bottom: 10px;
+    font-size: 40px;
+    margin-bottom: 30px;
     text-shadow: rgb(0, 0, 0) 0px 4px;
     font-family: monospace;
 }
 
-#main p {
-    color: white;
-    margin-bottom: 25px;
-    font-size: 20px;
-}
 
 #main .input-field {
     width: 100%;
@@ -109,11 +104,7 @@
     margin: 10px;
 }
 
-#main #button-align-div {
-    display: flex;
-    flex-direction: column;
-}
-#main #send-question-button {
+#main #edit-question-button {
     padding: 5px 16px;
     background-color: rgb(56, 188, 61);
     text-align: center;
@@ -128,22 +119,8 @@
     margin: auto;
 }
 
-#main #send-subject-button {
-    padding: 5px 16px;
-    background-color: rgb(56, 188, 61);
-    text-align: center;
-    box-shadow: rgb(24 136 20) 0px 5px;
-    border-radius: 5%;
-    border: none;
-    color: white;
-    font-weight: 900;
-    font-size: 20px;
-    cursor: pointer;
-    width: fit-content;
-    margin: auto;
-}
 
-#main #send-question-button:hover, #main #send-subject-button:hover {
+#main #edit-question-button:hover {
     background-color: rgb(68, 212, 72);
     color: rgb(255, 232, 118);
     transition: .5s;

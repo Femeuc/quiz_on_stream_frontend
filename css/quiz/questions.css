@@ -7,7 +7,7 @@
 }
 
 #body {
-    background-image: url('../layout/fundo_2.png');
+    background-image: url('../../layout/fundo_2.png');
     background-size: cover;
     background-attachment: fixed;
 }

@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz on Stream | Adicionar</title>
-    <link rel="stylesheet" href="../css/create.css">
-    
+    <title>Quiz on Stream | Sugerir</title>
+    <link rel="stylesheet" href="../../css/quiz/suggest.css">
+    <script>
+        while(true) {
+            let channel = prompt("Digite o nome do canal do seu streamer?", localStorage['username']);
+            if (channel != null && channel.length > 0) {
+                localStorage.setItem('username', channel.toLocaleLowerCase());
+                break;
+            }
+        }
+    </script>
     <style>
         #explanation-input {
             margin-bottom: 10px;
@@ -25,7 +33,6 @@
         }
         
     </style>
-
 </head>
 <body id="body">
     <div id="page-container">
@@ -45,7 +52,8 @@
                 <div id="decoration-box"></div>
 
                 <section id="add-question-container">
-                    <h2 class="h2">Adicionar questão</h2>
+                    <h2 class="h2">Sugerir questão</h2>
+                    <p>Para ser adicionada, sua sugestão precisa atender aos seguintes requisitos: NÃO ter spoiler, NÃO ter discriminação, ter sentido, ou seja, precisa ter bom senso.</p>
                     <form id="add-question-form">
                         <textarea placeholder="Qual é a sua pergunta?" class="input-field" rows="4" id="description-input"></textarea>
                         <div id="options-container">
@@ -61,7 +69,7 @@
                             <option value="c">C</option>
                             <option value="d">D</option>
                         </select>
-                        
+
                         <div id="exp-radios">
                             <input type="radio" value="noexp" id="noexp" name="explanation" checked onchange="switch_explanation()">
                             <label for="noexp">Não Justificar</label>
@@ -71,7 +79,6 @@
                         <textarea placeholder="Qual é a sua justificativa?" rows="4" id="explanation-input" ></textarea>
 
                         <select id="difficulty-input" class="input-field">
-                            <option value="empty"></option>
                             <option value="easy">Fácil</option>
                             <option value="normal">Normal</option>
                             <option value="hard">Difícil</option>
@@ -93,20 +100,20 @@
                         </select>
                         <input id="author-input" type="text" placeholder="Seu nome (autor)... " class="input-field"> <br>
                     </form>
-                    <div id="button-align-div"> <button id="send-question-button" onclick="send_question()">Adicionar</button> </div>
+                    <div id="button-align-div"> <button id="send-question-button" onclick="send_question()">Sugerir</button> </div>
                 </section>
 
 
                 <section id="add-subject-container">
                     <h2 class="h2">Assunto para <span class="subject-owner"></span></h2>
                     <input id="channel-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
-                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(false)">Adicionar</button> </div>
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(false)">Sugerir</button> </div>
                 </section>
 
                 <section id="add-subject-container">
                     <h2 class="h2">Assunto Geral</h2>
                     <input id="general-subject-input" type="text" placeholder="Assunto..." class="input-field"> 
-                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(true)">Adicionar</button> </div>
+                    <div id="button-align-div"> <button id="send-subject-button" onclick="send_subject(true)">Sugerir</button> </div>
                 </section>
             </main>
         </div>
@@ -116,8 +123,7 @@
 
     </footer>
 
-
-    <script src="../javascript/create.js"></script>
+    <script src="../../javascript/suggest.js"></script>
     <script>
         function switch_explanation() {
             const noexp_input = document.querySelector('#noexp');

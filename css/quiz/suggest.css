@@ -7,14 +7,14 @@
 }
 
 #body {
-    background-image: url('../layout/fundo_1.png');
+    background-image: url('../../layout/fundo_1.png');
     background-size: cover;
     background-attachment: fixed;
 }
 
 /* Page Container */
 #page-container {
-    max-width: 70%;
+    max-width: 60%;
     margin: 3% auto;
 }
 
@@ -52,76 +52,112 @@
     box-shadow:  rgb(0, 50, 150) 0px 30px;
 }
 
-#main #question-list-container {
+#main #add-question-container {
     background-color: rgb(0, 47, 142);
     text-align: center;
-    padding: 10px;
+    padding: 20px 20px;
     border-radius: 5%;
     margin: 30px auto 30px auto;
     box-shadow: rgb(0 40 122) 0px 30px; 
 }
 
+#main #add-subject-container {
+    background-color: rgb(0, 47, 142);
+    text-align: center;
+    padding: 20px 20px;
+    border-radius: 5%;
+    margin: 50px auto 30px auto;
+    box-shadow: rgb(0 40 122) 0px 30px; 
+}
 
 #main .h2 {
     color: rgb(255, 232, 118);
-    font-size: 40px;
-    margin-bottom: 30px;
+    font-size: 35px;
+    margin-bottom: 10px;
     text-shadow: rgb(0, 0, 0) 0px 4px;
     font-family: monospace;
 }
 
-#main .p {
+#main p {
     color: white;
+    margin-bottom: 25px;
     font-size: 20px;
 }
 
-#main .filter-div {
+#main .input-field {
+    width: 100%;
+    display: block;
     text-align: left;
-    color: white;
     padding: 10px;
-    display: grid;
-    grid-template-columns: 30% 70%;
-}
-
-#main .checkbox-span {
-    margin-right: 10px;
-}
-
-#main .switch-span {
-    cursor: pointer;
-    margin: auto 20px auto 20px;
-    font-weight: 900;
-    font-size: 50px;
-}
-
-#main #display-list {
-    color: white;
-    list-style-type: none;
-    text-align: left;
     font-size: 20px;
-    font-family: monospace;
 }
-#main #display-list li {
+#main #description-input {
     padding: 10px;
-    border-bottom: black solid 1px;
-    margin-top: 20px;
+    margin-bottom: 10px;
 }
-#main .buttons {
+
+#main #subject-to-add {
+    margin-bottom: 20px;
+}
+
+#main #question-subject-container {
+    background-color: white;
     padding: 5px 10px;
-    font-weight: bold;
-    margin-right: 5px;
-    cursor: pointer;
-    border: none;
 }
-#main .buttons:hover {
-    font-weight: 900;
+#main .radio-input-block {
+    display: inline;
+    margin: 10px;
 }
 
-#main #edit-button {
-    background-color: rgb(255, 232, 118);
+#main #button-align-div {
+    display: flex;
+    flex-direction: column;
 }
-#main .delete-button {
-    background-color: red;
+#main #send-question-button {
+    padding: 5px 16px;
+    background-color: rgb(56, 188, 61);
+    text-align: center;
+    box-shadow: rgb(24 136 20) 0px 5px;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+    width: fit-content;
+    margin: auto;
+}
+
+#main #send-subject-button {
+    padding: 5px 16px;
+    background-color: rgb(56, 188, 61);
+    text-align: center;
+    box-shadow: rgb(24 136 20) 0px 5px;
+    border-radius: 5%;
+    border: none;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+    width: fit-content;
+    margin: auto;
+}
+
+#main #send-question-button:hover, #main #send-subject-button:hover {
+    background-color: rgb(68, 212, 72);
+    color: rgb(255, 232, 118);
+    transition: .5s;
+}
+
+#main #options-container {
+    margin-bottom: 10px;
+}
+#main #author-input {
+    margin-top: 10px;
+}
+
+#main #answer-input {
+    margin-bottom: 10px;
 }
 
 /* Main: decoration */
@@ -168,7 +204,8 @@
 @media only screen and (max-width: 1200px) {
 
     #page-container {
-        max-width: 80%;  
+        max-width: 80%;
+        
     }
 
     @media only screen and (max-width: 850px) {

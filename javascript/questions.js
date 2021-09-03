@@ -780,7 +780,7 @@ function play_audio() {
     if( !(icon.innerText == 'volume_off') )  return false;
 
     icon.innerText = 'volume_up';
-    audio.src = `../audio/${ choose_random_song() }`;
+    audio.src = `../../audio/${ choose_random_song() }`;
     audio.play();
     return true;
 }
