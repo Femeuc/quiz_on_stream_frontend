@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Either on Stream | Instruções</title>
+    <link rel="stylesheet" href="../../css/either/either.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <h1>EITHER<span id="span-on">ON</span>STREAM</h1>
+        </header>
+
+        <main>
+            <h2>O que você prefere?</h2>
+            <div id="options">
+                <div id="left-option"> <div id="option_1">Buscando dados...</div> <div id="left-percentage"></div> </div>
+                <div id="right-option"> <div id="option_2">Buscando dados...</div> <div id="right-percentage"></div> </div>
+            </div>
+            <div id="voters">   
+            </div>
+
+            <div id="overview">
+                <h2>Motivos</h2>
+            </div>
+        </main>
+        <button id="stop-btn" onclick="stop_question();">Parar</button>
+        <button id="next-btn" onclick="next_question();">Próximo</button>
+    </div>
+
+    <script src="../../libs/tmi.min.js"></script>
+    <script>
+
+        let all_questions = [];
+        const players = [];
+
+        first_load();
+
+        const client = new tmi.Client({
+            channels: [ localStorage['username'] ]
+        });
+
+        client.connect();
+
+        client.on('message', (channel, tags, message, self) => {
+            //console.log(`${tags['display-name']}: ${message}`);
+
+            // VALIDATION
+            //if(message[0] != '#') return; 
+
+            // LEFT OPTION
+            if(message.toLowerCase() == '#left' || message == '#1') {
+                console.log(`${tags['display-name']} marcou LEFT`);
+                if(!doesPlayerExist(tags['display-name'])) {
+                    addPlayer(tags['display-name'], 1, '');
+                } else {
+                    updatePlayerData(tags['display-name'], 1, 1);
+                }
+            }
+
+            // RIGHT OPTION
+            else if(message.toLowerCase() == '#right' || message == '#2') {
+                console.log(`${tags['display-name']} marcou RIGHT`);
+                if(!doesPlayerExist(tags['display-name'])) {
+                    addPlayer(tags['display-name'], 2, '');
+                } else {
+                    updatePlayerData(tags['display-name'], 1, 2);
+                }
+            }
+
+            // SAME REASON
+            else if(message.toLowerCase().indexOf('#reason @') == 0) {
+                let player = message.slice(9, message.length);
+                players.forEach(element => {
+                    if(element.name == player) {
+                        updatePlayerData(tags['display-name'], 2, element.reason.slice(3, element.reason.length));
+                    }
+                });
+            }
+
+            // REASON
+            else if(message.toLowerCase().indexOf('#reason') == 0) {
+                if(message.slice(7, message.length).length < 1) return;
+                console.log(`${tags['display-name']} justifica: ${message.slice(7, message.length)}`);
+
+                if(doesPlayerExist(tags['display-name']))
+                    updatePlayerData(tags['display-name'], 2, message.slice(7, message.length));
+                console.log(tags['display-name'] + ' ainda não existe');
+            }
+
+
+            // SHORT FORM
+            else if(didTypeShortForm(message)) {
+            //else {
+                  createPlayerFromShortForm(tags['display-name'], message); // also updates
+                  
+                  /*let random = Math.floor(Math.random()* 2 + 1);
+                  if(Math.floor(Math.random()* 2 + 1) == 1) {
+                      message = `@${players[Math.floor(Math.random()* players.length)].name}`;
+                  }
+                  let msg = `#${random} ${message}`;
+                  
+                  createPlayerFromShortForm(tags['display-name'], msg); // also updates*/
+            }
+        });
+
+        function addPlayer(name, choice, reason = '') {
+            if(choice == 1) {
+                reason = `#1 ${reason}`;
+            } else {
+                reason = `#2 ${reason}`;
+            }
+
+            players.push(
+                {
+                    name: name,
+                    choice: choice,
+                    reason: reason
+                }
+            )
+            const span_voter = document.createElement('SPAN');
+            span_voter.innerText = name;
+            document.querySelector('#voters').appendChild(span_voter);
+        }
+
+        function stop_question() {
+
+            const overview = createOverview();  
+            if(overview.length < 1) return;
+            const overview_div = document.querySelector('#overview');
+            const stop_button = document.querySelector('#stop-btn');
+            overview_div.style.display = 'block';
+            stop_button.style.display = 'none';
+
+            overview.forEach(element => {
+                const reason_div = document.createElement('DIV');
+                const reason_p = document.createElement('P');
+                const spans_div = document.createElement('DIV');
+
+                reason_p.innerText = get_element_P(element);
+
+                reason_div.appendChild(reason_p);
+
+                element.players.forEach(el => {
+                    const reason_span = document.createElement('SPAN'); 
+                    reason_span.innerText = el.name;
+
+                    spans_div.appendChild(reason_span);
+                });
+
+                reason_div.className = 'reason';
+                element.players[0].choice == 1 ? reason_div.style.backgroundColor = 'hsl(202, 100%, 50%)': reason_div.style.backgroundColor = 'hsl(70, 40%, 50%)';
+
+                reason_div.appendChild(spans_div);
+                overview_div.appendChild(reason_div);
+            });
+
+            show_percentage();
+
+            players.length = 0;
+        }
+
+        function doesPlayerExist(name) {
+            exist = false;
+            players.forEach(element => {
+                if(element.name == name){
+                    exist = true;
+                }
+            });
+            return exist;
+        }
+
+        function updatePlayerData(name, type, data) { // type 1 = choice; type 2 = reason
+            if(type == 1) {
+                players.forEach(element => {
+                    if(element.name == name) {
+                        element.choice = data;
+                        element.reason = data == 1 ? `#1 ${element.reason.slice(3, element.reason.length)}`: `#2 ${element.reason.slice(3, element.reason.length)}`;
+                    }
+                });
+            }
+
+            else if(type == 2) {
+                players.forEach(element => {
+                    if(element.name == name)
+                        element.reason = element.choice == 1 ? `#1 ${data}`: `#2 ${data}`;
+                });
+            }
+        }
+
+        function didTypeShortForm(message) {
+            did = false;
+
+            if(message.toLowerCase().indexOf('#left ') == 0) did = true;
+            else if(message.toLowerCase().indexOf('#1 ') == 0) did = true;
+            else if(message.toLowerCase().indexOf('#right ') == 0) did = true;
+            else if(message.toLowerCase().indexOf('#2 ') == 0) did = true;
+
+            return did;
+        }
+
+        function createPlayerFromShortForm(name, message) { // also updates
+            let reason;
+            let choice;
+
+            if(message.toLowerCase().indexOf('#left ') == 0) {
+                choice = 1;
+                if(message.slice(6, message.length).length < 1) {
+                    alert('justificativa pequena demais');
+                    return;
+                }
+                reason = message.slice(6, message.length);
+            }
+            else if(message.toLowerCase().indexOf('#1 ') == 0) {
+                choice = 1;
+                if(message.slice(3, message.length).length < 1) {
+                    alert('justificativa pequena demais');
+                    return;
+                }
+                reason = message.slice(3, message.length);
+            }
+            else if(message.toLowerCase().indexOf('#right ') == 0) {
+                choice = 2;
+                if(message.slice(7, message.length).length < 1) {
+                    alert('justificativa pequena demais');
+                    return;
+                }
+                reason = message.slice(7, message.length);
+            }
+            else if(message.toLowerCase().indexOf('#2 ') == 0) {
+                choice = 2;
+                if(message.slice(3, message.length).length < 1) {
+                    alert('justificativa pequena demais');
+                    return;
+                }
+                reason = message.slice(3, message.length);
+            }
+
+            reason = handleSameReason(reason);
+
+            if(!doesPlayerExist(name)) { // create
+                addPlayer(name, choice, reason);
+            } else { // update
+                players.forEach(element => {
+                    if(element.name == name) {
+                        element.choice = choice;
+                        element.reason =  reason;
+                    }
+                });
+            }
+        }
+
+        function handleSameReason(message) {
+            let reason = message.slice(1, message.length);
+            players.forEach(element => {
+                if(element.name == reason) {
+                    const sliced_reason = element.reason.slice(3, element.reason.length);
+                    message = sliced_reason;
+                }
+            });
+            return message;
+        }
+
+        function createOverview() {
+            let overview = [];
+            let reasons = [];
+
+            players.forEach(element => {
+
+                if(!reasons.includes(element.reason)) {
+                    reasons.push(element.reason);
+                    overview.push(
+                        {
+                            reason: element.reason,
+                            players: [ { name: element.name, choice: element.choice }]
+                        }
+                    )
+                } else {
+                    overview.forEach(el => {
+                        if(el.reason == element.reason) {
+                            el.players.push( { name: element.name, choice: element.choice } );
+                        }
+                    });
+                }
+            });
+            return overview;
+        }
+        
+        function show_percentage() {
+            let left = 0;
+            let right = 0;
+
+            players.forEach(element => {
+                if(element.choice == 1) 
+                    left++;
+                else
+                    right++;
+            });
+
+            document.querySelector('#left-percentage').innerText = `${(100 * left / (left + right)).toFixed(1)}%`;
+            document.querySelector('#right-percentage').innerText = `${(100 * right / (left + right)).toFixed(1)}%`;
+        }
+
+        function get_element_P(element) {
+            const reason = element.reason;
+            if(reason.length > 3)
+                return reason.slice(3, reason.length);
+
+            return reason;
+        }
+
+        async function get_questions() {
+            let api_url = "https://quiz-on-stream.herokuapp.com/either/getall";
+
+            const response = await fetch(api_url);
+            
+            // Storing data in form of JSON
+            const data = await response.json();
+            return data.response;
+        }
+
+        async function first_load() {
+            all_questions = await get_questions();
+            initialize_page();
+        }
+
+        async function initialize_page() {       
+            document.querySelector('#option_1').innerText = all_questions[0].option_1;
+            document.querySelector('#option_2').innerText = all_questions[0].option_2;
+            document.querySelector('#left-percentage').innerText = '';
+            document.querySelector('#right-percentage').innerText = '';
+
+            const overview_div = document.querySelector('#overview');
+            const stop_button = document.querySelector('#stop-btn');
+            const voters = document.querySelector('#voters');
+        
+            overview_div.style.display = 'none';
+            stop_button.style.display = 'inline-block';
+
+            while (overview_div.firstChild) {
+                overview_div.removeChild(overview_div.firstChild);
+            }
+
+            while (voters.firstChild) {
+                voters.removeChild(voters.firstChild);
+            }
+        }
+
+        function next_question() {
+            all_questions.shift();
+            initialize_page();
+        }
+    </script>
+</body>
+</html>
