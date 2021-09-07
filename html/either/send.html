@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Either on Stream | Enviar</title>
+    <link rel="stylesheet" href="../../css/either/send.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <h1>EITHER<span id="span-on">ON</span>STREAM</h1>
+        </header>
+
+        <main>
+            <section id="send-question">
+                <h2>Enviar pergunta</h2>
+                <form>
+                    <p>O que você prefere?</p>
+                    <div id="options">
+                        <textarea placeholder="Opção 1" class="input-field" rows="4" id="op_1"></textarea>
+                        <textarea placeholder="Opção 2" class="input-field" rows="4" id="op_2"></textarea>
+                    </div>
+                    <input id="author-input" type="text" placeholder="Seu nome (autor)... " class="input-field">
+                </form>
+                <div id="button-align-div"> <button id="send_btn" onclick="send_question()">Enviar</button> </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script>
+        function send_question() {
+            const option_1 = document.querySelector('#op_1').value.trim();
+            const option_2 = document.querySelector('#op_2').value.trim();
+            const author = document.querySelector('#author-input').value.trim();
+            
+            if(option_1.length < 1 || option_2.length < 1 || author.length < 1) {
+                alert('Todos os campos devem ser preenchidos.');
+                return;
+            }
+            
+            fetch("https://quiz-on-stream.herokuapp.com/either/send", {
+                
+                // Adding method type
+                method: "POST",
+                    
+                // Adding body or contents to send
+                body: JSON.stringify({
+                    option_1: option_1,
+                    option_2: option_2,
+                    author: author
+                }),
+                    
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then(async function (response) {
+                if(response.status == 200) {
+                    alert("Pergunta enviada com sucesso!");
+                    clear_fields();
+                }
+                else
+                    alert("Erro ao adicionar. Status: " + response.status);
+            })
+        }
+
+        function clear_fields() {
+            document.querySelector('#op_1').value = '';
+            document.querySelector('#op_2').value = '';
+        }
+    </script>
+</body>
+</html>
