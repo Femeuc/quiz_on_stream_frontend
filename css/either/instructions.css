@@ -80,6 +80,7 @@ main {
     margin: auto;
     border-radius: 10px;
     box-shadow: var(--dark-blue-shadow) 0px 30px;
+    padding: 10px 40px;
 }
 
 /* H2 */
@@ -94,6 +95,13 @@ h2 .switch-span {
     margin: auto 25px;
     font-weight: 900;
     font-size: 50px;
+}
+
+/* commands */
+code {
+    background-color: #83a7ff;
+    color: black;
+    padding: 0px 5px;
 }
 
 /* Button */
