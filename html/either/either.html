@@ -26,7 +26,6 @@
                 <h2>Motivos</h2>
             </div>
         </main>
-        <button id="stop-btn" onclick="stop_question();">Parar</button>
         <button id="next-btn" onclick="next_question();">Próximo</button>
     </div>
 
@@ -71,8 +70,8 @@
             }
 
             // SAME REASON
-            else if(message.toLowerCase().indexOf('#reason @') == 0) {
-                let player = message.slice(9, message.length);
+            else if(message.toLowerCase().indexOf('#reason @') == 0 || message.toLowerCase().indexOf('#r @') == 0 ) {
+                let player = message.toLowerCase().indexOf('#reason @') == 0 ? message.slice(9, message.length): message.slice(4, message.length);
                 players.forEach(element => {
                     if(element.name == player) {
                         updatePlayerData(tags['display-name'], 2, element.reason.slice(3, element.reason.length));
@@ -81,12 +80,12 @@
             }
 
             // REASON
-            else if(message.toLowerCase().indexOf('#reason') == 0) {
-                if(message.slice(7, message.length).length < 1) return;
-                console.log(`${tags['display-name']} justifica: ${message.slice(7, message.length)}`);
+            else if(message.toLowerCase().indexOf('#reason ') == 0 || message.toLowerCase().indexOf('#r ') == 0) {
+                const msg = message.toLowerCase().indexOf('#reason') == 0 ? message.slice(8, message.length): message.slice(3, message.length);
+                if(msg < 1) return;
 
                 if(doesPlayerExist(tags['display-name']))
-                    updatePlayerData(tags['display-name'], 2, message.slice(7, message.length));
+                    updatePlayerData(tags['display-name'], 2, msg);
                 console.log(tags['display-name'] + ' ainda não existe');
             }
 
@@ -123,43 +122,8 @@
             const span_voter = document.createElement('SPAN');
             span_voter.innerText = name;
             document.querySelector('#voters').appendChild(span_voter);
-        }
 
-        function stop_question() {
-
-            const overview = createOverview();  
-            if(overview.length < 1) return;
-            const overview_div = document.querySelector('#overview');
-            const stop_button = document.querySelector('#stop-btn');
-            overview_div.style.display = 'block';
-            stop_button.style.display = 'none';
-
-            overview.forEach(element => {
-                const reason_div = document.createElement('DIV');
-                const reason_p = document.createElement('P');
-                const spans_div = document.createElement('DIV');
-
-                reason_p.innerText = get_element_P(element);
-
-                reason_div.appendChild(reason_p);
-
-                element.players.forEach(el => {
-                    const reason_span = document.createElement('SPAN'); 
-                    reason_span.innerText = el.name;
-
-                    spans_div.appendChild(reason_span);
-                });
-
-                reason_div.className = 'reason';
-                element.players[0].choice == 1 ? reason_div.style.backgroundColor = 'hsl(202, 100%, 50%)': reason_div.style.backgroundColor = 'hsl(70, 40%, 50%)';
-
-                reason_div.appendChild(spans_div);
-                overview_div.appendChild(reason_div);
-            });
-
-            show_percentage();
-
-            players.length = 0;
+            show_player_choice();
         }
 
         function doesPlayerExist(name) {
@@ -188,6 +152,7 @@
                         element.reason = element.choice == 1 ? `#1 ${data}`: `#2 ${data}`;
                 });
             }
+            show_player_choice();
         }
 
         function didTypeShortForm(message) {
@@ -333,11 +298,9 @@
             document.querySelector('#right-percentage').innerText = '';
 
             const overview_div = document.querySelector('#overview');
-            const stop_button = document.querySelector('#stop-btn');
             const voters = document.querySelector('#voters');
         
             overview_div.style.display = 'none';
-            stop_button.style.display = 'inline-block';
 
             while (overview_div.firstChild) {
                 overview_div.removeChild(overview_div.firstChild);
@@ -350,8 +313,73 @@
 
         function next_question() {
             all_questions.shift();
+
+            if(all_questions.length < 1) {
+                alert("Você acabou todas as perguntas");
+                return;
+            }
+
+            players.length = 0;
             initialize_page();
         }
+
+        function show_player_choice() {
+            const overview = createOverview();  
+            if(overview.length < 1) return;
+
+            const overview_div = document.querySelector('#overview');
+            while(overview_div.firstChild) {
+                overview_div.removeChild(overview_div.firstChild);
+            }
+
+            overview_div.style.display = 'block';
+
+            overview.forEach(element => {
+                const reason_div = document.createElement('DIV');
+                const reason_p = document.createElement('P');
+                const spans_div = document.createElement('DIV');
+
+                reason_p.innerText = get_element_P(element);
+
+                reason_div.appendChild(reason_p);
+
+                element.players.forEach(el => {
+                    const reason_span = document.createElement('SPAN'); 
+                    reason_span.innerText = el.name;
+
+                    spans_div.appendChild(reason_span);
+                });
+
+                reason_div.className = 'reason';
+                element.players[0].choice == 1 ? reason_div.style.backgroundColor = 'hsl(202, 100%, 50%)': reason_div.style.backgroundColor = 'hsl(70, 40%, 50%)';
+
+                reason_div.appendChild(spans_div);
+                overview_div.appendChild(reason_div);
+            });
+
+            //overview_div.scrollTop = overview_div.scrollHeight;
+            const html = document.querySelector('html');
+            const main_top = cumulativeOffset(document.querySelector('#left-option'));
+            html.scrollTo(0, main_top.top);
+            overview_div.scrollTop = overview_div.scrollHeight;
+
+            show_percentage();
+        }
+
+        function cumulativeOffset(element) {
+            var top = 0, left = 0;
+            do {
+                top += element.offsetTop  || 0;
+                left += element.offsetLeft || 0;
+                element = element.offsetParent;
+            } while(element);
+
+            return {
+                top: top,
+                left: left
+            };
+        };
+
     </script>
 </body>
 </html>

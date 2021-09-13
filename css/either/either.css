@@ -82,6 +82,7 @@ main {
     border-radius: 10px;
     box-shadow: var(--dark-blue-shadow) 0px 30px;
     padding: 10px;
+    overflow-y: auto;
 }
 
 /* H2 */
@@ -139,7 +140,11 @@ h2 {
 }
 
 /* Overview */
-#overview { display: none; }
+#overview { 
+    display: none;
+    max-height: 500px;
+    overflow-y: auto;
+}
 div.reason {
     background: var(--bright-blue);
     padding: 10px;
