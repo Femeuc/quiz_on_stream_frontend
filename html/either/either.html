@@ -19,6 +19,7 @@
                 <div id="left-option"> <div id="option_1">Buscando dados...</div> <div id="left-percentage"></div> </div>
                 <div id="right-option"> <div id="option_2">Buscando dados...</div> <div id="right-percentage"></div> </div>
             </div>
+            <div id="sender">Enviado por: <span>Femeuc</span></div>
             <div id="voters">   
             </div>
 
@@ -120,8 +121,10 @@
                 }
             )
             const span_voter = document.createElement('SPAN');
+            const voters = document.querySelector('#voters');
             span_voter.innerText = name;
-            document.querySelector('#voters').appendChild(span_voter);
+            voters.appendChild(span_voter);
+            voters.scrollLeft = voters.scrollWidth;
 
             show_player_choice();
         }
@@ -296,6 +299,7 @@
             document.querySelector('#option_2').innerText = all_questions[0].option_2;
             document.querySelector('#left-percentage').innerText = '';
             document.querySelector('#right-percentage').innerText = '';
+            document.querySelector('#sender span').innerText = all_questions[0].author;
 
             const overview_div = document.querySelector('#overview');
             const voters = document.querySelector('#voters');

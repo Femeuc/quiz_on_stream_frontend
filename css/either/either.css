@@ -123,6 +123,15 @@ h2 {
     margin-top: 10px;
 }
 
+/* sender */
+#sender {
+    font-size: 20px;
+    margin-top: 10px;
+}
+#sender span {
+    color: var(--yellow);
+}
+
 /* voters */
 #voters {
     overflow: auto;
