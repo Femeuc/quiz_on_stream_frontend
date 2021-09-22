@@ -835,7 +835,7 @@ function choose_next_song() {
         'Resident Evil 3 Save Room Theme.mp3'
     ]
 
-    const song_number = (question_number % songs.length) - 1;
+    const song_number = (question_number - 1) % songs.length;
     const song_name = songs[song_number];
     document.querySelector('#song-name').innerText = song_name.slice(0, song_name.length - 4);
 
