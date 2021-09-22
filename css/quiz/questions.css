@@ -139,7 +139,7 @@
 }
 #main .score-context {
     margin: auto 50px;
-    font-size: 40px;
+    font-size: 60px;
     cursor: pointer;
 }
 #main .score-context:hover { opacity: 0.8; }

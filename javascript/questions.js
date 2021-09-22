@@ -266,7 +266,7 @@ function show_scores( switch_context = false ) {
         score_context = score_context == 'general' ? 'current' : 'general';
 
     let h3_innerHTML = '<span class="score-context" onclick="show_scores(true)"><</span> ';
-    h3_innerHTML += score_context == 'general' ? 'Pontuação Geral': 'Pontuação Dessa Questão';
+    h3_innerHTML += score_context == 'general' ? '<span>Pontuação Geral</span>': '<span>Pontuação Dessa Questão</span>';
     h3_innerHTML += ' <span class="score-context" onclick="show_scores(true)">></span>';
 
     scores_h3.innerHTML = h3_innerHTML;
@@ -500,17 +500,14 @@ function load_final_score_screen() {
     for(let i = 0; i < players.length; i++) {
         const player_score_li = document.createElement('LI');
         const player_item_span = document.createElement('SPAN');
-        //const question_score_span = document.createElement('SPAN');
         const general_score_span = document.createElement('SPAN');
 
         player_score_li.className = "player-score-li";
         player_score_li.style = "grid-template-columns: 80% 20%;"
         player_item_span.className = "player-item";
-        //question_score_span.className = did_player_answer_correctly(players[i].answer) ? "question-score-correct" : "question-score-wrong";
         general_score_span.className = "general-score";
 
-        player_item_span.innerText = truncate_player_name(players[i].name, 32);
-        //question_score_span.innerText = did_player_answer_correctly(players[i].answer) ? "+ 1" : "+ 0";
+        player_item_span.innerHTML = `<span style="color:yellow;">${i + 1}º</span> ${truncate_player_name(players[i].name, 32)}`;
         general_score_span.innerText = players[i].score + " pts.";
 
         final_score_list.appendChild(player_score_li);
