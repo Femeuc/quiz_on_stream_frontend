@@ -325,9 +325,9 @@ function next_question() {
     clear_correct_option_highlight();
     clear_players_answers();
 
+    question_number += 1;
     if(audio) play_audio();
     initialize_page();
-    question_number += 1;
     reset_statistics();
 }
 
@@ -780,7 +780,7 @@ function play_audio() {
     if( !(icon.innerText == 'volume_off') )  return false;
 
     icon.innerText = 'volume_up';
-    audio.src = `../../audio/${ choose_random_song() }`;
+    audio.src = `../../audio/${ choose_next_song() }`;
     audio.play();
     return true;
 }
@@ -815,6 +815,31 @@ function choose_random_song() {
     document.querySelector('#song-name').innerText = random_song.slice(0, random_song.length - 4);
 
     return random_song;
+}
+
+function choose_next_song() {
+    const songs = [
+        'Plague Inc OST  Adverse Reactions Necroa Virus.mp3',
+        'Criminal Case  Crime Scene Theme.mp3',
+        'LsThemeA.mp3',
+        'Naruto OST 1 Bad Situation.mp3',
+        'Plague Inc OST  Plague Blossom Main Theme Evolved.mp3',
+        'LsThemeB.mp3',
+        'Among Us Main Menu Theme.mp3',
+        'The Stanley Parable OST Exploring Stanley.mp3',
+        'Castle Theme  Super Mario World.mp3',
+        'James Bond 007 Theme Tune original.mp3',
+        'The Worlds Hardest Game Soundtrack.mp3',
+        'Pou Words Sudoku Good Quality.mp3',
+        'Dragon ball Z soundtrack 10.mp3',
+        'Resident Evil 3 Save Room Theme.mp3'
+    ]
+
+    const song_number = (question_number % songs.length) - 1;
+    const song_name = songs[song_number];
+    document.querySelector('#song-name').innerText = song_name.slice(0, song_name.length - 4);
+
+    return song_name;
 }
 
 function fade_volume() {
