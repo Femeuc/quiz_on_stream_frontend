@@ -25,8 +25,9 @@
 
     --text-shadow: hsl(0, 0%, 0%);
 }
-html, body { height: 100%; }
+html { height: 100%; }
 body {
+    margin-top: 10%;
     background-image: url('../../layout/fundo_1.png');
     background-size: cover;
     background-attachment: fixed;

@@ -67,10 +67,10 @@ function create_suggestion_li(suggestion) {
     div.innerText = get_li_div_text(suggestion);
 
     button_edit.onclick = function() { 
-        alert('Ver')
+        get_button_action(suggestion, 0) // 0 -> edit
     };
     button_delete.onclick = function() { 
-        alert('Deletar')
+        get_button_action(suggestion, 1, li) // 1 -> delete
     };
 
     button_edit.innerText = "Ver";
@@ -97,7 +97,7 @@ function get_li_div_text(suggestion) {
     }
 
     if(page_context == 2) {
-        return "REPORT";
+        return suggestion.motive;
     }
 }
 
@@ -113,4 +113,76 @@ function switch_display(direction) {
     if(page_context == 3) { page_context = 0; load_q_suggestions(); return; }
 
     if(page_context == -1) { page_context = 2; load_q_reports(); return; }
+}
+
+function get_button_action(suggestion, action, li) {
+    if(page_context == 0) {
+        if(action == 0) {
+            edit_question(suggestion);
+        } else {
+            delete_question(suggestion);
+        }
+    }
+
+    if(page_context == 1) {
+        if(action == 0) {
+            edit_suggestion(suggestion);
+        } else {
+            delete_suggestion(suggestion.id, li);
+        }
+    }
+
+    if(page_context == 2) {
+        if(action == 0) {
+            see_report(suggestion);
+        } else {
+            delete_report(suggestion.id, li);
+        }
+    }
+}
+
+function edit_suggestion(suggestion) {
+    localStorage.setItem('s_suggestion', JSON.stringify(suggestion));
+    window.open(`subject-suggestion.html`); 
+}
+
+function delete_suggestion(id, li) {
+    if(!window.confirm("Tem certeza que quer deletar?")) return;
+
+    //https://quiz-on-stream.herokuapp.com/questions
+    //http://localhost:3000/question/
+    fetch(`https://quiz-on-stream.herokuapp.com/questions/subjects/suggestion/${id}`, {
+        method: 'DELETE',
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function (response) {
+        if(response.status == 200) {
+            document.querySelector('ul').removeChild(li);
+        }
+    })
+}
+
+function see_report(suggestion) {
+    localStorage.setItem('q_report', JSON.stringify(suggestion));
+    window.open(`question-report.html`); 
+}
+
+function delete_report(id, li) {
+    if(!window.confirm("Tem certeza que quer deletar?")) return;
+
+    fetch(`https://quiz-on-stream.herokuapp.com/questions/reports/${id}`, {
+        method: 'DELETE',
+        // Adding headers to the request
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    .then(function (response) {
+        if(response.status == 200) {
+            document.querySelector('ul').removeChild(li);
+        }
+    })
 }
