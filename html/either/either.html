@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Either on Stream | Instruções</title>
     <link rel="stylesheet" href="../../css/either/either.css">
 </head>
+
 <body>
     <div id="page-container">
         <header>
@@ -16,11 +18,17 @@
         <main>
             <h2>O que você prefere?</h2>
             <div id="options">
-                <div id="left-option"> <div id="option_1">Buscando dados...</div> <div id="left-percentage"></div> </div>
-                <div id="right-option"> <div id="option_2">Buscando dados...</div> <div id="right-percentage"></div> </div>
+                <div id="left-option">
+                    <div id="option_1">Buscando dados...</div>
+                    <div id="left-percentage"></div>
+                </div>
+                <div id="right-option">
+                    <div id="option_2">Buscando dados...</div>
+                    <div id="right-percentage"></div>
+                </div>
             </div>
             <div id="sender">Enviado por: <span>Femeuc</span></div>
-            <div id="voters">   
+            <div id="voters">
             </div>
 
             <div id="overview">
@@ -39,7 +47,7 @@
         first_load();
 
         const client = new tmi.Client({
-            channels: [ localStorage['username'] ]
+            channels: [localStorage['username']]
         });
 
         client.connect();
@@ -51,9 +59,9 @@
             //if(message[0] != '#') return; 
 
             // LEFT OPTION
-            if(message.toLowerCase() == '#left' || message == '#1') {
+            if (message.toLowerCase() == '#left' || message == '#1') {
                 console.log(`${tags['display-name']} marcou LEFT`);
-                if(!doesPlayerExist(tags['display-name'])) {
+                if (!doesPlayerExist(tags['display-name'])) {
                     addPlayer(tags['display-name'], 1, '');
                 } else {
                     updatePlayerData(tags['display-name'], 1, 1);
@@ -61,9 +69,9 @@
             }
 
             // RIGHT OPTION
-            else if(message.toLowerCase() == '#right' || message == '#2') {
+            else if (message.toLowerCase() == '#right' || message == '#2') {
                 console.log(`${tags['display-name']} marcou RIGHT`);
-                if(!doesPlayerExist(tags['display-name'])) {
+                if (!doesPlayerExist(tags['display-name'])) {
                     addPlayer(tags['display-name'], 2, '');
                 } else {
                     updatePlayerData(tags['display-name'], 1, 2);
@@ -71,43 +79,43 @@
             }
 
             // SAME REASON
-            else if(message.toLowerCase().indexOf('#reason @') == 0 || message.toLowerCase().indexOf('#r @') == 0 ) {
-                let player = message.toLowerCase().indexOf('#reason @') == 0 ? message.slice(9, message.length): message.slice(4, message.length);
+            else if (message.toLowerCase().indexOf('#reason @') == 0 || message.toLowerCase().indexOf('#r @') == 0) {
+                let player = message.toLowerCase().indexOf('#reason @') == 0 ? message.slice(9, message.length) : message.slice(4, message.length);
                 players.forEach(element => {
-                    if(element.name == player) {
+                    if (element.name == player) {
                         updatePlayerData(tags['display-name'], 2, element.reason.slice(3, element.reason.length));
                     }
                 });
             }
 
             // REASON
-            else if(message.toLowerCase().indexOf('#reason ') == 0 || message.toLowerCase().indexOf('#r ') == 0) {
-                const msg = message.toLowerCase().indexOf('#reason') == 0 ? message.slice(8, message.length): message.slice(3, message.length);
-                if(msg < 1) return;
+            else if (message.toLowerCase().indexOf('#reason ') == 0 || message.toLowerCase().indexOf('#r ') == 0) {
+                const msg = message.toLowerCase().indexOf('#reason') == 0 ? message.slice(8, message.length) : message.slice(3, message.length);
+                if (msg < 1) return;
 
-                if(doesPlayerExist(tags['display-name']))
+                if (doesPlayerExist(tags['display-name']))
                     updatePlayerData(tags['display-name'], 2, msg);
                 console.log(tags['display-name'] + ' ainda não existe');
             }
 
 
             // SHORT FORM
-            else if(didTypeShortForm(message)) {
-            //else {
-                  createPlayerFromShortForm(tags['display-name'], message); // also updates
-                  
-                  /*let random = Math.floor(Math.random()* 2 + 1);
-                  if(Math.floor(Math.random()* 2 + 1) == 1) {
-                      message = `@${players[Math.floor(Math.random()* players.length)].name}`;
-                  }
-                  let msg = `#${random} ${message}`;
-                  
-                  createPlayerFromShortForm(tags['display-name'], msg); // also updates*/
+            else if (didTypeShortForm(message)) {
+                //else {
+                createPlayerFromShortForm(tags['display-name'], message); // also updates
+
+                /*let random = Math.floor(Math.random()* 2 + 1);
+                if(Math.floor(Math.random()* 2 + 1) == 1) {
+                    message = `@${players[Math.floor(Math.random()* players.length)].name}`;
+                }
+                let msg = `#${random} ${message}`;
+                
+                createPlayerFromShortForm(tags['display-name'], msg); // also updates*/
             }
         });
 
         function addPlayer(name, choice, reason = '') {
-            if(choice == 1) {
+            if (choice == 1) {
                 reason = `#1 ${reason}`;
             } else {
                 reason = `#2 ${reason}`;
@@ -132,7 +140,7 @@
         function doesPlayerExist(name) {
             exist = false;
             players.forEach(element => {
-                if(element.name == name){
+                if (element.name == name) {
                     exist = true;
                 }
             });
@@ -140,19 +148,19 @@
         }
 
         function updatePlayerData(name, type, data) { // type 1 = choice; type 2 = reason
-            if(type == 1) {
+            if (type == 1) {
                 players.forEach(element => {
-                    if(element.name == name) {
+                    if (element.name == name) {
                         element.choice = data;
-                        element.reason = data == 1 ? `#1 ${element.reason.slice(3, element.reason.length)}`: `#2 ${element.reason.slice(3, element.reason.length)}`;
+                        element.reason = data == 1 ? `#1 ${element.reason.slice(3, element.reason.length)}` : `#2 ${element.reason.slice(3, element.reason.length)}`;
                     }
                 });
             }
 
-            else if(type == 2) {
+            else if (type == 2) {
                 players.forEach(element => {
-                    if(element.name == name)
-                        element.reason = element.choice == 1 ? `#1 ${data}`: `#2 ${data}`;
+                    if (element.name == name)
+                        element.reason = element.choice == 1 ? `#1 ${data}` : `#2 ${data}`;
                 });
             }
             show_player_choice();
@@ -161,10 +169,10 @@
         function didTypeShortForm(message) {
             did = false;
 
-            if(message.toLowerCase().indexOf('#left ') == 0) did = true;
-            else if(message.toLowerCase().indexOf('#1 ') == 0) did = true;
-            else if(message.toLowerCase().indexOf('#right ') == 0) did = true;
-            else if(message.toLowerCase().indexOf('#2 ') == 0) did = true;
+            if (message.toLowerCase().indexOf('#left ') == 0) did = true;
+            else if (message.toLowerCase().indexOf('#1 ') == 0) did = true;
+            else if (message.toLowerCase().indexOf('#right ') == 0) did = true;
+            else if (message.toLowerCase().indexOf('#2 ') == 0) did = true;
 
             return did;
         }
@@ -173,59 +181,60 @@
             let reason;
             let choice;
 
-            if(message.toLowerCase().indexOf('#left ') == 0) {
+            if (message.toLowerCase().indexOf('#left ') == 0) {
                 choice = 1;
-                if(message.slice(6, message.length).length < 1) {
+                if (message.slice(6, message.length).length < 1) {
                     alert('justificativa pequena demais');
                     return;
                 }
-                reason = message.slice(6, message.length);
+                reason = "#1 " + message.slice(6, message.length);
             }
-            else if(message.toLowerCase().indexOf('#1 ') == 0) {
+            else if (message.toLowerCase().indexOf('#1 ') == 0) {
                 choice = 1;
-                if(message.slice(3, message.length).length < 1) {
+                if (message.slice(3, message.length).length < 1) {
                     alert('justificativa pequena demais');
                     return;
                 }
-                reason = message.slice(3, message.length);
+                reason = message;
             }
-            else if(message.toLowerCase().indexOf('#right ') == 0) {
+            else if (message.toLowerCase().indexOf('#right ') == 0) {
                 choice = 2;
-                if(message.slice(7, message.length).length < 1) {
+                if (message.slice(7, message.length).length < 1) {
                     alert('justificativa pequena demais');
                     return;
                 }
-                reason = message.slice(7, message.length);
+                reason = "#2 " + message.slice(7, message.length);
             }
-            else if(message.toLowerCase().indexOf('#2 ') == 0) {
+            else if (message.toLowerCase().indexOf('#2 ') == 0) {
                 choice = 2;
-                if(message.slice(3, message.length).length < 1) {
+                if (message.slice(3, message.length).length < 1) {
                     alert('justificativa pequena demais');
                     return;
                 }
-                reason = message.slice(3, message.length);
+                reason = message;
             }
 
             reason = handleSameReason(reason);
 
-            if(!doesPlayerExist(name)) { // create
+            if (!doesPlayerExist(name)) { // create
                 addPlayer(name, choice, reason);
             } else { // update
                 players.forEach(element => {
-                    if(element.name == name) {
+                    if (element.name == name) {
                         element.choice = choice;
-                        element.reason =  reason;
+                        element.reason = reason;
                     }
                 });
             }
+
+            show_player_choice();
         }
 
         function handleSameReason(message) {
-            let reason = message.slice(1, message.length);
+            let reason = message.slice(4, message.length);
             players.forEach(element => {
-                if(element.name == reason) {
-                    const sliced_reason = element.reason.slice(3, element.reason.length);
-                    message = sliced_reason;
+                if (element.name == reason) {
+                    message = element.reason;
                 }
             });
             return message;
@@ -237,31 +246,31 @@
 
             players.forEach(element => {
 
-                if(!reasons.includes(element.reason)) {
+                if (!reasons.includes(element.reason)) {
                     reasons.push(element.reason);
                     overview.push(
                         {
                             reason: element.reason,
-                            players: [ { name: element.name, choice: element.choice }]
+                            players: [{ name: element.name, choice: element.choice }]
                         }
                     )
                 } else {
                     overview.forEach(el => {
-                        if(el.reason == element.reason) {
-                            el.players.push( { name: element.name, choice: element.choice } );
+                        if (el.reason == element.reason) {
+                            el.players.push({ name: element.name, choice: element.choice });
                         }
                     });
                 }
             });
             return overview;
         }
-        
+
         function show_percentage() {
             let left = 0;
             let right = 0;
 
             players.forEach(element => {
-                if(element.choice == 1) 
+                if (element.choice == 1)
                     left++;
                 else
                     right++;
@@ -273,7 +282,7 @@
 
         function get_element_P(element) {
             const reason = element.reason;
-            if(reason.length > 3)
+            if (reason.length > 3)
                 return reason.slice(3, reason.length);
 
             return reason;
@@ -283,7 +292,7 @@
             let api_url = "https://quiz-on-stream.herokuapp.com/either/getall";
 
             const response = await fetch(api_url);
-            
+
             // Storing data in form of JSON
             const data = await response.json();
             return data.response;
@@ -294,7 +303,7 @@
             initialize_page();
         }
 
-        async function initialize_page() {       
+        async function initialize_page() {
             document.querySelector('#option_1').innerText = all_questions[0].option_1;
             document.querySelector('#option_2').innerText = all_questions[0].option_2;
             document.querySelector('#left-percentage').innerText = '';
@@ -303,7 +312,7 @@
 
             const overview_div = document.querySelector('#overview');
             const voters = document.querySelector('#voters');
-        
+
             overview_div.style.display = 'none';
 
             while (overview_div.firstChild) {
@@ -318,7 +327,7 @@
         function next_question() {
             all_questions.shift();
 
-            if(all_questions.length < 1) {
+            if (all_questions.length < 1) {
                 alert("Você acabou todas as perguntas");
                 return;
             }
@@ -328,11 +337,11 @@
         }
 
         function show_player_choice() {
-            const overview = createOverview();  
-            if(overview.length < 1) return;
+            const overview = createOverview();
+            if (overview.length < 1) return;
 
             const overview_div = document.querySelector('#overview');
-            while(overview_div.firstChild) {
+            while (overview_div.firstChild) {
                 overview_div.removeChild(overview_div.firstChild);
             }
 
@@ -348,14 +357,14 @@
                 reason_div.appendChild(reason_p);
 
                 element.players.forEach(el => {
-                    const reason_span = document.createElement('SPAN'); 
+                    const reason_span = document.createElement('SPAN');
                     reason_span.innerText = el.name;
 
                     spans_div.appendChild(reason_span);
                 });
 
                 reason_div.className = 'reason';
-                element.players[0].choice == 1 ? reason_div.style.backgroundColor = 'hsl(202, 100%, 50%)': reason_div.style.backgroundColor = 'hsl(70, 40%, 50%)';
+                element.players[0].choice == 1 ? reason_div.style.backgroundColor = 'hsl(202, 100%, 50%)' : reason_div.style.backgroundColor = 'hsl(70, 40%, 50%)';
 
                 reason_div.appendChild(spans_div);
                 overview_div.appendChild(reason_div);
@@ -373,10 +382,10 @@
         function cumulativeOffset(element) {
             var top = 0, left = 0;
             do {
-                top += element.offsetTop  || 0;
+                top += element.offsetTop || 0;
                 left += element.offsetLeft || 0;
                 element = element.offsetParent;
-            } while(element);
+            } while (element);
 
             return {
                 top: top,
@@ -386,4 +395,5 @@
 
     </script>
 </body>
+
 </html>
