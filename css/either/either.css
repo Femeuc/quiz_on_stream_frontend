@@ -177,6 +177,17 @@ div.reason div span {
 }
 
 /* Button */
+#buttons-div {
+    margin-top: 50px;
+    display: flex;
+}
+#should-scroll-div {
+    font-size: 20px;
+    margin-right: auto;
+    margin-left: 59px;
+    font-size: 25px;
+}
+
 #stop-btn {
     font-size: 20px;
     padding: 9px 26px;
@@ -191,7 +202,7 @@ div.reason div span {
     margin-top: 50px;
 }
 #next-btn {
-    display: block;
+    display: inline-block;
     font-size: 20px;
     padding: 9px 26px;
     background-color: var(--green);
@@ -202,7 +213,6 @@ div.reason div span {
     color: white;
     font-weight: 900;
     cursor: pointer;
-    margin-top: 50px;
     margin-left: auto;
-    margin-right: 50px;
+    margin-right: 59px;
 }

@@ -30,12 +30,18 @@
             <div id="sender">Enviado por: <span>Femeuc</span></div>
             <div id="voters">
             </div>
-
             <div id="overview">
                 <h2>Motivos</h2>
             </div>
         </main>
-        <button id="next-btn" onclick="next_question();">Próximo</button>
+
+        <div id="buttons-div">
+            <div id="should-scroll-div">
+                <input checked type="checkbox" name="" id="should-scroll" style="transform: scale(1.5); margin: 5px;" onchange="change_auto_scroll(this.checked);"> 
+                <label for="should-scroll">Auto-scoll</label>
+            </div>
+            <button id="next-btn" onclick="next_question();">Próximo</button>
+        </div>
     </div>
 
     <script src="../../libs/tmi.min.js"></script>
@@ -43,6 +49,7 @@
 
         let all_questions = [];
         const players = [];
+        let should_auto_scroll = true;
 
         first_load();
 
@@ -370,11 +377,13 @@
                 overview_div.appendChild(reason_div);
             });
 
-            //overview_div.scrollTop = overview_div.scrollHeight;
-            const html = document.querySelector('html');
-            const main_top = cumulativeOffset(document.querySelector('#left-option'));
-            html.scrollTo(0, main_top.top);
-            overview_div.scrollTop = overview_div.scrollHeight;
+            if(should_auto_scroll) {
+                //overview_div.scrollTop = overview_div.scrollHeight;
+                const html = document.querySelector('html');
+                const main_top = cumulativeOffset(document.querySelector('#left-option'));
+                html.scrollTo(0, main_top.top);
+                overview_div.scrollTop = overview_div.scrollHeight;
+            }
 
             show_percentage();
         }
@@ -393,6 +402,9 @@
             };
         };
 
+        function change_auto_scroll(checked) {
+            should_auto_scroll = checked;
+        }
     </script>
 </body>
 
