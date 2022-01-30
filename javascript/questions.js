@@ -111,6 +111,58 @@ client.on('message', (channel, tags, message, self) => {
                 update_statistics(player_name, message);
             }
         }
+    } else {
+        let should_change = false;
+        let opt = 'a';
+        if(message.toLowerCase() == 'axo que errei') {
+            should_change = true;
+            opt = 'a';
+        } else if(message.toLowerCase() == "bane eça questão"){
+            should_change = true;
+            opt = 'b';
+        } else if(message.toLowerCase() == "karamba errei") {
+            should_change = true;
+            opt = 'c';
+        } else if(message.toLowerCase() == "drogua errei") {
+            should_change = true;
+            opt = 'd';
+        }
+        
+        if(should_change) {
+            const player_name = tags['display-name'];
+            if(does_player_exist(player_name)) {
+                let previous_answer = '';
+                for(let i = 0; i < players.length; i++) {
+                    if(players[i].name == player_name) {
+                        previous_answer = players[i].answer;
+                        players[i].answer = "";
+                    }
+                }
+                if(previous_answer == 'a') {
+                    options_statistics[0] -= 1;
+                } else if(previous_answer == 'b') {
+                    options_statistics[1] -= 1;
+                } else if(previous_answer == 'c') {
+                    options_statistics[2] -= 1;
+                } else if(previous_answer == 'd') {
+                    options_statistics[3] -= 1;
+                }
+
+
+                const option_players = document.querySelectorAll('.option-players');
+                for(let i = 0; i < option_players.length; i++) {
+                    option_players.forEach(element => {
+                        element.childNodes.forEach(el => {
+                            if(el.innerText == player_name) {
+                                element.removeChild(el);
+                            }
+                        });
+                    });
+                }
+                add_this_player_answer(player_name, opt);
+                update_statistics(player_name, opt);
+            }
+        }
     }
 });
 
