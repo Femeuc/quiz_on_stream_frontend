@@ -868,6 +868,9 @@ function choose_random_song() {
 
 function choose_next_song() {
     const songs = [
+        'The Worlds Hardest Game Soundtrack.mp3',
+        'Pou Words Sudoku Good Quality.mp3',
+        'Dragon ball Z soundtrack 10.mp3',
         'Plague Inc OST  Adverse Reactions Necroa Virus.mp3',
         'Criminal Case  Crime Scene Theme.mp3',
         'LsThemeA.mp3',
@@ -877,11 +880,7 @@ function choose_next_song() {
         'Among Us Main Menu Theme.mp3',
         'The Stanley Parable OST Exploring Stanley.mp3',
         'Castle Theme  Super Mario World.mp3',
-        'James Bond 007 Theme Tune original.mp3',
-        'The Worlds Hardest Game Soundtrack.mp3',
-        'Pou Words Sudoku Good Quality.mp3',
-        'Dragon ball Z soundtrack 10.mp3',
-        'Resident Evil 3 Save Room Theme.mp3'
+        'James Bond 007 Theme Tune original.mp3'
     ]
 
     const song_number = (question_number - 1) % songs.length;
