@@ -869,7 +869,6 @@ function choose_random_song() {
 function choose_next_song() {
     const songs = [
         'The Worlds Hardest Game Soundtrack.mp3',
-        'Pou Words Sudoku Good Quality.mp3',
         'Dragon ball Z soundtrack 10.mp3',
         'Plague Inc OST  Adverse Reactions Necroa Virus.mp3',
         'Criminal Case  Crime Scene Theme.mp3',
