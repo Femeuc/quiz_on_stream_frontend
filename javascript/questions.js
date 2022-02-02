@@ -870,6 +870,10 @@ function choose_next_song() {
     const songs = [
         'The Worlds Hardest Game Soundtrack.mp3',
         'Dragon ball Z soundtrack 10.mp3',
+        'Kevin MacLeod - Amazing Plan.mp3',
+        'Dog and Pony Show – Silent Partner.mp3',
+        'Investigations (Kevin MacLeod) .mp3',
+        'Monkeys Spinning Monkeys (Kevin MacLeod).mp3',
         'Plague Inc OST  Adverse Reactions Necroa Virus.mp3',
         'Criminal Case  Crime Scene Theme.mp3',
         'LsThemeA.mp3',
