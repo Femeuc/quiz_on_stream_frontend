@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context on Stream | Instruções</title>
+    <link rel="stylesheet" href="../../css/context/context.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <span id="audio_btn">
+        <i id="audio_button" class="material-icons" onclick="audio_permissions()">
+            volume_off
+        </i>
+    </span>
+
+    <div id="page-container">
+        <header>
+            <h1>CONTEXT<span id="span-on">ON</span>STREAM</h1>
+        </header>
+
+
+
+        <div class="blocao" id="blocao">
+            <div class="bloco">
+                <h2>Boa sorte!</h2>
+                <p>O chat já pode começar digitar seus palpites.
+                    Quanto mais parecida uma palavra for da palavra oculta, menor vai ser a sua distância. A distância mínima é 1.
+                </p>
+            </div>
+        </div>
+
+        <div id="history">
+            <div id="table_block">
+                <table id="ranking">
+                    <tr><td id="ranking_td" colspan="100%"> Ranking</td></tr>
+                    <tr id="tb_header">
+                        <th>Jogador</th> <th>Pontos</th> <th>Palavras</th>
+                    </tr>
+                </table>
+            </div>
+
+            <ul id="game_history">
+                <li id="history_title">
+                    Histórico
+                </li>
+                <li id="history_header">
+                    nome | palpite | distância | pontos
+                </li>
+            </ul>
+
+        </div>
+
+        <ul id="words_list">
+            <li id="list_header">
+                <span>Jogadores</span>
+                <span>Palavras</span>
+                <span>Distância</span>
+                <span>Pontos</span>
+            </li>
+        </ul>
+
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close" onclick="close_modal()">&times;</span>
+              <h2>Parabéns!</h2>
+              <p style="font-size: 25px;">O chat conseguiu descobrir a palavra secreta. Abaixo estão todas as mil palavras em ordem:</p>
+              <ol id="all_words">
+
+              </ol>
+            </div>
+          
+        </div>
+        
+    </div>
+
+    <script src="../../libs/tmi.min.js"></script>
+    <script src="../../javascript/context_words.js"></script>
+    <script>
+        let allow = false;
+        let day = 50;
+        let response;
+        const players = [];
+        const hunches = [];
+        let closest_distance = 999999;
+        audio_permission = false;
+        const success_mp3 = new Audio('success.mp3');
+        const hunch_mp3 = new Audio('hunch.mp3');
+        const victory_mp3 = new Audio('victory.mp3');
+        let all_words;
+
+        while(allow == false) {
+            var newVal = prompt("Código da palavra de hoje?");
+            if (newVal === "") {
+                // user pressed OK, but the input field was empty
+            } else if (newVal) {
+                // user typed something and hit OK
+                if(check_code(newVal)) {
+                    day = newVal;
+                    all_words = words[day];
+                    allow = true;
+                }
+            } else {
+                // user hit cancel
+            }
+        }
+        
+        const client = new tmi.Client({
+	        channels: [ localStorage['username'] ]
+        });
+
+        client.connect();
+
+        client.on('message', (channel, tags, message, self) => {
+            //console.log(`${tags['display-name']}: ${message}`);
+            handle_hunch(tags['display-name'], message);
+        })
+
+        function isPositiveInteger(str) {
+            if (typeof str !== 'string') {
+                return false;
+            }
+
+            const num = Number(str);
+
+            if (Number.isInteger(num) && num > 0) {
+                return true;
+            }
+
+            return false;
+        }
+    
+        async function handle_hunch(name, message) {
+            console.log(`${name}: ${message}`);
+
+            if(message.indexOf(' ') >= 0) return;
+
+            const word_distance =  await cors_anywhere(message.toLowerCase());
+            update_player_hunch(name, message.toLowerCase(), word_distance);
+            console.log(word_distance);
+            if(word_distance == 0) { // fim de jogo
+                end_game();
+            }
+        }
+
+        async function cors_anywhere(word) {
+            /*
+            fetch(`https://cors-proxy-femeuc.herokuapp.com`, {
+                method: "POST",
+                body: JSON.stringify({
+                    day: day,
+                    word: word
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then(async function (response) {
+                if(response.status == 200) {
+                    const data = await response.json();
+                    console.log(data);
+                    console.log(data.distance);
+                    return data.distance;
+                }
+                else
+                    alert("Erro ao adicionar. Status: " + response.status);
+            })*/
+            
+            return get_word_distance(day, word);
+        }
+
+        function update_player_hunch(player, word, distance) {
+            if(does_hunch_exist(word)) return;
+
+            if(!is_player_created(player)) {
+                players.push({
+                    player_name: player,
+                    words: [],
+                    score: 0,
+                    last_score: 0
+                })
+            } 
+
+            if(distance == -1) return; // word does not exist
+
+            update_game_history(player, word, distance);
+        }
+
+        function is_player_created(player_name) {
+            let is_created = false;
+            players.forEach(element => {
+                if(element.player_name === player_name)
+                    is_created = true;
+            });
+            return is_created;
+        }
+    
+        function update_game_history(player, word, distance) {
+            if(players.length == 1) {hide_blocao();}
+
+            update_player_data(player, word, distance);
+            update_ui(player, word, distance);
+        }
+
+        function hide_blocao() {
+            document.querySelector('#blocao').style.display = 'none';
+        }
+
+        function does_hunch_exist(hunch) {
+            return hunches.includes(hunch);
+        }
+
+        function update_player_data(player, word, distance) {
+            players.forEach(element => {
+                if(element.player_name === player) {
+                    element.words.push(word);
+                    const score = get_hunch_score(distance);
+                    element.score += score;
+                    element.last_score = score;
+                    hunches.push(word);
+                    if(distance < closest_distance) {
+                        closest_distance = distance;
+                    }
+                }
+            });
+        }
+
+        function get_hunch_score(distance) {
+            if(distance === 0) {
+                if(audio_permission) victory_mp3.play();
+                return 30;
+            }
+            
+            if(distance < closest_distance) {
+                if(audio_permission) success_mp3.play();
+                return 20;
+            } 
+            
+            if(distance - closest_distance <= 15) {
+                if(audio_permission) success_mp3.play();
+                return 10;
+            }
+
+            if(audio_permission) hunch_mp3.play();
+            return 1;
+        }
+
+        function update_ui(player, word, distance) {
+            const truncated_player = truncate(player, 14);
+            const player_last_score = get_player_last_score(player);
+
+            const words_list = document.querySelector('#words_list');
+            const hunch_li = create_hunch_li(player, word, distance);
+            append_hunch_li_in_order(words_list, hunch_li);
+            
+            update_history_ui(truncated_player, word, distance, player_last_score);
+            update_ranking_table();
+        }
+
+        function create_hunch_li(player, word, distance) {
+            const li = document.createElement('LI');
+            const span1 = document.createElement('SPAN');
+            const span2 = document.createElement('SPAN');
+            const span3 = document.createElement('SPAN');
+            const span4 = document.createElement('SPAN');
+            const progress_bar = document.createElement('DIV');
+
+            span1.innerText = truncate(player, 14);
+            span2.innerText = word;
+            span3.innerText = distance;
+            span4.innerText = "+" + get_player_last_score(player);
+            
+            const percent = (1000 - distance) / 1000;
+            progress_bar.style.backgroundColor = `rgba(0, ${percent*150}, 0, 1)`;
+            progress_bar.style.gridColumn = '1/-1';
+            progress_bar.style.width = `${percent*100}%`;
+            progress_bar.style.position = 'absolute';
+            progress_bar.style.height = '90%';
+            progress_bar.zIndex = '0';
+
+            span1.style.fontWeight = 'bold';
+            span2.style.fontWeight = 'bold';
+            span3.style.fontWeight = 'bold';
+            span4.style.fontWeight = 'bold';
+            span1.style.zIndex = '2';
+            span2.style.zIndex = '2';
+            span3.style.zIndex = '2';
+            span4.style.zIndex = '2';
+
+            li.appendChild(span1);
+            li.appendChild(span2);
+            li.appendChild(span3);
+            li.appendChild(span4);
+            li.style.position = 'relative';
+            li.appendChild(progress_bar);
+
+            return li;
+        }
+
+        function get_player_last_score(player) {
+            let last_score = 0;
+            players.forEach(element => {
+                if(element.player_name == player) {
+                    last_score = element.last_score;
+                }
+            });
+
+            return last_score;
+        }
+
+        function audio_permissions() {
+            audio_permission = !audio_permission;
+            const audio_btn = document.querySelector('#audio_button');
+            audio_permission ? audio_btn.innerText = 'volume_up' : audio_btn.innerText = 'volume_off';
+        }
+    
+        function append_hunch_li_in_order(words_list, hunch_li) {
+            const hunch_distance = parseInt(hunch_li.children[2].innerText);
+            let greater_distance_li;
+
+            let counter = 0;
+            let list_items = words_list.querySelectorAll('LI');
+            for(let i = 0; i < list_items.length; i++) {
+                if(counter != 0) {
+                    const li_compare = parseInt(list_items[i].querySelectorAll('SPAN')[2].innerText);
+                    if(hunch_distance < li_compare) {
+                        greater_distance_li = list_items[i];
+                        break;
+                    }
+                }
+                counter++;
+            }
+
+            if(greater_distance_li != null) {
+                words_list.insertBefore(hunch_li, greater_distance_li);
+            } else {
+                words_list.appendChild(hunch_li);
+            }
+        }
+    
+        function update_history_ui(player, word, distance, score) {
+            const game_history = document.querySelector('#game_history');
+
+            const li = document.createElement('LI');
+            const span1 = document.createElement('SPAN');
+            const span2 = document.createElement('SPAN');
+            const span3 = document.createElement('SPAN');
+
+            span1.innerText = `${player}:`;
+            span2.innerText = word;
+            span3.innerText = `(${distance}) +${score}`;
+
+            li.appendChild(span1);
+            li.appendChild(span2);
+            li.appendChild(span3);
+
+            game_history.appendChild(li);
+            game_history.scrollTop = game_history.scrollHeight;
+        }
+        
+        function update_ranking_table() {
+            const tb_header = document.querySelector('#tb_header');
+
+            delete_table_rows();
+            const all_players = [...players];
+            
+            all_players.sort(function (a, b) {
+                return a.score - b.score;
+            });
+
+            all_players.forEach( (element, index) => {
+                const tr = document.createElement('TR');
+                const td1 = document.createElement('TD');
+                const td2 = document.createElement('TD');
+                const td3 = document.createElement('TD');
+
+                td3.style.whiteSpace = 'nowrap';
+                td3.style.overflowX = 'auto';
+                td3.style.maxWidth = '300px';
+
+                td1.innerText = truncate(element.player_name, 14);
+                td2.innerHTML = element.score;
+                td3.innerText = get_string_from_array(element.words);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                //table.insertBefore(tr, tb_header.nextSibling);
+                tb_header.insertAdjacentElement('afterend', tr);
+            }); 
+        }
+
+        function get_string_from_array(words) {
+            let str_to_return = '| ';
+
+            words.forEach(element => {
+                str_to_return += element + "| ";
+            });
+
+            return str_to_return;
+        }
+
+        function delete_table_rows() {
+            const table = document.querySelector('#ranking');
+            const rows = table.querySelectorAll('TR');
+            for(let i = 0; i < rows.length; i++) {
+                if(i <= 1) {
+                    continue;
+                }
+                rows[i].remove();
+            }
+        }
+    
+        function truncate(str, n){
+            return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+        };
+
+        function end_game() {
+            const all_words_list = document.querySelector('#all_words');
+            document.querySelector('#myModal').style.display = 'block';
+            all_words.forEach(word => {
+                const li = document.createElement('LI');
+                li.innerText = word;
+                all_words_list.appendChild(li);
+            });
+        }
+
+        function close_modal() {
+            document.querySelector('#myModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

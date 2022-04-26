@@ -1,0 +1,275 @@
+/* Global */
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+:root {
+    --dark-blue: hsl(220, 100%, 28%);
+    --bright-blue: hsl(220, 100%, 36%);
+    --yellow: hsl(50, 100%, 73%);
+    --red: hsl(0, 100%, 50%);
+    --green: hsl(122, 54%, 48%);
+
+    --dark-blue-shadow: hsl(220, 100%, 24%);
+    --green-shadow: hsl(118, 74%, 31%);
+
+    --page-width: 90%;
+
+    --h1-size: 50px;
+    --h2-size: 40px;
+    --h3-size: 30px;
+    --h4-size: 20px;
+
+    --text-font-size: 22px;
+    --btn-font-size: 18px; /* btn = button */
+
+    --text-shadow: hsl(0, 0%, 0%);
+}
+html { height: 100%; }
+body {
+    margin-top: 10%;
+    background-image: url('../../layout/fundo_1.png');
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+h1, h2, h3 { color: var(--yellow); font-family: cursive;}
+p { 
+    font-size: var(--text-font-size); 
+    margin-top: 20px;
+}
+
+/* Page Container */
+#page-container {
+    background-color: var(--bright-blue);
+    width: var(--page-width);
+    text-align: center;
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+}
+
+/* Header */
+header {
+    width: 100%;
+    position: absolute;
+    top: -75px;
+}
+header h1 {
+    background-color: var(--dark-blue);
+    display: inline-block;
+    padding: 25px 25px 25px 25px;
+    font-size: var(--h1-size);
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    border-radius: 10px;
+}
+header #span-on {
+    font-size: var(--h4-size);
+}
+
+/* Main */
+.blocao {
+    background-color: var(--dark-blue);
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    padding: 10px 40px;
+    margin-bottom: 50px;
+}
+
+/* H2 */
+h2 {
+    text-align: center;
+    font-size: var(--h2-size);
+    margin-bottom: 10px;
+    text-shadow: var(--text-shadow) 0px 3px;
+}
+h2 .switch-span {
+    cursor: pointer;
+    margin: auto 25px;
+    font-weight: 900;
+    font-size: 50px;
+}
+
+.bloco {
+    width: 100%;
+    margin:auto;
+    text-align: left;
+}
+.bloco p {
+    font-size: var(--text-font-size);
+    text-align: justify;
+}
+
+/* Button */
+#start-btn {
+    font-size: 30px;
+    padding: 9px 16px;
+    background-color: var(--green);
+    text-align: center;
+    box-shadow: var(--green-shadow) 0px 8px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+/* history section */
+#history {
+    display: flex;
+    flex-direction: row;
+    font-size: var(--text-font-size);
+    margin-bottom: 40px;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 40px;
+    max-height: 300px;
+} 
+
+#history ul {
+    list-style: none;
+}
+#ranking {
+    height: fit-content;
+    margin-right: 10px;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    width:100%;
+}
+#table_block {
+    width: 60%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-right: 10px;
+}
+#ranking td, #ranking th{
+    padding: 5px;
+}
+.words_td {
+    max-width: 200px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+#ranking_td, #history_title {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--yellow);
+}
+#game_history {
+    width: 40%;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    overflow-y: auto;
+}
+#game_history span {
+    padding: 5px;
+}
+#history_header {
+    border-bottom: 1px solid white;
+}
+#game_history li {
+    padding: 10px;
+}
+#history table, #history th, #history td {
+    border: 1px solid;
+}
+#history table {
+    border-collapse: collapse;
+}
+
+
+/* game section */
+#words_list {
+    font-size: var(--text-font-size);
+    background-color: var(--dark-blue);
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    padding: 0px;
+    text-align: left;
+}
+#words_list li {
+    display: grid;
+    grid-template-columns: 30% 30% 20% 20%;
+    padding: 10px 0px;
+}
+#words_list span {
+    padding: 10px;
+}
+#list_header {
+    font-size: 25px;
+    border-bottom: 2px solid black;
+    color: var(--yellow);
+    font-weight: bold;
+}
+
+/* audio button */
+#audio_btn {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+#audio_btn i {
+    font-size: 100px;
+    background-color: var(--bright-blue);
+    color: white;
+    box-shadow: var(--dark-blue-shadow) 2px 4px;
+}
+
+/* game end modal */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 3; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content/Box */
+.modal-content {
+    background-color: var(--dark-blue);
+
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .modal-content ol {
+      margin-top: 10px;
+      font-size: 25px;
+      text-align: left;
+      margin-left: 100px;
+  }
+  /* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

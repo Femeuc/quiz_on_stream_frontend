@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Either on Stream | Sugestão de Assunto</title>
+    <link rel="stylesheet" href="../../css/quiz/subject-suggestion.css">
+</head>
+<body>
+    <div id="page-container">
+        <header>
+            <h1>QUIZ<span id="span-on">ON</span>STREAM</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2 class="h2">Assunto Sugerido</h2>
+                <form>
+                    <label for="s-suggestion">Assunto sugerido:</label><input id="s-suggestion" type="text" placeholder="Assunto" class="input-field" value="Buscando..."> 
+                    <div>Para o canal: <span id="channel-name">Buscando...</span></div>
+                    <div>Geral ou específico de um canal? <span id="is-general">Buscando...</span></div>
+                </form>
+                <button id="send-btn" onclick="send_subject()">Enviar</button>
+            </section>
+    </div>
+
+    <script>
+        const subject_suggestion = JSON.parse(localStorage.getItem('s_suggestion'));
+        setTimeout(function(){ localStorage.removeItem('s_suggestion'); }, 10);
+
+        const subject = document.querySelector('#s-suggestion');
+        const channel = document.querySelector('#channel-name');
+        const is_general = document.querySelector('#is-general');
+
+        initialize_page();
+
+        function initialize_page() {
+            subject.value = subject_suggestion.subject;
+            if(subject_suggestion.channel != null) {
+                channel.innerText = subject_suggestion.channel;
+            } else {
+                channel.innerText = 'Nenhum';
+            }
+            if(subject_suggestion.is_general_subject) {
+                is_general.innerText = "Geral";
+            } else {
+                is_general.innerText = "Específico";
+            }
+        }
+
+        function send_subject() {
+
+            const subject = document.querySelector('#s-suggestion');
+            const channel = document.querySelector('#channel-name');
+            const is_general = document.querySelector('#is-general');
+
+            if(subject.value.length < 1) {
+                alert("Assunto não pode ficar vazio");
+                return;
+            }
+            
+            const subject_simplified = subject.value.toLowerCase();
+            
+            //http://localhost:3000/questions/subject
+            //https://quiz-on-stream.herokuapp.com/questions/subject
+            fetch("https://quiz-on-stream.herokuapp.com/questions/subject", {
+                        
+                // Adding method type
+                method: "POST",
+                    
+                // Adding body or contents to send
+                body: JSON.stringify({
+                    subject: subject.value,
+                    subject_simplified: subject_simplified,
+                    channel: subject_suggestion.channel,
+                    is_general_subject: subject_suggestion.is_general_subject
+                }),
+                    
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then(function (response) {
+                if(response.status == 200) {
+                    alert("Assunto adicionado com sucesso!");
+                    subject_to_add.value = "";
+                }
+                else
+                    alert("Erro ao adicionar. Status: " + response.status);
+            })
+        }
+    </script>
+</body>
+</html>
