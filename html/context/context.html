@@ -7,12 +7,23 @@
     <title>Context on Stream | Instruções</title>
     <link rel="stylesheet" href="../../css/context/context.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        #volume_level {
+            width: 100px;
+            font-size: 25px;
+        }
+    </style>
+
 </head>
 <body>
-    <span id="audio_btn">
+    <span id="audio_btn" onmouseenter="show_volume_control()">
         <i id="audio_button" class="material-icons" onclick="audio_permissions()">
             volume_off
         </i>
+        <div id="volume_control" onmouseleave="hide_volume_control()">
+            <input type="number" id="volume_level" min="1" max="10" value="10" onchange="change_volume()">
+        </div>
     </span>
 
     <div id="page-container">
@@ -432,6 +443,26 @@
 
         function close_modal() {
             document.querySelector('#myModal').style.display = 'none';
+        }
+
+
+        const volume_control_div = document.querySelector('#volume_control');
+        const volume_level_input = document.querySelector('#volume_level');
+        volume_control_div.style.display = 'none';
+
+        function show_volume_control() {
+            volume_control_div.style.display = "block";
+        }
+
+        function hide_volume_control() {
+            volume_control_div.style.display = "none";
+        }
+
+        function change_volume() {
+            const volume = volume_level_input.value / 10;
+            success_mp3.volume = volume;
+            hunch_mp3.volume = volume;
+            victory_mp3.volume = volume;
         }
     </script>
 </body>
