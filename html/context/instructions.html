@@ -328,7 +328,7 @@
         update_history_ui(truncated_player, word, distance, player_last_score);
         update_ranking_table();
 
-        if(attempts_to_show_tip >= 3) {
+        if(attempts_to_show_tip >= 20) {
             const p_tip = document.querySelector('#p_tip');
             p_tip.style.display = "block";
             setTimeout(function() {
