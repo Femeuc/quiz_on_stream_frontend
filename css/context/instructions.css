@@ -300,7 +300,7 @@ h2 .switch-span {
 
 /* The animation code */
 @keyframes history_animation {
-    from {background-color: var(--bright-blue);}
+    from {background-color: rgba(255, 255, 0, 0.6);}
     to {background-color: var(--dark-blue);} 
 }
 
