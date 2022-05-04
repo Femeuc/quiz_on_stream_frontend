@@ -557,11 +557,11 @@
         for (let index = 0; index < words.length; index++) {
             extra += index+1;
             if(!word_codes.includes(index)) {
-                extra+= ' (novo) ';
+                extra+= ' : novo ';
             } else {
-                extra+= ' JÁ FOI '
+                extra+= ': JÁ FOI '
             }
-            if(index == 0) extra += '(ESPECIAL)';
+            if(index == 0) extra += '(PERSONALIZADO)';
             extra += ` (${words[index].length} palavras)`
             extra += '\n';
         }
