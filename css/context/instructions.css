@@ -51,7 +51,7 @@ p {
     text-align: center;
     position: relative;
     padding-top: 80px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     border-radius: 10px;
 }
 
@@ -121,4 +121,197 @@ h2 .switch-span {
     font-weight: 900;
     cursor: pointer;
     margin-top: 50px;
+}
+
+/* history section */
+#history {
+    display: flex;
+    flex-direction: row;
+    font-size: var(--text-font-size);
+    margin-bottom: 40px;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 40px;
+    max-height: 300px;
+} 
+
+#history ul {
+    list-style: none;
+}
+#ranking {
+    height: fit-content;
+    margin-right: 10px;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    width:100%;
+}
+#table_block {
+    width: 60%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-right: 10px;
+}
+#ranking td, #ranking th{
+    padding: 5px;
+}
+.words_td {
+    max-width: 200px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+#ranking_td, #history_title {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--yellow);
+}
+#game_history {
+    width: 40%;
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    overflow-y: auto;
+}
+#game_history span {
+    padding: 5px;
+}
+#history_header {
+    border-bottom: 1px solid white;
+}
+#game_history li {
+    padding: 10px;
+}
+#history table, #history th, #history td {
+    border: 1px solid;
+}
+#history table {
+    border-collapse: collapse;
+}
+
+
+/* game section */
+#words_list {
+    font-size: var(--text-font-size);
+    background-color: var(--dark-blue);
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: var(--dark-blue-shadow) 0px 30px;
+    padding: 0px;
+    text-align: left;
+}
+#words_list li {
+    display: grid;
+    grid-template-columns: 30% 30% 20% 20%;
+    padding: 10px 0px;
+}
+#words_list span {
+    padding: 10px;
+}
+#list_header {
+    font-size: 25px;
+    border-bottom: 2px solid black;
+    color: var(--yellow);
+    font-weight: bold;
+}
+
+/* audio button */
+#audio_btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+#audio_btn i {
+    font-size: 50px;
+    background-color: var(--bright-blue);
+    color: white;
+    box-shadow: var(--dark-blue-shadow) 2px 4px;
+}
+
+/* game end modal */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 3; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content/Box */
+.modal-content {
+    background-color: var(--dark-blue);
+
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .modal-content ol {
+      margin-top: 10px;
+      font-size: 25px;
+      text-align: left;
+      margin-left: 100px;
+  }
+  /* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#volume_level {
+    width: 50px;
+    font-size: 25px;
+}
+
+/* next button */
+#next_game {
+    display:none;
+    width:90%;
+    height: fit-content;
+}
+#next_game button{
+    background-color: var(--green);
+    color:white;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px;
+    display: block;
+    margin-left: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+
+/* The animation code */
+@keyframes history_animation {
+    from {background-color: var(--bright-blue);}
+    to {background-color: var(--dark-blue);} 
+}
+
+/* tip button */
+#p_tip button {
+    background-color: var(--yellow);
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
 }
