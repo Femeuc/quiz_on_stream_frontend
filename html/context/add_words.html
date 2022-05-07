@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context on Stream | Instruções</title>
+    <link rel="stylesheet" href="../../css/context/add_wods.css">
+
+</head>
+<body>
+
+    <div id="page-container">
+        <header>
+            <h1>CONTEXT<span id="span-on">ON</span>STREAM</h1>
+        </header>
+
+
+
+        <div class="blocao" id="blocao">
+            <div class="bloco">
+                <ol id="words_ol">
+                    <p>Digita as palavras abaixo</p>
+                    <input type="text" id="word_input">
+                    <div></div>
+                </ol>
+                <div style="font-size: 22px;"><span id="words_amount">0</span> palavras</div>
+            </div>
+
+            <div id="bloco2">
+                <h3>Outras palavras (basta clicar numa)</h3>
+                <div id="meanings">
+
+                </div>
+            </div>
+        </div>
+        <butto id="generate_btn" onclick="generate_list()">Gerar lista</button>
+    </div>
+    <div id="send_div">
+        <textarea id="all_words"></textarea>
+        <button id="send_btn" onclick="send_words()">Enviar</button>
+    </div>
+
+   <script>
+        const word_input = document.querySelector('#word_input');
+        const words_ol = document.querySelector('#words_ol');
+        const bloco = document.querySelector('.bloco');
+        const bloco2 = document.querySelector('#bloco2');
+        const meanings_div = bloco2.querySelector('#meanings');
+        const words_amount = document.querySelector('#words_amount');
+        const all_words_textarea = document.querySelector('#all_words');
+        const send_words_div = document.querySelector('#send_div');
+        let added_words_list = [];
+
+        let last_added_word = '';
+
+        word_input.addEventListener("keypress", function(event) {
+            if (event.key !== "Enter") return;
+            if (word_input.value.trim() === '') return;
+            console.log(`"${word_input.value.toLowerCase()}" was entered`);
+        
+            const word = word_input.value.toLowerCase();
+            if(added_words_list.indexOf(word) === -1) {
+                words_ol.insertBefore( create_word_li(word), words_ol.lastElementChild.previousElementSibling );
+                added_words_list.push(word);
+                console.log(`${word} added in the end`);
+                last_added_word = word;
+                word_input.value = '';
+                words_amount.innerText = added_words_list.length;
+            } else {
+                alert('Não pode palavra repetida!');
+            }
+
+            display_word_suggestions(word);
+        });
+
+        word_input.addEventListener('keydown', function(event) {
+            if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+
+            const suggestions_div = document.querySelector('#suggestions_div');
+            const suggestions_spans = suggestions_div.querySelectorAll('SPAN');
+
+            if (event.key === "ArrowDown") {
+                if(suggestions_div.className === 'suggestion_highlight_off') {
+                    suggestions_spans[0].className = 'active_suggestion';
+                    suggestions_div.className = 'suggestion_highlight_on';
+                    word_input.value = suggestions_spans[0].innerText;
+                    return;
+                }
+                
+                for (let index = 0; index < suggestions_spans.length; index++) {
+                    if(suggestions_spans[index].className == 'active_suggestion') {
+                        suggestions_spans[index].className = '';
+                        if(index < suggestions_spans.length - 1) {
+                            suggestions_spans[index + 1].className = 'active_suggestion';
+                            word_input.value = suggestions_spans[index + 1].innerText;
+                            break;
+                        }
+                        suggestions_div.className = 'suggestion_highlight_off';
+                        word_input.value = '';
+                    }
+                }
+            }
+            else if(event.key === "ArrowUp") {
+                if(suggestions_div.className === 'suggestion_highlight_off') {
+                    suggestions_spans[suggestions_spans.length - 1].className = 'active_suggestion';
+                    suggestions_div.className = 'suggestion_highlight_on';
+                    word_input.value = suggestions_spans[suggestions_spans.length - 1].innerText;
+                    return;
+                }
+
+                for (let index = 0; index < suggestions_spans.length; index++) {
+                    if(suggestions_spans[index].className == 'active_suggestion') {
+                        suggestions_spans[index].className = '';
+                        if(index > 0) {
+                            suggestions_spans[index - 1].className = 'active_suggestion';
+                            word_input.value = suggestions_spans[index - 1].innerText;
+                            break;
+                        }
+                        suggestions_div.className = 'suggestion_highlight_off';
+                        word_input.value = '';
+                    }
+                }
+            }
+        });
+
+        function create_word_li(word) {
+            const li = document.createElement('LI');
+            const span1 = document.createElement('DIV');
+            const span2 = document.createElement('DIV');
+
+            li.style.display = 'flex';
+            li.style.flexDirection = 'row';
+            li.style.padding = '5px';
+
+            span1.innerText = word;
+            span1.style.width = '100%';
+            span1.className = 'span1';
+
+            span2.style.width = 'auto';
+            span2.innerText = 'x';
+            span2.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+            span2.style.color = 'white';
+            span2.style.cursor = 'pointer';
+            span2.style.padding = '2px 5px';
+            span2.onclick = span_onclick;
+
+            li.appendChild(span1);
+            li.appendChild(span2);
+            return li;
+        }
+
+        async function display_word_suggestions(word) {
+            bloco.scrollTop = bloco.scrollHeight;
+
+            let word_suggestions = await fetch_data('https://significado.herokuapp.com/v2/sinonimos/' + word);
+
+            if(!word_suggestions.error) {
+                console.log(`suggestions fetched successfully`);
+
+                word_suggestions =  erase_duplicate_suggestions(word_suggestions);
+                const div = get_word_suggestions_div(word_suggestions);
+
+                words_ol.removeChild(words_ol.lastElementChild);
+                word_input.parentNode.insertBefore(div, word_input.nextSibling);
+
+                display_additional_info();
+            }
+        }
+
+        function get_word_suggestions_div(word_suggestions) {
+            const div = document.createElement('DIV');
+
+            div.style.backgroundColor = 'hsl(220, 100%, 24%)';
+            div.style.padding = '5px';
+            div.style.width = `${word_input.offsetWidth}px`;
+            div.id = "suggestions_div"
+            div.className = 'suggestion_highlight_off';
+
+            word_suggestions.forEach(suggestion => {
+                const span = document.createElement('SPAN');
+                span.style.display = 'block';
+                span.innerText = suggestion;
+                span.style.cursor = 'pointer';
+                span.addEventListener('click', add_word_from_click);
+                div.appendChild(span);
+            });
+
+            return div;
+        }
+        
+        async function display_additional_info() {
+            const response = await fetch_data('https://significado.herokuapp.com/v2/' + last_added_word);
+
+            while(meanings_div.firstChild) {
+                meanings_div.removeChild(meanings_div.firstChild);
+            }
+
+            for (let index = 0; index < response.length; index++) {
+                response[index].meanings.forEach(meaning => {
+                    const p = document.createElement('P');
+                    words_array = meaning.split(/[;.,:\[\] ]/g);
+                    console.log(words_array);
+                    let spans_html = '';
+                    words_array.forEach(element => {
+                        if(element.length > 0) {
+                            spans_html += `<span style="cursor:pointer;" class="click_span">${element} </span>`;
+                        }
+                    });
+                    p.innerHTML = spans_html;
+                    meanings_div.appendChild(p);
+                });
+            }
+
+            const click_spans = document.querySelectorAll('.click_span');
+            for (let index = 0; index < click_spans.length; index++) {
+                click_spans[index].addEventListener("click", add_word_from_click);
+            }
+        }
+
+        async function fetch_data(url) {
+            const response = await fetch(url)
+            return await response.json();
+        }
+
+        function span_onclick(event) {
+            delete_me(event.srcElement.parentNode);
+        }
+
+        function delete_me(element) {
+            element.parentNode.removeChild(element);
+            const word_to_delete = element.querySelector('.span1').innerText;
+            added_words_list =  added_words_list.filter(e => e !== word_to_delete);
+            console.log(added_words_list);
+        }
+
+        function add_word_from_click(event) {
+            const clicked_word = event.srcElement.innerText.toLowerCase().trim();
+            if(added_words_list.indexOf(clicked_word) === -1) {
+                words_ol.insertBefore( create_word_li(clicked_word), words_ol.lastElementChild.previousElementSibling );
+                added_words_list.push(clicked_word);
+                console.log(`${clicked_word} added in the end`);
+
+                word_input.value = '';
+                last_added_word = clicked_word;
+
+                words_amount.innerText = added_words_list.length;
+            } else {
+                alert('Não pode palavra repetida!');
+            }
+
+            display_word_suggestions(clicked_word);
+        }
+
+        function erase_duplicate_suggestions(suggestions) {
+            let suggestions_filter = suggestions;
+            added_words_list.forEach(element => {
+                if(suggestions_filter.indexOf(element) !== -1) {
+                    suggestions_filter = suggestions_filter.filter(e => e !== element);
+                    return suggestions_filter;
+                }
+            });
+            return suggestions;
+        }
+
+        function generate_list() {
+            let all_words = "[";
+            added_words_list.forEach(element => {
+                all_words += element + ',';
+            });
+            all_words += ']';
+            all_words_textarea.innerText = all_words;
+            all_words_textarea.style.display = 'block';
+            send_words_div.style.display = 'flex';
+        }
+
+        function send_words() {
+            let text = "Essa função ainda não foi terminada. Por enquanto, apenas copia todo esse texto e envia no meu pv (Femeuc), que eu vou adicionar manualmente.";
+            alert(text.toUpperCase());
+        }
+   </script>
+</body>
+</html>
