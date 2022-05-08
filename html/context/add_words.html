@@ -38,6 +38,7 @@
     </div>
     <div id="send_div">
         <textarea id="all_words"></textarea>
+        <input type="text" id="author" placeholder="Seu nome" style="margin: 5px auto; width: 200px; padding: 3px 10px;">
         <button id="send_btn" onclick="send_words()">Enviar</button>
     </div>
 
@@ -50,6 +51,7 @@
         const words_amount = document.querySelector('#words_amount');
         const all_words_textarea = document.querySelector('#all_words');
         const send_words_div = document.querySelector('#send_div');
+        const author_input = document.querySelector('#author');
         let added_words_list = [];
 
         let last_added_word = '';
@@ -200,7 +202,6 @@
                 response[index].meanings.forEach(meaning => {
                     const p = document.createElement('P');
                     words_array = meaning.split(/[;.,:\[\] ]/g);
-                    console.log(words_array);
                     let spans_html = '';
                     words_array.forEach(element => {
                         if(element.length > 0) {
@@ -274,10 +275,49 @@
             send_words_div.style.display = 'flex';
         }
 
-        function send_words() {
-            let text = "Essa função ainda não foi terminada. Por enquanto, apenas copia todo esse texto e envia no meu pv (Femeuc), que eu vou adicionar manualmente.";
-            alert(text.toUpperCase());
+        async function send_words() {     
+            
+            if (added_words_list.length < 5) {
+                alert('Você precisa enviar pelo menos 500 palavras');
+                return;
+            }
+            if (author_input.value.length === 0) {
+                alert('Campo obrigatório vazio. Digite seu nome.')
+                return;
+            }
+            fetch("https://quiz-on-stream.herokuapp.com/context/send", {
+                        
+                // Adding method type
+                method: "POST",
+                    
+                // Adding body or contents to send
+                body: JSON.stringify({
+                    words_list: JSON.stringify(added_words_list),
+                    author: author_input.value
+                }),
+                    
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            .then(async function (response) {
+                if(response.status == 200) {
+                    alert("Questão adicionada com sucesso!");
+                    send_words_div.style.display = 'none';
+                }
+                else
+                    alert("Erro ao adicionar. Status: " + response.status);
+            })
+
         }
+
+
+        send_words_div.addEventListener('click', function handleClick(e) {
+            if(e.target !== send_words_div) return;
+
+            send_words_div.style.display = 'none';
+        });
    </script>
 </body>
 </html>
