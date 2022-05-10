@@ -52,9 +52,15 @@
         const all_words_textarea = document.querySelector('#all_words');
         const send_words_div = document.querySelector('#send_div');
         const author_input = document.querySelector('#author');
-        let added_words_list = [];
+        localStorage.getItem('words_list') ? added_words_list = JSON.parse(localStorage.getItem('words_list')) : added_words_list = [];
 
         let last_added_word = '';
+
+        if(added_words_list) {
+            added_words_list.forEach(element => {
+                words_ol.insertBefore( create_word_li(element), words_ol.lastElementChild.previousElementSibling );
+            });
+        }
 
         word_input.addEventListener("keypress", function(event) {
             if (event.key !== "Enter") return;
@@ -69,6 +75,8 @@
                 last_added_word = word;
                 word_input.value = '';
                 words_amount.innerText = added_words_list.length;
+
+                localStorage.setItem('words_list', JSON.stringify(added_words_list));
             } else {
                 alert('Não pode palavra repetida!');
             }
@@ -233,6 +241,7 @@
             const word_to_delete = element.querySelector('.span1').innerText;
             added_words_list =  added_words_list.filter(e => e !== word_to_delete);
             console.log(added_words_list);
+            localStorage.setItem('words_list', JSON.stringify(added_words_list));
         }
 
         function add_word_from_click(event) {
@@ -246,6 +255,8 @@
                 last_added_word = clicked_word;
 
                 words_amount.innerText = added_words_list.length;
+
+                localStorage.setItem('words_list', JSON.stringify(added_words_list));
             } else {
                 alert('Não pode palavra repetida!');
             }
@@ -266,6 +277,7 @@
 
         function generate_list() {
             let all_words = "[";
+            if(added_words_list == 'null') return;
             added_words_list.forEach(element => {
                 all_words += element + ',';
             });
