@@ -45,10 +45,10 @@
             <div class="blocao">
                 <div class="bloco">
                     <h2>Como funciona a pontuação?</h2>
-                    <p>Palpites entre as 1000 palavras mais próxima rendem 1 ponto.</p>
-                    <p>Palpites que se tornarem o "melhor palpite" rendem 20 pontos. Entenda por melhor palpite aquele que no momento é o mais próximo da palavra secreta.</p>
-                    <p>Palpites próximos do "melhor palpite" rendem 10 pontos.</p>
-                    <p>Quem acertar a palavra escondida ganha 30 pontos.</p>
+                    <p>Palpites entre as <input type="number" value="1000" class="scores_input" id="close_words"> palavras mais próxima rendem <input type="number" class="scores_input" value="1" id="close_words2"> ponto.</p>
+                    <p>Palpites que se tornarem o "melhor palpite" rendem <input type="number" class="scores_input" value="20" id="best_hunch"> pontos. Entenda por melhor palpite aquele que no momento é o mais próximo da palavra secreta.</p>
+                    <p>Palpites com até <input type="number" value="20" class="scores_input" id="close_to_best1"> de distância do "melhor palpite" rendem <input type="number" value="10" class="scores_input" id="close_to_best2"> pontos.</p>
+                    <p>Quem acertar a palavra escondida ganha <input type="number" value="30" class="scores_input" id="correct_hunch"> pontos.</p>
                 </div>
             </div>
             <button id="start-btn" onclick="start_game()">Começar</button>
@@ -138,6 +138,7 @@
         audio_permissions();
         audio_div.style.display = 'block';
         request_word_code();
+        initialize_scoring_rules_values();
     }
 </script>
 <script>
@@ -154,6 +155,22 @@
     let word_codes = [];
     let attempts_to_show_tip = 0;
     let is_game_over = false;
+
+    /* vv scoring rules vv */
+    const close_words1 = document.querySelector('#close_words');
+    const close_words2 = document.querySelector('#close_words2');
+    const best_hunch = document.querySelector('#best_hunch');
+    const close_to_best1 = document.querySelector('#close_to_best1');
+    const close_to_best2 = document.querySelector('#close_to_best2');
+    const correct_hunch = document.querySelector('#correct_hunch');
+
+    let c_words1_value;
+    let c_words2_value;
+    let b_hunch_value;
+    let c_t_best1_value;
+    let c_t_best2_value;
+    let c_hunch_value;
+    /* ^^ scoring rules ^^ */
 
     function check_code(code) {
         if(words[code] != null)
@@ -293,25 +310,25 @@
         if(distance === 0) {
             if(audio_permission) victory_mp3.play();
             attempts_to_show_tip = 0;
-            return 30;
+            return c_hunch_value;
         }
         
         if(distance < closest_distance) {
             if(audio_permission) success_mp3.play();
             attempts_to_show_tip = 0;
-            return 20;
+            return b_hunch_value;
         } 
         
-        if(distance - closest_distance <= 15) {
+        if(distance - closest_distance <= c_t_best1_value) {
             if(audio_permission) success_mp3.play();
             attempts_to_show_tip = 0;
-            return 10;
+            return c_t_best2_value;
         }
 
-        if(distance <= 999) {
+        if(distance <= c_words1_value) {
             if(audio_permission) hunch_mp3.play();
             attempts_to_show_tip++;
-            return 1;
+            return c_words2_value;
         }
         attempts_to_show_tip++;
         return 0;
@@ -622,6 +639,15 @@
 
     function get_hint_word() {
         return all_words[closest_distance - 1];
+    }
+
+    function initialize_scoring_rules_values() {
+        c_words1_value = parseInt(close_words1.value);
+        c_words2_value = parseInt(close_words2.value);
+        b_hunch_value = parseInt(best_hunch.value);
+        c_t_best1_value = parseInt(close_to_best1.value);
+        c_t_best2_value = parseInt(close_to_best2.value);
+        c_hunch_value = parseInt(correct_hunch.value);
     }
 </script>
 </html>

@@ -315,3 +315,10 @@ h2 .switch-span {
     border-radius: 10px;
     cursor: pointer;
 }
+
+/* scores */
+.scores_input {
+    width: 75px;
+    font-size: 22px;
+    text-align: center;
+}
