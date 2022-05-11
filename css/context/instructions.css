@@ -322,3 +322,10 @@ h2 .switch-span {
     font-size: 22px;
     text-align: center;
 }
+
+
+/* icon */
+.material-symbols-outlined {
+    position:absolute;
+    cursor:pointer;
+}
