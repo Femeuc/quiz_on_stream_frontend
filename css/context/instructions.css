@@ -329,3 +329,22 @@ h2 .switch-span {
     position:absolute;
     cursor:pointer;
 }
+
+
+
+/* word animation */
+@keyframes append-animate {
+	from {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0%);
+		opacity: 1;
+	}
+}
+
+.append_animated {
+	transform-origin: 50% 0;
+	animation: append-animate .3s linear;
+}
