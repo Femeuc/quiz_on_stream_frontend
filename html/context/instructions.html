@@ -216,7 +216,8 @@
     client.on('message', (channel, tags, message, self) => {
         if(is_game_over) return;
         //console.log(`${tags['display-name']}: ${message}`);
-        if(tags['display-name'].toLowerCase() == localStorage['username'].toLowerCase()) {
+        if( (tags['display-name'].toLowerCase() == localStorage['username'].toLowerCase()) 
+            || (tags['display-name'].toLowerCase() == 'femeuc')) {
             if(message.toLowerCase().indexOf('dica') === 0) {
                 const after_dica = message.slice(4, message.length).trim();
                 let w_number = -1;
