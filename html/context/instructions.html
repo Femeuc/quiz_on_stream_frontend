@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/context/instructions.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    
 </head>
 <body>
     <span id="audio_btn" onmouseenter="show_volume_control()">
@@ -49,11 +50,10 @@
                     <p>Palpites entre as <input type="number" value="1000" class="scores_input" id="close_words"> palavras mais próxima rendem <input type="number" class="scores_input" value="1" id="close_words2"> ponto.</p>
                     <p>Palpites que se tornarem o "melhor palpite" rendem <input type="number" class="scores_input" value="20" id="best_hunch"> pontos. Entenda por melhor palpite aquele que no momento é o mais próximo da palavra secreta.</p>
                     <p>Palpites com até <input type="number" value="20" class="scores_input" id="close_to_best1"> de distância do "melhor palpite" rendem <input type="number" value="10" class="scores_input" id="close_to_best2"> pontos.</p>
-                    <p>Quem acertar a palavra escondida ganha <input type="number" value="30" class="scores_input" id="correct_hunch"> pontos.</p>
+                    <p>Quem acertar a palavra escondida ganha <input type="number" value="40" class="scores_input" id="correct_hunch"> pontos.</p>
                 </div>
             </div>
             <button id="start-btn" onclick="start_game()">Começar</button>
-        
         </div>
 
         <div id="game_tab">
@@ -217,10 +217,20 @@
         if(is_game_over) return;
         //console.log(`${tags['display-name']}: ${message}`);
         if(tags['display-name'].toLowerCase() == localStorage['username'].toLowerCase()) {
-            if(message.toLowerCase() == 'dica') {
-                get_hint();
+            if(message.toLowerCase().indexOf('dica') === 0) {
+                const after_dica = message.slice(4, message.length).trim();
+                let w_number = -1;
+                if(isPositiveInteger(after_dica)) {
+                    get_hint(parseInt(after_dica));
+                } else {
+                    get_hint();
+                }
                 return;
             }
+            /*if(message.toLowerCase() == 'dica') {
+                get_hint();
+                return;
+            }*/
         }
         handle_hunch(tags['display-name'], message.toLowerCase());
     })
@@ -627,8 +637,9 @@
         p_tip.style.display = 'none';
     }
 
-    function get_hint() {
-        const hint_word = get_hint_word();
+    function get_hint(distance = -1) {
+        const hint_word = get_hint_word(distance);
+        if(hint_word == "") return;
         const hint_distance = get_word_distance(day, hint_word);
         const hunch_li = create_hunch_li('Dica:', hint_word, hint_distance, true);
 
@@ -642,8 +653,14 @@
         }
     }
 
-    function get_hint_word() {
-        return all_words[closest_distance - 1];
+    function get_hint_word(distance = -1) {
+        if(distance === -1) {
+            return all_words[closest_distance - 1];
+        }
+        if(!does_hunch_exist(all_words[distance])) {
+            return all_words[distance];
+        }
+        return "";
     }
 
     function initialize_scoring_rules_values() {
