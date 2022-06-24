@@ -8,8 +8,22 @@
     <link rel="stylesheet" href="../../css/context/instructions.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />    
+    <style>
+        
+ #send_word {
+    position: fixed;
+    display: fixed;
+    top: 50%;
+    font-size: 40px;
+    z-index: 5;
+    right: 0;
+}
+    </style>
 </head>
 <body>
+
+    <!-- <input type="text" id="send_word"> -->
+
     <span id="audio_btn" onmouseenter="show_volume_control()">
         <i id="audio_button" class="material-icons" onclick="audio_permissions()">
             volume_off
@@ -593,7 +607,7 @@
             } else {
                 extra+= ': JÁ FOI '
             }
-            if(index == 1) extra += '(Adivinhe a música)';
+            //if(index == 1) extra += '(Adivinhe a música)';
             extra += ` (${words[index].length} palavras)`
             extra += '\n';
         }
@@ -712,5 +726,23 @@
             tb_header.insertAdjacentElement('afterend', tr);
         }); 
     }
+
+    
+
+    
+    
+    
+    
+    /*var input1 = document.querySelector('#send_word');
+    input1.addEventListener('keypress', function(event) {
+        if(event.key === "Enter") {
+            if(input1.value.toLowerCase() == 'dica'){
+                get_hint();
+                return;
+            }
+            handle_hunch("Femeuc", input1.value);
+            input1.value = '';
+        }
+    })*/
 </script>
 </html>
