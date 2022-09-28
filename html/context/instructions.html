@@ -335,28 +335,25 @@
     }
 
     function get_hunch_score(distance) {
-        if(distance === 0) {
-            if(audio_permission) victory_mp3.play();
-            attempts_to_show_tip = 0;
-            return c_hunch_value;
-        }
-        
-        if(distance < closest_distance) {
-            if(audio_permission) success_mp3.play();
-            attempts_to_show_tip = 0;
-            return b_hunch_value;
-        } 
-        
-        if(distance - closest_distance <= c_t_best1_value) {
-            if(audio_permission) success_mp3.play();
-            attempts_to_show_tip = 0;
-            return c_t_best2_value;
-        }
-
-        if(distance <= c_words1_value) {
-            if(audio_permission) hunch_mp3.play();
-            //attempts_to_show_tip++;
-            return c_words2_value;
+        if(distance < 1000) {
+            let score = 0;
+            if(distance === 0) {
+                if(audio_permission) victory_mp3.play();
+                attempts_to_show_tip = 0;
+                score = 11000;
+            } else {
+                if(distance < closest_distance) {
+                    if(audio_permission) success_mp3.play();
+                    attempts_to_show_tip = 0;
+                } else if(distance - closest_distance <= c_t_best1_value) {
+                    if(audio_permission) success_mp3.play();
+                    attempts_to_show_tip = 0;
+                } else if(distance <= c_words1_value) {
+                    if(audio_permission) hunch_mp3.play();
+                }
+                score =  10000 - distance;
+            }
+            return score;
         }
         attempts_to_show_tip++;
         return 0;
